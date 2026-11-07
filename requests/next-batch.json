@@ -1,31 +1,28 @@
 {
   "version": 1,
-  "batch": 4,
+  "batch": 5,
   "collections": [
     {
-      "id": "liga-2021-22",
-      "sourceId": 59,
-      "sourceSlug": "futebol-2021-2022-panini",
-      "title": "Liga Portugal 2021/22",
-      "subtitle": "Futebol 2021–2022 · Panini",
-      "year": "21/22",
+      "id": "laliga-este-2026-27",
+      "sourceId": 337,
+      "sourceSlug": "laliga-2026-2027-este-panini",
+      "title": "LaLiga ESTE 2026/27",
+      "subtitle": "LaLiga 2026–2027 · Colección ESTE Panini",
+      "year": "26/27",
       "publisher": "Panini",
-      "category": "Liga Portugal",
-      "description": "Uma época histórica do futebol português, com 421 cromos principais e 17 extras.",
-      "replaces": "idolos-2025-26",
-      "requireAllImages": true
+      "category": "Clubes · Liga Espanhola",
+      "description": "Cromos Panini da LaLiga 2026/27, com clubes, plantéis, destaques e atualizações."
     },
     {
-      "id": "liga-2024-25",
-      "sourceId": 52,
-      "sourceSlug": "futebol-2024-2025-panini",
-      "title": "Liga Portugal 2024/25",
-      "subtitle": "Futebol 2024–2025 · Panini",
-      "year": "24/25",
+      "id": "laliga-megacracks-2026-27",
+      "sourceId": 80,
+      "sourceSlug": "laliga-2026-2027-megacracks-panini",
+      "title": "LaLiga Megacracks 2026/27",
+      "subtitle": "LaLiga 2026–2027 · Megacracks Panini",
+      "year": "26/27",
       "publisher": "Panini",
-      "category": "Liga Portugal",
-      "description": "As equipas da Liga Portugal 2024/25, com 497 cromos principais e 31 extras.",
-      "requireAllImages": true
+      "category": "Clubes · Liga Espanhola",
+      "description": "Cartas Megacracks Panini da LaLiga 2026/27, com jogadores, equipas e séries especiais."
     }
   ]
 }
