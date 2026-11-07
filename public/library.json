@@ -152,5 +152,16 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/gUR8A5lBd2S2NlzldGwdHIhIjkACxrAAHZhWpMxE.jpg",
     "description": "As seleções da Copa América 2024, com 430 cromos, plantéis e secções especiais."
+  },
+  {
+    "id": "premier-league-flagship-2026-27",
+    "title": "Premier League · Topps Flagship 2026/27",
+    "year": "26/27",
+    "count": 1138,
+    "sections": 44,
+    "category": "Clubes · Premier League",
+    "status": "active",
+    "cover": null,
+    "description": "Checklist oficial de 1.138 cartas. Imagens apenas quando existe uma pré-visualização oficial verificável; restantes sem fotografia."
   }
 ]
