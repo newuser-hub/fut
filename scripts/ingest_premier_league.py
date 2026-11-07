@@ -52,7 +52,7 @@ AUTOS={
 }
 
 def read_url(url,max_bytes):
-    request=Request(url,headers={"User-Agent":"FUT-Official-Card-Indexer/1.0"})
+    request=Request(url,headers={"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36","Referer":"https://uk.topps.com/","Accept":"image/avif,image/webp,image/apng,image/*,*/*"})
     with urlopen(request,timeout=30) as response:
         data=response.read(max_bytes+1)
         mime=response.headers.get("Content-Type","").lower().split(";")[0]
@@ -140,7 +140,7 @@ def main():
                 candidates[0].update(image=url,available=True,sha256=hashlib.sha256(img).hexdigest(),
                                      bytes=len(img),imageKind="official-preview")
         except Exception as exc:
-            print("Official image unavailable:",number,type(exc).__name__,flush=True)
+            print("Official image unavailable:",number,type(exc).__name__,str(exc)[:150],flush=True)
     image_count=sum(c["available"] for c in items)
     audit={"available":image_count,"missing":len(items)-image_count,
            "checkedAt":datetime.now(timezone.utc).date().isoformat(),
@@ -154,8 +154,12 @@ def main():
     library=json.loads(libfile.read_text(encoding="utf8"))
     existing=next((x for x in library if x["id"]==SLUG),None)
     if existing and existing["status"]=="active":
-        print("No-op; already integrated",flush=True)
-        return
+        oldfile=ROOT/"public/data"/(SLUG+".json")
+        if oldfile.exists():
+            previous=json.loads(oldfile.read_text(encoding="utf8"))
+            if previous.get("imageAudit",{}).get("available",0)>=image_count:
+                print("No-op; no additional images to integrate",flush=True)
+                return
     entry={"id":SLUG,"title":cat["title"],"year":"26/27","count":len(items),
            "sections":len(sections),"category":"Clubes · Premier League","status":"active",
            "cover":None,"description":"Checklist oficial de 1.138 cartas. Imagens apenas quando existe uma pré-visualização oficial verificável; restantes sem fotografia."}
