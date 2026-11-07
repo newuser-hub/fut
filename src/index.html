@@ -65,6 +65,17 @@
     .next-batch{border:1px solid rgba(223,181,107,.4);border-radius:17px;background:linear-gradient(120deg,#132e4a,#0b213a);padding:24px;margin:28px 0 6px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
     .next-batch h3{font-size:20px;margin:7px 0}.next-batch p{font-size:12px;color:#a8bfd1;margin:0;line-height:1.65;max-width:630px}
     .next-batch .pill{flex-shrink:0}
+    .roadmap-tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+    .roadmap-summary{font-size:12px;color:#b9d2dc;margin-top:10px}
+    .roadmap-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:15px}
+    .roadmap-card{background:#102a45;border:1px solid #304d69;border-radius:15px;padding:16px;display:flex;flex-direction:column;gap:11px}
+    .roadmap-card header{display:flex;gap:12px;justify-content:space-between;align-items:center;font-size:12px;color:#aabfce}
+    .roadmap-card header strong{color:var(--gold);letter-spacing:.05em}
+    .roadmap-card ul{padding-left:17px;margin:0;display:grid;gap:7px;color:#dbe5ec;font-size:12px;line-height:1.4}
+    .roadmap-card ul small{color:#9fb6c7;margin-left:4px}
+    .roadmap-card .pill{align-self:flex-start;font-size:11px}
+    .roadmap-note{color:#aabeca;font-size:12px;line-height:1.6;margin:16px 3px 4px}
+    @media(max-width:700px){.roadmap-grid{grid-template-columns:1fr}.roadmap-card{padding:14px}}
       </style>
 </head>
 <body>
@@ -82,6 +93,7 @@
   (() => {
     "use strict";
     let LIBRARY = [];
+    let EXPANSION_PLAN = [];
     let activeCollectionId = null;
     const stateKey = id => "fut.album."+id+".progress.v1";
     const app = document.getElementById("app");
@@ -110,10 +122,49 @@
         return {revealed:Math.min(count,item.count||0),pct:percent(count,item.count||0)};
       }catch(e){return {revealed:0,pct:0}}
     }
+    function roadmapPending(){
+      const active=new Set(LIBRARY.filter(x=>x.status==='active').map(x=>x.id));
+      return EXPANSION_PLAN.filter(x=>!active.has(x.id));
+    }
+    function roadmapPanel(){
+      if(!EXPANSION_PLAN.length){
+        const waiting=LIBRARY.filter(x=>x.status!=='active').slice(0,2);
+        return '<section class="next-batch"><div><span class="section-label">Expansão contínua</span><h3>Próximo lote de duas coleções</h3><p>'+esc(waiting.map(x=>x.title).join(' + ')||'Novas coleções a selecionar')+'</p></div><button class="pill gold" data-action="next-batch">Copiar autorização ↗</button></section>';
+      }
+      const pending=roadmapPending();
+      const completed=EXPANSION_PLAN.length-pending.length;
+      const next=pending.slice(0,2);
+      let html='<section class="next-batch" aria-label="Plano de expansão FUT"><div><span class="section-label">Roteiro de expansão</span><h3>20 coleções · 10 lotes de duas</h3><p>Próximo lote: '+(next.length?next.map(x=>esc(x.title)).join(' + '):'Plano concluído')+'. Cada coleção é auditada antes da integração; as imagens e os extras podem não estar disponíveis.</p><div class="roadmap-summary">'+completed+' de 20 integradas no FUT · '+pending.length+' por realizar</div></div><div class="roadmap-tools"><button class="pill gold" data-action="next-batch"'+(next.length?'':' disabled')+'>✦ Copiar próximo pedido</button><button class="pill" data-action="roadmap-toggle" aria-controls="roadmap-grid" aria-expanded="false">Ver 10 lotes</button></div></section>';
+      html+='<div id="roadmap-grid" class="roadmap-grid hidden" aria-label="Os dez lotes previstos">';
+      const active=new Set(LIBRARY.filter(x=>x.status==='active').map(x=>x.id));
+      for(let i=0;i<EXPANSION_PLAN.length;i+=2){
+        const pair=EXPANSION_PLAN.slice(i,i+2);
+        const n=pair.filter(x=>active.has(x.id)).length;
+        html+='<article class="roadmap-card"><header><strong>LOTE '+String(i/2+1).padStart(2,'0')+'</strong><span>'+(n===2?'Concluído':n===1?'1 de 2 concluída':'Por auditar')+'</span></header><ul>'+
+          pair.map(x=>'<li>'+esc(x.title)+' <small>('+x.declaredMainCount+' principais)</small>'+(active.has(x.id)?' ✓':'')+'</li>').join('')+'</ul>'+
+          '<button class="pill'+(n===2?'':' gold')+'" data-action="roadmap-copy" data-batch="'+Math.floor(i/2)+'"'+(n===2?' disabled':'')+'>'+(n===2?'Concluído':'Copiar autorização deste lote')+'</button></article>';
+      }
+      html+='</div><p class="roadmap-note">Os botões copiam um pedido para submeter no ChatGPT. Não alteram o GitHub diretamente. Antes de cada lote, serão verificados a branch main, as execuções em curso, os cromos e as fotografias disponíveis.</p>';
+      return html;
+    }
+    function copyRoadmapAuthorization(batchIndex){
+      const pending=roadmapPending();
+      const pair=batchIndex==null?pending.slice(0,2):EXPANSION_PLAN.slice(batchIndex*2,batchIndex*2+2).filter(x=>pending.some(p=>p.id===x.id));
+      const selected=[...pair];
+      if(batchIndex!=null && selected.length===1){
+        const extra=pending.find(x=>!selected.some(y=>y.id===x.id));
+        if(extra)selected.push(extra);
+      }
+      if(!selected.length){notify('Não existem coleções pendentes neste lote.');return}
+      const scope=selected.map(x=>x.title+' (Cromos.pt ID '+x.sourceId+')').join(' e ');
+      const text='Autorizo o próximo lote de expansão FUT no repositório newuser-hub/fut: integra '+scope+'. Segue o plano public/expansion-plan.json da branch main, sem duplicar coleções já ativas e sem ultrapassar o âmbito deste lote. Verifica primeiro os commits e GitHub Actions em curso, preserva todas as coleções e progressos locais. Audita posições, nomes, secções, duplicados, imagens reais por HTTP/MIME/tamanho/SHA-256 e alternativas caso falte cobertura. Não inventes imagens; documenta falhas e substituições. Valida o motor, mantém a proteção por palavra-passe, publica no Vercel, confirma READY e apresenta o balanço e os botões para os lotes seguintes.';
+      if(navigator.clipboard?.writeText)navigator.clipboard.writeText(text).then(()=>notify('Autorização copiada. Cola-a na conversa do ChatGPT.')).catch(()=>window.prompt('Copia o pedido para o ChatGPT:',text));
+      else window.prompt('Copia o pedido para o ChatGPT:',text);
+    }
     function portalView(){
       const ready=LIBRARY.filter(c=>c.status==='active');
       let html='<section class="portal-hero"><div class="portal-intro"><span class="section-label">Arquivo interativo · Futebol</span><h1>As grandes coleções.<br><em>Uma só caderneta digital.</em></h1><p>Descobre os cromos, vira cada um, amplia a imagem e guarda o teu progresso. Cada coleção tem o seu próprio índice, favoritos e registo neste equipamento.</p><div class="hero-actions"><button class="pill gold" data-action="scroll-collections">Explorar coleções ↓</button>'+(activeCollectionId?'<button class="pill" data-action="index">Continuar a última coleção ↗</button>':'')+'</div><div class="library-summary"><span><strong>'+LIBRARY.length+'</strong>Coleções no portal</span><span><strong>'+ready.length+'</strong>Disponíveis</span><span><strong>'+ready.reduce((n,x)=>n+x.count,0).toLocaleString('pt-PT')+'</strong>Cromos catalogados</span></div></div></section>';
-      html+='<section class="section-heading" id="collection-grid"><div><span class="section-label">A tua biblioteca</span><h2>Escolhe uma coleção</h2><p>As coleções disponíveis estão completas e auditadas; as restantes serão acrescentadas ao portal.</p></div></section><div class="library-grid">';
+      html+='<section class="section-heading" id="collection-grid"><div><span class="section-label">A tua biblioteca</span><h2>Escolhe uma coleção</h2><p>Os catálogos disponíveis foram auditados; algumas fotografias podem faltar na origem.</p></div></section><div class="library-grid">';
       LIBRARY.forEach(item=>{
         const enabled=item.status==='active';
         const progress=enabled?portalStats(item):{revealed:0,pct:0};
@@ -121,8 +172,7 @@
         const info='<div class="library-info"><span class="eyebrow">'+esc(item.category)+' · '+esc(item.year)+'</span><h3>'+esc(item.title)+'</h3><p>'+esc(item.description)+'</p><div class="library-tile-foot"><span>'+(item.count?item.count+' cromos':'Catálogo por preparar')+'</span><strong>'+(enabled?'Abrir coleção ↗':'Em preparação')+'</strong></div>'+(enabled?'<div class="bar"><i style="width:'+progress.pct+'%"></i></div><span style="color:#a7c7d1;font-size:11px">'+progress.revealed+' / '+item.count+' revelados</span>':'')+'</div>';
         html+=(enabled?'<button class="library-tile" data-action="collection" data-collection="'+esc(item.id)+'" aria-label="Abrir '+esc(item.title)+'">':'<article class="library-tile soon">')+top+info+(enabled?'</button>':'</article>');
       });
-      const pending=LIBRARY.filter(x=>x.status!=='active').slice(0,2);
-      html+='</div><section class="next-batch"><div><span class="section-label">Expansão contínua</span><h3>Mais duas coleções no próximo lote</h3><p>'+(pending.length?pending.map(x=>esc(x.title)).join(' + '):'Serão escolhidas duas coleções novas com imagens verificáveis.')+'. Prepara um pedido para continuar o trabalho nesta conversa do ChatGPT.</p></div><button class="pill gold" data-action="next-batch">✦ Copiar pedido para próximas duas ↗</button></section><p class="portal-note">O progresso fica apenas neste navegador. Para mudar de equipamento, utiliza Exportar / Importar em cada caderneta. Imagens de referência provenientes de fontes públicas, sujeitas aos direitos dos respetivos titulares.</p>';
+      html+='</div>'+roadmapPanel()+'<p class="portal-note">O progresso fica apenas neste navegador. Para mudar de equipamento, utiliza Exportar / Importar em cada caderneta. Imagens de referência provenientes de fontes públicas, sujeitas aos direitos dos respetivos titulares.</p>';
       return html;
     }
     async function selectCollection(id,replaceRoute=true){
@@ -286,14 +336,20 @@
         event.stopImmediatePropagation();
       }
     },true);
-    app.addEventListener('click',event=>{const btn=event.target.closest('[data-action]');if(!btn)return;const action=btn.dataset.action;const card=cardById(btn.dataset.id);if(action==='next-batch'){
-      const waiting=LIBRARY.filter(x=>x.status!=='active').slice(0,2);
-      const scope=waiting.length>=2
-        ?'as coleções '+waiting.map(x=>x.title).join(' e ')
-        :'duas novas coleções de futebol com imagens completas e acessíveis, ainda não existentes no FUT';
-      const prompt='Autorizo o próximo lote de duas coleções no repositório newuser-hub/fut, já ligado ao Vercel: integra '+scope+'. Verifica integralmente os catálogos, números, imagens, secções, favoritos, progresso independente e gestos; publica e testa em produção. Mantém todas as coleções anteriores. No final, apresenta novamente o botão de autorização para as próximas duas, repetindo o ciclo.';
-      if(navigator.clipboard?.writeText)navigator.clipboard.writeText(prompt).then(()=>notify('Pedido copiado. Cola-o na conversa do ChatGPT.')).catch(()=>window.prompt('Copia o pedido para o ChatGPT:',prompt));
-      else window.prompt('Copia o pedido para o ChatGPT:',prompt);
+    app.addEventListener('click',event=>{const btn=event.target.closest('[data-action]');if(!btn)return;const action=btn.dataset.action;const card=cardById(btn.dataset.id);if(action==='roadmap-toggle'){
+      const panel=app.querySelector('#roadmap-grid');
+      if(!panel)return;
+      const hidden=panel.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded',String(!hidden));
+      btn.textContent=hidden?'Ver 10 lotes':'Ocultar plano';
+    }else if(action==='next-batch'||action==='roadmap-copy'){
+      if(EXPANSION_PLAN.length)copyRoadmapAuthorization(action==='roadmap-copy'?Number(btn.dataset.batch):null);
+      else {
+        const waiting=LIBRARY.filter(x=>x.status!=='active').slice(0,2);
+        const prompt='Autorizo o próximo lote de duas coleções no FUT: '+waiting.map(x=>x.title).join(' e ')+'. Verifica branch main e execuções em curso, audita imagens, preserva progresso e publica no Vercel.';
+        if(navigator.clipboard?.writeText)navigator.clipboard.writeText(prompt).then(()=>notify('Pedido copiado. Cola-o no ChatGPT.')).catch(()=>window.prompt('Copia o pedido:',prompt));
+        else window.prompt('Copia o pedido:',prompt);
+      }
     }else if(action==='portal')navigate('portal');else if(action==='collection')selectCollection(btn.dataset.collection);else if(action==='scroll-collections'){app.querySelector('#collection-grid')?.scrollIntoView({behavior:'smooth'})}else if(!activeCollectionId)return;else if(action==='index')navigate('index');else if(action==='album')navigate('album');else if(action==='favorites')navigate('favorites');else if(action==='section'){const idx=pages.findIndex(p=>p.section.slug===btn.dataset.slug);navigate('album',idx>=0?idx:0)}else if(action==='jump'&&card){navigate('album',pageFor(card.id));const el=app.querySelector('[data-card="'+CSS.escape(card.id)+'"]');if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.add('spotlight')}}else if(action==='prev')navigate('album',currentPage-1);else if(action==='next')navigate('album',currentPage+1);else if(action==='flip'&&card){handleCardClick(card,btn,event)}else if(action==='favorite'&&card){if(isFavorite(card))delete state.favorites[card.id];else state.favorites[card.id]=true;save();if(modalCard)zoom(card);else render()}else if(action==='reveal-page'){reveal(pages[currentPage].cards.map(c=>c.id),true);notify('Todos os cromos desta página revelados.')}else if(action==='hide-page'){reveal(pages[currentPage].cards.map(c=>c.id),false);notify('Cromos desta página novamente tapados.')}else if(action==='reveal-all'){reveal(catalog.cards.map(c=>c.id),true);notify('Toda a coleção foi revelada.')}else if(action==='hide-all'){if(confirm('Voltar a tapar todos os cromos? Os favoritos serão preservados.')){state.revealed={};save();render();notify('Todos os cromos ficaram tapados.')}}else if(action==='random'){const pool=catalog.cards.filter(c=>!isRevealed(c));const candidates=pool.length?pool:catalog.cards;if(!candidates.length)return;const chosen=candidates[Math.floor(Math.random()*candidates.length)];state.revealed[chosen.id]=true;save();navigate('album',pageFor(chosen.id));notify('Descoberto: '+chosen.number+' · '+chosen.name)}else if(action==='export')exportProgress();else if(action==='import')document.getElementById('import-file').click()});
     document.getElementById('modal-root').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;if(b.dataset.action==='close-modal' && b.classList.contains('modal-backdrop') && e.target!==b)return;if(b.dataset.action==='close-modal')closeModal();else if(b.dataset.action==='favorite'){const c=cardById(b.dataset.id);if(c){if(isFavorite(c))delete state.favorites[c.id];else state.favorites[c.id]=true;save();zoom(c)}}});
     app.addEventListener('change',e=>{if(e.target.id==='jump-select'){const idx=pages.findIndex(p=>p.section.slug===e.target.value);if(idx>=0)navigate('album',idx)}});
@@ -324,6 +380,14 @@
         const items=await response.json();
         if(!Array.isArray(items) || items.length<2)throw new Error('Índice inválido');
         LIBRARY=items;
+        try{
+          const planResponse=await fetch('/expansion-plan.json',{cache:'no-cache'});
+          if(planResponse.ok){
+            const plan=await planResponse.json();
+            if(plan.version===1 && Array.isArray(plan.collections) && plan.collections.length===20)
+              EXPANSION_PLAN=plan.collections;
+          }
+        }catch(e){/* O arquivo principal funciona mesmo sem o plano. */}
         if(location.hash.startsWith('#/c/'))await restoreHash();
         else{view='portal';render()}
       }catch(error){

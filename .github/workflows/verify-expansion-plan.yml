@@ -1,0 +1,43 @@
+name: FUT - Validar plano de 20 coleções e botões
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "public/expansion-plan.json"
+      - "src/index.html"
+      - "scripts/verify_expansion_plan.py"
+      - ".github/workflows/verify-expansion-plan.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validar roteiro, catalogos e fonte HTML
+        run: |
+          python3 scripts/verify_expansion_plan.py
+          node scripts/unpack-data.mjs
+          python3 scripts/verify_catalogs.py
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          html=Path("public/index.html").read_text(encoding="utf-8")
+          scripts=re.findall(r"<script[^>]*>(.*?)</script>",html,re.S)
+          assert len(scripts)==1
+          Path("/tmp/fut-roadmap.js").write_text(scripts[0],encoding="utf-8")
+          assert html.count('data-action="next-batch"')>=1
+          assert "roadmap-grid" in html and "roadmap-copy" in html
+          PY
+          node --check /tmp/fut-roadmap.js
