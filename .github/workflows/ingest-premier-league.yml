@@ -1,0 +1,44 @@
+name: FUT - Integrar Premier League 2026-27
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ingest-premier-league.yml"
+      - "scripts/ingest_premier_league.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fut-ingest-premier-league
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Diagnóstico da checklist oficial Topps
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 3 'https://cdn.shopify.com/s/files/1/0739/2015/1805/files/26_27_Topps_Flagship_Premier_League_Checklist_2.pdf?v=1784890627' -o /tmp/premier.pdf
+          file /tmp/premier.pdf
+          command -v pdftotext
+          pdftotext -layout /tmp/premier.pdf /tmp/premier.txt
+          python3 - <<'PY'
+          import re
+          s=open('/tmp/premier.txt').read().splitlines()
+          print('TOTAL LINES:',len(s))
+          print('---- FIRST 30 ----')
+          for i,x in enumerate(s[:30]): print(i,repr(x))
+          print('---- SELECTED 40 ----')
+          for i,x in enumerate(s):
+            if re.search(r'(^|\s)(?:DA-DS|DA-ZP|BR-AC|BA-OW|CA-AC|1\s+Max Dowman|300\s)',x):
+              print(i,repr(x))
+          print('---- LAST 20 ----')
+          for i,x in enumerate(s[-20:],len(s)-20):print(i,repr(x))
+          PY
