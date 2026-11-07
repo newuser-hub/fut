@@ -1,29 +1,29 @@
 {
   "version": 1,
-  "batch": "roadmap-1",
+  "batch": "roadmap-2",
   "collections": [
     {
-      "id": "world-cup-2026",
-      "sourceId": 31,
-      "sourceSlug": "fifa-world-cup-2026-panini",
-      "title": "Mundial FIFA 2026",
-      "subtitle": "FIFA World Cup 2026 · Panini",
-      "year": "2026",
+      "id": "fifa-365-2027",
+      "sourceId": 340,
+      "sourceSlug": "fifa-365-2027-panini",
+      "title": "FIFA 365 2027",
+      "subtitle": "FIFA 365 2027 · Panini",
+      "year": "2027",
       "publisher": "Panini",
-      "category": "Seleções · Mundial",
-      "description": "Edição FIFA World Cup 2026 · Panini; 980 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "category": "Clubes · FIFA 365",
+      "description": "Edição FIFA 365 2027 · Panini; 496 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     },
     {
-      "id": "liga-portugal-2025-26",
-      "sourceId": 30,
-      "sourceSlug": "futebol-2025-2026-panini",
-      "title": "Liga Portugal 2025/26",
-      "subtitle": "Futebol 2025–2026 · Panini",
-      "year": "25/26",
+      "id": "idolos-pt-2026-27",
+      "sourceId": 335,
+      "sourceSlug": "idolos-do-futebol-portugues-2026-2027-panini",
+      "title": "Ídolos do Futebol Português 2026/27",
+      "subtitle": "Ídolos do Futebol Português 2026–2027 · Panini",
+      "year": "26/27",
       "publisher": "Panini",
-      "category": "Clubes · Liga Portugal",
-      "description": "Edição Futebol 2025–2026 · Panini; 486 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "category": "Portugal · Ídolos",
+      "description": "Edição Ídolos do Futebol Português 2026–2027 · Panini; 252 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     }
   ]
