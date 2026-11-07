@@ -19,3 +19,12 @@
 - Antes de qualquer retoma, revalidar a `main`, Actions e o deployment atual. Não repetir importações concluídas.
 
 Este checkpoint permite continuidade sem execução agendada nem alteração de limites de conta.
+
+## Resultado da validação e publicação nesta execução
+- GitHub `main` com catálogo e documentação: commit `840461f268a364b273099aa07a5071f4d27cfca7` (antes deste checkpoint).
+- Verificação de integridade: https://github.com/newuser-hub/fut/actions/runs/42423109703 — **SUCCESS**, 29 coleções, 18.873 posições, roteiro 8 integradas / 3 bloqueadas / 9 pendentes.
+- Testes de autenticação: https://github.com/newuser-hub/fut/actions/runs/42423109689 — **SUCCESS**, HTTP **401** sem credenciais em ambos os domínios para `/`, `/library.json`, `/expansion-plan.json`, `/data/fifa-365-2026.json` e `/data/liga-portugal-2023-24.json` e outros dados históricos.
+- A tentativa de deployment explícito do commit `840461f268a364b273099aa07a5071f4d27cfca7` em `fut`, destino produção, falhou com **Vercel HTTP 402**, `api-deployments-free-per-day`, limite >100 deployments diários, `retryAfter=86400`. Não modificar o plano, as quotas nem os segredos.
+- Último deployment confirmado em estado **READY**: `70a004b3bdad69ed0cf301e87bb66f9dc56e2460`, URL `https://fut-9zylb2ew5-pjr-s-projects.vercel.app`, **27 coleções**. Logo, **a atualização do lote 4 ainda NÃO está disponível em produção**.
+- Após reposição da disponibilidade da quota, deve ser publicado o **SHA atual da main** (não presumir que ainda é `840461f`), com confirmação de READY e verificação das 29 coleções; repetir 401 sem credenciais. Não voltar a executar a auditoria de 1.051 cartas.
+- A próxima autorização operacional pode ser tratada independentemente, mas não confundir integração no GitHub com publicação no Vercel. Preservar todos os IDs, ficheiros de catálogos, progresso independente e autenticação.
