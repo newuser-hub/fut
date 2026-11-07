@@ -1,29 +1,29 @@
 {
   "version": 1,
-  "batch": 8,
+  "batch": 9,
   "collections": [
     {
-      "id": "euro-2020-tournament",
-      "sourceId": 26,
-      "sourceSlug": "uefa-euro-2020-tournament-edition-panini",
-      "title": "Euro 2020 — Tournament Edition",
-      "subtitle": "UEFA Euro 2020 Tournament Edition · Panini",
-      "year": "2020",
-      "publisher": "Panini",
-      "category": "Seleções · Europeu",
-      "description": "Panini Tournament Edition: 750 cromos das seleções do Euro 2020, incluindo atualizações e jogadores portugueses.",
-      "requireAllImages": true
-    },
-    {
-      "id": "world-cup-south-africa-2010",
-      "sourceId": 21,
-      "sourceSlug": "fifa-world-cup-south-africa-2010-panini",
-      "title": "Mundial África do Sul 2010",
-      "subtitle": "FIFA World Cup South Africa 2010 · Panini",
-      "year": "2010",
+      "id": "world-cup-2026",
+      "sourceId": 31,
+      "sourceSlug": "fifa-world-cup-2026-panini",
+      "title": "Mundial FIFA 2026",
+      "subtitle": "FIFA World Cup 2026 · Panini",
+      "year": "2026",
       "publisher": "Panini",
       "category": "Seleções · Mundial",
-      "description": "Mundial 2010: 640 cromos principais e 77 variantes e extras de seleções.",
+      "description": "Edição FIFA World Cup 2026 · Panini; 980 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "requireAllImages": false
+    },
+    {
+      "id": "liga-portugal-2025-26",
+      "sourceId": 30,
+      "sourceSlug": "futebol-2025-2026-panini",
+      "title": "Liga Portugal 2025/26",
+      "subtitle": "Futebol 2025–2026 · Panini",
+      "year": "25/26",
+      "publisher": "Panini",
+      "category": "Clubes · Liga Portugal",
+      "description": "Edição Futebol 2025–2026 · Panini; 486 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": true
     }
   ]
