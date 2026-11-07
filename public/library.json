@@ -106,5 +106,27 @@
     "category": "Seleções · Mundial",
     "status": "soon",
     "description": "Mundial de 2018, com Portugal e cromos especiais; catálogo por auditar."
+  },
+  {
+    "id": "laliga-este-2026-27",
+    "title": "LaLiga ESTE 2026/27",
+    "year": "26/27",
+    "count": 743,
+    "sections": 34,
+    "category": "Clubes · Liga Espanhola",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/XogSyhAF3wNorH0cAbTdp2u3IcmgahYp2JUGCrp5.jpeg",
+    "description": "Cromos Panini da LaLiga 2026/27, com clubes, plantéis, destaques e atualizações."
+  },
+  {
+    "id": "laliga-megacracks-2026-27",
+    "title": "LaLiga Megacracks 2026/27",
+    "year": "26/27",
+    "count": 534,
+    "sections": 33,
+    "category": "Clubes · Liga Espanhola",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/aQPWJJpdighiecX18LVfuv1iea15PFPrD1hhqNlJ.jpg",
+    "description": "Cartas Megacracks Panini da LaLiga 2026/27, com jogadores, equipas e séries especiais."
   }
 ]
