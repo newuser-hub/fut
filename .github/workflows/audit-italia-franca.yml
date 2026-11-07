@@ -1,0 +1,56 @@
+name: FUT - Diagnostico Serie A e Ligue 1
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/audit-italia-franca.yml"
+      - "scripts/ingest_italia_franca.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fut-audit-italia-franca
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Testar catalogos e imagens sem modificar FUT
+        shell: bash
+        run: |
+          python3 -m pip install --quiet beautifulsoup4
+          python3 - <<'PY'
+          import urllib.request,re
+          from bs4 import BeautifulSoup
+          urls={
+            'ita26':'https://www.laststicker.com/cards/panini_calciatori_2026-2027/',
+            'ita25':'https://www.laststicker.com/cards/panini_calciatori_2025-2026/',
+            'fra26':'https://www.laststicker.com/cards/panini_france_ligue_1_2026-2027_adrenalyn_xl/',
+            'fra25':'https://www.laststicker.com/cards/panini_foot_2025-2026/',
+          }
+          for label,url in urls.items():
+            print('===',label,url,flush=True)
+            try:
+              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36'})
+              with urllib.request.urlopen(req,timeout=18) as r:
+                html=r.read(3_000_000).decode('utf-8','replace')
+                print('HTTP',r.status,'bytes',len(html),'type',r.headers.get('Content-Type'),flush=True)
+              bs=BeautifulSoup(html,'html.parser')
+              print('HEAD',bs.title.get_text(' ',strip=True) if bs.title else '',flush=True)
+              print('PREVIEW',re.findall(r'.{0,70}(?:scanned images|images scannées|immagini scannerizzate|Total stickers|Total cards).{0,80}',bs.get_text(' ',strip=True),re.I)[:4],flush=True)
+              print('TABLE_ROWS',len(bs.select('table tr')),'TABLE_CLASSES',[t.get('class') for t in bs.find_all('table')[:4]],flush=True)
+              print('LINKS',[(a.get('href'),a.get_text(' ',strip=True)[:70]) for a in bs.find_all('a',href=True) if '/cards/' in a['href']][:12],flush=True)
+              print('IMAGES',[(x.get('src'),x.get('data-src'),x.get('alt')) for x in bs.find_all('img')[:15]],flush=True)
+              cards=[a for a in bs.find_all('a',href=True) if '/item/' in a['href'] or '/cards/' in a['href']]
+              for link in cards[:1]:
+                if link.get('href','').startswith('/cards/'):
+                  print('CARD_LINK',str(link.parent)[:700],flush=True)
+            except Exception as e:
+              print('ERROR',type(e).__name__,str(e)[:350],flush=True)
+          PY
