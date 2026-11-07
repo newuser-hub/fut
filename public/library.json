@@ -135,22 +135,22 @@
     "id": "world-cup-brazil-2014",
     "title": "Mundial Brasil 2014",
     "year": "2014",
-    "count": null,
-    "sections": null,
+    "count": 746,
+    "sections": 35,
     "category": "Seleções · Mundial",
-    "status": "soon",
+    "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/RULJKWYZ6u2rwWlM67xXN3nRxqrDOk4EjngaVcrx.jpg",
-    "description": "Candidato Panini: 643 cromos principais e 103 extras; imagens ainda por auditar."
+    "description": "Caderneta do Mundial Brasil 2014, com 643 cromos principais e 103 extras."
   },
   {
     "id": "copa-america-2024",
     "title": "Copa América 2024",
     "year": "2024",
-    "count": null,
-    "sections": null,
+    "count": 430,
+    "sections": 22,
     "category": "Seleções · Copa América",
-    "status": "soon",
+    "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/gUR8A5lBd2S2NlzldGwdHIhIjkACxrAAHZhWpMxE.jpg",
-    "description": "Candidato Panini: 430 cromos por verificar integralmente antes de publicar."
+    "description": "As seleções da Copa América 2024, com 430 cromos, plantéis e secções especiais."
   }
 ]
