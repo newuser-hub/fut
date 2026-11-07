@@ -229,5 +229,27 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/h2Kp7zHCi1nmMXtMCnY75gE7ElgjgAb7mo6n2uVS.jpg",
     "description": "Mundial Alemanha 2006: 597 cromos principais e 8 cromos adicionais."
+  },
+  {
+    "id": "world-cup-2026",
+    "title": "Mundial FIFA 2026",
+    "year": "2026",
+    "count": 1206,
+    "sections": 59,
+    "category": "Seleções · Mundial",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/7VLfDU3xy1gDNI0FqZ6CVDP6GkFX3ze9tPDxbbaV.jpg",
+    "description": "Edição FIFA World Cup 2026 · Panini; 980 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "liga-portugal-2025-26",
+    "title": "Liga Portugal 2025/26",
+    "year": "25/26",
+    "count": 497,
+    "sections": 26,
+    "category": "Clubes · Liga Portugal",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/TCOHDckca67GkwV884QdaB0WjcKj4vvyCG8UrjSi.jpg",
+    "description": "Edição Futebol 2025–2026 · Panini; 486 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
   }
 ]
