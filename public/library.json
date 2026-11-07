@@ -60,5 +60,27 @@
     "status": "soon",
     "count": null,
     "description": "A coleção oficial do futebol português de 2024/25."
+  },
+  {
+    "id": "match-attax-2025-26",
+    "title": "Champions League · Match Attax 2025/26",
+    "year": "25/26",
+    "count": 738,
+    "sections": 77,
+    "category": "Clubes · Champions League",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/vEQRoGEufRqMdqC8ddsrsxILPtGpw7RAPLZ2p9bG.jpg",
+    "description": "Cartas Match Attax 2025/26: clubes europeus, jogadores e séries especiais."
+  },
+  {
+    "id": "match-attax-2026-27",
+    "title": "Champions League · Match Attax 2026/27",
+    "year": "26/27",
+    "count": 558,
+    "sections": 42,
+    "category": "Clubes · Champions League",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/q2LqS6Ubso8z6PjX41eVIDWYac9rlyVD0ErQ6S2a.jpg",
+    "description": "Época 2026/27: coleção de cartas europeias, incluindo FC Porto, Benfica e séries especiais."
   }
 ]
