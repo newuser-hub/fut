@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "batch": 9,
+  "collections": [
+    {
+      "id": "world-cup-2026",
+      "sourceId": 31,
+      "sourceSlug": "fifa-world-cup-2026-panini",
+      "title": "Mundial FIFA 2026",
+      "subtitle": "FIFA World Cup 2026 · Panini",
+      "year": "2026",
+      "publisher": "Panini",
+      "category": "Seleções · Mundial",
+      "description": "Edição FIFA World Cup 2026 · Panini; 980 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "requireAllImages": false
+    },
+    {
+      "id": "liga-portugal-2025-26",
+      "sourceId": 30,
+      "sourceSlug": "futebol-2025-2026-panini",
+      "title": "Liga Portugal 2025/26",
+      "subtitle": "Futebol 2025–2026 · Panini",
+      "year": "25/26",
+      "publisher": "Panini",
+      "category": "Clubes · Liga Portugal",
+      "description": "Edição Futebol 2025–2026 · Panini; 486 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "requireAllImages": true
+    }
+  ]
+}
