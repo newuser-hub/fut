@@ -273,5 +273,27 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/5OfmYdCidp8c8HVPVia8ELvybM37PzntP7OavvcF.jpg",
     "description": "Edição FIFA World Cup 2026 Adrenalyn XL · Panini; 700 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "ucl-topps-2025-26",
+    "title": "Champions League 2025/26 — Topps",
+    "year": "25/26",
+    "count": 584,
+    "sections": 44,
+    "category": "Clubes · Champions League",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/s7UEj9y1ZUhTQ2WdpaVMpcyR0Xw7VMCxvMfwEtJt.jpg",
+    "description": "Edição UEFA Champions League 2025–2026 · Topps; 584 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "match-attax-extra-2025-26",
+    "title": "Match Attax Extra 2025/26",
+    "year": "25/26",
+    "count": 445,
+    "sections": 71,
+    "category": "Clubes · Champions League",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/lUrwjRnLco1j3RJD1XT45YH6Vhxa4IF98MLX8GXR.jpg",
+    "description": "Edição Match Attax Extra 2025–2026 · Topps; 445 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
   }
 ]
