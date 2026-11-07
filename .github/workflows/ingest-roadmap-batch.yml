@@ -1,11 +1,10 @@
-name: FUT - Integrar lote 1 do roteiro de 20 coleções
+name: FUT - Integrar lote autorizado do roteiro de 20 coleções
 
 on:
   push:
     branches: [main]
     paths:
       - "requests/roadmap-batch.json"
-      - ".github/workflows/ingest-roadmap-batch.yml"
   workflow_dispatch:
 
 permissions:
@@ -36,7 +35,7 @@ jobs:
           git log -1 --format='HEAD %H %s'
           node scripts/unpack-data.mjs
           python3 scripts/verify_expansion_plan.py
-      - name: Importar Mundial 2026 e Liga Portugal 2025-26
+      - name: Importar as duas coleções autorizadas
         run: python3 -u scripts/ingest_batch.py requests/roadmap-batch.json
       - name: Validar TODAS as coleções e frontend
         run: |
@@ -63,5 +62,5 @@ jobs:
             echo "Lote já presente; sem alterações"
             exit 0
           fi
-          git commit -m "Integrar primeiro lote do roteiro FUT: Mundial 2026 e Liga Portugal [skip actions]"
+          git commit -m "Integrar lote autorizado do roteiro FUT [skip actions]"
           git push origin HEAD:main

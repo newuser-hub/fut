@@ -1,0 +1,40 @@
+name: FUT - Verificar protecao publica em producao
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/verify-fut-access.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Testar acesso anonimo aos dados e ao portal protegido
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'FUT_ALBUM_PASSWORD' proxy.js
+          grep -q 'status:401' proxy.js
+          grep -q 'WWW-Authenticate' proxy.js
+          for host in fut-rosy.vercel.app fut-pjr-s-projects.vercel.app; do
+            for path in / /library.json /data/idolos-pt-2026-27.json; do
+              status=$(curl -sS --max-time 20 -D /tmp/fut-headers -o /tmp/fut-body -w '%{http_code}' "https://$host$path")
+              echo "$host$path -> HTTP $status"
+              case "$status" in
+                401|403) echo "Acesso anonimo recusado";;
+                302|303|307|308)
+                  if grep -i '^location:' /tmp/fut-headers | grep -Eiq '(vercel|auth|login|sso)'; then
+                    echo "Redirecionamento para autenticacao confirmado"
+                  else echo "Redirecionamento nao justificado"; exit 1; fi;;
+                *) echo "Falha: recurso publico ou indisponivel, HTTP $status"; exit 1;;
+              esac
+            done
+          done
+          echo "PASS: portal, manifesto e cartoes protegidos sem credenciais"

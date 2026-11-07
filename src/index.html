@@ -124,7 +124,7 @@
     }
     function roadmapPending(){
       const active=new Set(LIBRARY.filter(x=>x.status==='active').map(x=>x.id));
-      return EXPANSION_PLAN.filter(x=>!active.has(x.id));
+      return EXPANSION_PLAN.filter(x=>!active.has(x.id)&&x.imageAudit!=='blocked');
     }
     function roadmapPanel(){
       if(!EXPANSION_PLAN.length){
@@ -132,17 +132,21 @@
         return '<section class="next-batch"><div><span class="section-label">Expansão contínua</span><h3>Próximo lote de duas coleções</h3><p>'+esc(waiting.map(x=>x.title).join(' + ')||'Novas coleções a selecionar')+'</p></div><button class="pill gold" data-action="next-batch">Copiar autorização ↗</button></section>';
       }
       const pending=roadmapPending();
-      const completed=EXPANSION_PLAN.length-pending.length;
-      const next=pending.slice(0,2);
-      let html='<section class="next-batch" aria-label="Plano de expansão FUT"><div><span class="section-label">Roteiro de expansão</span><h3>20 coleções · 10 lotes de duas</h3><p>Próximo lote: '+(next.length?next.map(x=>esc(x.title)).join(' + '):'Plano concluído')+'. Cada coleção é auditada antes da integração; as imagens e os extras podem não estar disponíveis.</p><div class="roadmap-summary">'+completed+' de 20 integradas no FUT · '+pending.length+' por realizar</div></div><div class="roadmap-tools"><button class="pill gold" data-action="next-batch"'+(next.length?'':' disabled')+'>✦ Copiar próximo pedido</button><button class="pill" data-action="roadmap-toggle" aria-controls="roadmap-grid" aria-expanded="false">Ver 10 lotes</button></div></section>';
-      html+='<div id="roadmap-grid" class="roadmap-grid hidden" aria-label="Os dez lotes previstos">';
       const active=new Set(LIBRARY.filter(x=>x.status==='active').map(x=>x.id));
+      const completed=EXPANSION_PLAN.filter(x=>active.has(x.id)).length;
+      const blocked=EXPANSION_PLAN.filter(x=>!active.has(x.id)&&x.imageAudit==='blocked').length;
+      const next=pending.slice(0,2);
+      let html='<section class="next-batch" aria-label="Plano de expansão FUT"><div><span class="section-label">Roteiro de expansão</span><h3>20 coleções · 10 lotes de duas</h3><p>Próximo lote: '+(next.length?next.map(x=>esc(x.title)).join(' + '):'Plano concluído')+'. Cada coleção é auditada antes da integração; as imagens e os extras podem não estar disponíveis.</p><div class="roadmap-summary">'+completed+' de 20 integradas no FUT · '+blocked+' em espera por imagens · '+pending.length+' elegíveis por auditar</div></div><div class="roadmap-tools"><button class="pill gold" data-action="next-batch"'+(next.length?'':' disabled')+'>✦ Copiar próximo pedido</button><button class="pill" data-action="roadmap-toggle" aria-controls="roadmap-grid" aria-expanded="false">Ver 10 lotes</button></div></section>';
+      html+='<div id="roadmap-grid" class="roadmap-grid hidden" aria-label="Os dez lotes previstos">';
       for(let i=0;i<EXPANSION_PLAN.length;i+=2){
         const pair=EXPANSION_PLAN.slice(i,i+2);
         const n=pair.filter(x=>active.has(x.id)).length;
-        html+='<article class="roadmap-card"><header><strong>LOTE '+String(i/2+1).padStart(2,'0')+'</strong><span>'+(n===2?'Concluído':n===1?'1 de 2 concluída':'Por auditar')+'</span></header><ul>'+
-          pair.map(x=>'<li>'+esc(x.title)+' <small>('+x.declaredMainCount+' principais)</small>'+(active.has(x.id)?' ✓':'')+'</li>').join('')+'</ul>'+
-          '<button class="pill'+(n===2?'':' gold')+'" data-action="roadmap-copy" data-batch="'+Math.floor(i/2)+'"'+(n===2?' disabled':'')+'>'+(n===2?'Concluído':'Copiar autorização deste lote')+'</button></article>';
+        const deferred=pair.filter(x=>!active.has(x.id)&&x.imageAudit==='blocked').length;
+        const eligible=pair.length-n-deferred;
+        const label=n===2?'Concluído':deferred?(n+' integrada(s) · '+deferred+' aguarda(m) imagens'):(n===1?'1 de 2 concluída':'Por auditar');
+        html+='<article class="roadmap-card"><header><strong>LOTE '+String(i/2+1).padStart(2,'0')+'</strong><span>'+label+'</span></header><ul>'+
+          pair.map(x=>'<li>'+esc(x.title)+' <small>('+x.declaredMainCount+' principais)</small>'+(active.has(x.id)?' ✓':x.imageAudit==='blocked'?' · sem imagens':'')+'</li>').join('')+'</ul>'+
+          '<button class="pill'+(eligible===0?'':' gold')+'" data-action="roadmap-copy" data-batch="'+Math.floor(i/2)+'"'+(eligible===0?' disabled':'')+'>'+(eligible===0?(n===2?'Concluído':'Aguardar fotografias'):'Copiar autorização deste lote')+'</button></article>';
       }
       html+='</div><p class="roadmap-note">Os botões copiam um pedido para submeter no ChatGPT. Não alteram o GitHub diretamente. Antes de cada lote, serão verificados a branch main, as execuções em curso, os cromos e as fotografias disponíveis.</p>';
       return html;

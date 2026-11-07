@@ -27,7 +27,17 @@
       "declaredMainCount": 980,
       "description": "Edição FIFA World Cup 2026 · Panini; 980 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/31/fifa-world-cup-2026-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-07",
+        "positions": 1206,
+        "principal": 980,
+        "principalWithImage": 980,
+        "verifiedImages": 1046,
+        "missingImages": 160,
+        "sections": 59,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42418638831"
+      }
     },
     {
       "priority": 2,
@@ -42,7 +52,17 @@
       "declaredMainCount": 486,
       "description": "Edição Futebol 2025–2026 · Panini; 486 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/30/futebol-2025-2026-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-07",
+        "positions": 497,
+        "principal": 486,
+        "principalWithImage": 486,
+        "verifiedImages": 486,
+        "missingImages": 11,
+        "sections": 26,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42418638831"
+      }
     },
     {
       "priority": 3,
@@ -57,7 +77,17 @@
       "declaredMainCount": 496,
       "description": "Edição FIFA 365 2027 · Panini; 496 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/340/fifa-365-2027-panini",
-      "imageAudit": "pending"
+      "imageAudit": "blocked",
+      "auditSummary": {
+        "auditedAt": "2026-11-07",
+        "positions": 501,
+        "principal": 496,
+        "principalWithImage": 0,
+        "verifiedImages": 0,
+        "reason": "Cromos.pt sem imagens em 501 posições (0/496 principais); StickersOne com 0 imagens em 591 posições.",
+        "alternative": "https://stickersone.com/en/albumgrid-fifa-365-2027-panini-4690",
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42419529030"
+      }
     },
     {
       "priority": 4,
@@ -72,7 +102,17 @@
       "declaredMainCount": 252,
       "description": "Edição Ídolos do Futebol Português 2026–2027 · Panini; 252 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/335/idolos-do-futebol-portugues-2026-2027-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-07",
+        "positions": 313,
+        "principal": 252,
+        "principalWithImage": 252,
+        "verifiedImages": 301,
+        "missingImages": 12,
+        "sections": 29,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42419643838"
+      }
     },
     {
       "priority": 5,
@@ -87,7 +127,17 @@
       "declaredMainCount": 451,
       "description": "Edição FIFA 365 2027 Adrenalyn XL · Panini; 451 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/99/fifa-365-2027-adrenalyn-xl-panini",
-      "imageAudit": "pending"
+      "imageAudit": "blocked",
+      "auditSummary": {
+        "auditedAt": "2026-11-07",
+        "positions": 787,
+        "principal": 451,
+        "principalWithImage": 0,
+        "verifiedImages": 0,
+        "reason": "Cromos.pt sem imagens em 787 posições (0/451 principais).",
+        "alternative": null,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42419529030"
+      }
     },
     {
       "priority": 6,
@@ -102,7 +152,17 @@
       "declaredMainCount": 700,
       "description": "Edição FIFA World Cup 2026 Adrenalyn XL · Panini; 700 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/34/fifa-world-cup-2026-adrenalyn-xl-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-07",
+        "positions": 1019,
+        "principal": 700,
+        "principalWithImage": 700,
+        "verifiedImages": 929,
+        "missingImages": 90,
+        "sections": 67,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42419643838"
+      }
     },
     {
       "priority": 7,
@@ -313,6 +373,27 @@
       "description": "Edição UEFA Euro England 1996 · Panini; 354 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/14/uefa-euro-england-1996-panini",
       "imageAudit": "pending"
+    }
+  ],
+  "lastReviewedAt": "2026-11-07",
+  "executionLog": [
+    {
+      "batch": "roadmap-2",
+      "authorized": [
+        "fifa-365-2027",
+        "idolos-pt-2026-27"
+      ],
+      "integrated": [
+        "idolos-pt-2026-27",
+        "world-cup-adrenalyn-2026"
+      ],
+      "deferred": [
+        "fifa-365-2027",
+        "fifa-365-adrenalyn-2027"
+      ],
+      "rationale": "Sem fotografias individuais nas duas edições FIFA 365 2027, foi integrada a próxima candidata elegível do plano: Mundial FIFA 2026 Adrenalyn XL.",
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/42419529030",
+      "integrationRun": "https://github.com/newuser-hub/fut/actions/runs/42419643838"
     }
   ]
 }
