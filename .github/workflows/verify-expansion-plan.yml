@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - "public/expansion-plan.json"
+      - "public/library.json"
+      - "public/data/fifa-365-2026.json"
+      - "public/data/liga-portugal-2023-24.json"
       - "src/index.html"
       - "scripts/verify_expansion_plan.py"
       - ".github/workflows/verify-expansion-plan.yml"
