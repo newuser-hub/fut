@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "batch": 6,
+  "collections": [
+    {
+      "id": "euro-france-2016",
+      "sourceId": 24,
+      "sourceSlug": "uefa-euro-france-2016-panini",
+      "title": "Euro França 2016",
+      "subtitle": "UEFA Euro France 2016 · Panini",
+      "year": "2016",
+      "publisher": "Panini",
+      "category": "Seleções · Europeu",
+      "description": "O Europeu conquistado por Portugal em 2016, com cromos das seleções e 87 variantes e atualizações.",
+      "requireAllImages": true
+    },
+    {
+      "id": "world-cup-russia-2018",
+      "sourceId": 25,
+      "sourceSlug": "fifa-world-cup-russia-2018-panini",
+      "title": "Mundial Rússia 2018",
+      "subtitle": "FIFA World Cup Russia 2018 · Panini",
+      "year": "2018",
+      "publisher": "Panini",
+      "category": "Seleções · Mundial",
+      "description": "As seleções do Mundial 2018, com 686 cromos principais e 101 cromos adicionais.",
+      "requireAllImages": true
+    }
+  ]
+}

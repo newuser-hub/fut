@@ -1,29 +1,29 @@
 {
   "version": 1,
-  "batch": 6,
+  "batch": 7,
   "collections": [
     {
-      "id": "euro-france-2016",
-      "sourceId": 24,
-      "sourceSlug": "uefa-euro-france-2016-panini",
-      "title": "Euro França 2016",
-      "subtitle": "UEFA Euro France 2016 · Panini",
-      "year": "2016",
+      "id": "world-cup-brazil-2014",
+      "sourceId": 23,
+      "sourceSlug": "fifa-world-cup-brazil-2014-panini",
+      "title": "Mundial Brasil 2014",
+      "subtitle": "FIFA World Cup Brazil 2014 · Panini",
+      "year": "2014",
       "publisher": "Panini",
-      "category": "Seleções · Europeu",
-      "description": "O Europeu conquistado por Portugal em 2016, com cromos das seleções e 87 variantes e atualizações.",
+      "category": "Seleções · Mundial",
+      "description": "Caderneta do Mundial Brasil 2014, com 643 cromos principais e 103 extras.",
       "requireAllImages": true
     },
     {
-      "id": "world-cup-russia-2018",
-      "sourceId": 25,
-      "sourceSlug": "fifa-world-cup-russia-2018-panini",
-      "title": "Mundial Rússia 2018",
-      "subtitle": "FIFA World Cup Russia 2018 · Panini",
-      "year": "2018",
+      "id": "copa-america-2024",
+      "sourceId": 42,
+      "sourceSlug": "copa-america-2024-panini",
+      "title": "Copa América 2024",
+      "subtitle": "Copa América 2024 · Panini",
+      "year": "2024",
       "publisher": "Panini",
-      "category": "Seleções · Mundial",
-      "description": "As seleções do Mundial 2018, com 686 cromos principais e 101 cromos adicionais.",
+      "category": "Seleções · Copa América",
+      "description": "As seleções da Copa América 2024, com 430 cromos, plantéis e secções especiais.",
       "requireAllImages": true
     }
   ]
