@@ -1,29 +1,29 @@
 {
   "version": 1,
-  "batch": 7,
+  "batch": 8,
   "collections": [
     {
-      "id": "world-cup-brazil-2014",
-      "sourceId": 23,
-      "sourceSlug": "fifa-world-cup-brazil-2014-panini",
-      "title": "Mundial Brasil 2014",
-      "subtitle": "FIFA World Cup Brazil 2014 · Panini",
-      "year": "2014",
+      "id": "euro-2020-tournament",
+      "sourceId": 26,
+      "sourceSlug": "uefa-euro-2020-tournament-edition-panini",
+      "title": "Euro 2020 — Tournament Edition",
+      "subtitle": "UEFA Euro 2020 Tournament Edition · Panini",
+      "year": "2020",
       "publisher": "Panini",
-      "category": "Seleções · Mundial",
-      "description": "Caderneta do Mundial Brasil 2014, com 643 cromos principais e 103 extras.",
+      "category": "Seleções · Europeu",
+      "description": "Panini Tournament Edition: 750 cromos das seleções do Euro 2020, incluindo atualizações e jogadores portugueses.",
       "requireAllImages": true
     },
     {
-      "id": "copa-america-2024",
-      "sourceId": 42,
-      "sourceSlug": "copa-america-2024-panini",
-      "title": "Copa América 2024",
-      "subtitle": "Copa América 2024 · Panini",
-      "year": "2024",
+      "id": "world-cup-south-africa-2010",
+      "sourceId": 21,
+      "sourceSlug": "fifa-world-cup-south-africa-2010-panini",
+      "title": "Mundial África do Sul 2010",
+      "subtitle": "FIFA World Cup South Africa 2010 · Panini",
+      "year": "2010",
       "publisher": "Panini",
-      "category": "Seleções · Copa América",
-      "description": "As seleções da Copa América 2024, com 430 cromos, plantéis e secções especiais.",
+      "category": "Seleções · Mundial",
+      "description": "Mundial 2010: 640 cromos principais e 77 variantes e extras de seleções.",
       "requireAllImages": true
     }
   ]
