@@ -1,28 +1,31 @@
 {
   "version": 1,
-  "batch": 3,
+  "batch": 4,
   "collections": [
     {
-      "id": "match-attax-2025-26",
-      "sourceId": 50,
-      "sourceSlug": "match-attax-2025-2026-topps",
-      "title": "Champions League · Match Attax 2025/26",
-      "subtitle": "UEFA Club Competitions · Topps Match Attax 2025/26",
-      "year": "25/26",
-      "publisher": "Topps",
-      "category": "Clubes · Champions League",
-      "description": "Cartas Match Attax 2025/26: clubes europeus, jogadores e séries especiais."
+      "id": "liga-2021-22",
+      "sourceId": 59,
+      "sourceSlug": "futebol-2021-2022-panini",
+      "title": "Liga Portugal 2021/22",
+      "subtitle": "Futebol 2021–2022 · Panini",
+      "year": "21/22",
+      "publisher": "Panini",
+      "category": "Liga Portugal",
+      "description": "Uma época histórica do futebol português, com 421 cromos principais e 17 extras.",
+      "replaces": "idolos-2025-26",
+      "requireAllImages": true
     },
     {
-      "id": "match-attax-2026-27",
-      "sourceId": 81,
-      "sourceSlug": "topps-uefa-champions-league-europa-league-2026-2027-match-attax",
-      "title": "Champions League · Match Attax 2026/27",
-      "subtitle": "UEFA Champions League & Europa League · Topps Match Attax 2026/27",
-      "year": "26/27",
-      "publisher": "Topps",
-      "category": "Clubes · Champions League",
-      "description": "Época 2026/27: coleção de cartas europeias, incluindo FC Porto, Benfica e séries especiais."
+      "id": "liga-2024-25",
+      "sourceId": 52,
+      "sourceSlug": "futebol-2024-2025-panini",
+      "title": "Liga Portugal 2024/25",
+      "subtitle": "Futebol 2024–2025 · Panini",
+      "year": "24/25",
+      "publisher": "Panini",
+      "category": "Liga Portugal",
+      "description": "As equipas da Liga Portugal 2024/25, com 497 cromos principais e 31 extras.",
+      "requireAllImages": true
     }
   ]
 }

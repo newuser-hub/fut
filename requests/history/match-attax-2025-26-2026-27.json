@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "batch": 3,
+  "collections": [
+    {
+      "id": "match-attax-2025-26",
+      "sourceId": 50,
+      "sourceSlug": "match-attax-2025-2026-topps",
+      "title": "Champions League · Match Attax 2025/26",
+      "subtitle": "UEFA Club Competitions · Topps Match Attax 2025/26",
+      "year": "25/26",
+      "publisher": "Topps",
+      "category": "Clubes · Champions League",
+      "description": "Cartas Match Attax 2025/26: clubes europeus, jogadores e séries especiais."
+    },
+    {
+      "id": "match-attax-2026-27",
+      "sourceId": 81,
+      "sourceSlug": "topps-uefa-champions-league-europa-league-2026-2027-match-attax",
+      "title": "Champions League · Match Attax 2026/27",
+      "subtitle": "UEFA Champions League & Europa League · Topps Match Attax 2026/27",
+      "year": "26/27",
+      "publisher": "Topps",
+      "category": "Clubes · Champions League",
+      "description": "Época 2026/27: coleção de cartas europeias, incluindo FC Porto, Benfica e séries especiais."
+    }
+  ]
+}

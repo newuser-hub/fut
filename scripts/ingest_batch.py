@@ -150,6 +150,8 @@ def fetch_catalog(item:dict, fixture_dir:Path|None=None, prefetched:Path|None=No
             f"Auditoria insuficiente: {principal_with_image}/{len(principal)} imagens principais")
     verified=sum(c["available"] for c in cards)
     missing=len(cards)-verified
+    if item.get("requireAllImages") and missing:
+        raise ValueError(f"Coleção {slug}: {missing} imagens em falta (exigidas 100%)")
     cover_path=str(col.get("img_path") or "").lstrip("/")
     cover=f"{MAIN_HOST}/storage/{cover_path}" if cover_path else None
     result=dict(
@@ -227,6 +229,9 @@ def main():
     if len(items)!=2 or len(set(c["id"] for c in items))!=2:
         raise ValueError("Cada lote deve ter exatamente duas coleções distintas")
     for c in items:validate_entry(c)
+    to_replace=[c.get("replaces") for c in items if c.get("replaces")]
+    if len(set(to_replace))!=len(to_replace):
+        raise ValueError("Várias coleções substituem o mesmo lugar reservado")
     libpath=ROOT/"public/library.json"
     if libpath.exists(): library=json.loads(libpath.read_text(encoding="utf-8"))
     else:
@@ -250,8 +255,16 @@ def main():
          count=len(catalog["cards"]),sections=len(catalog["sections"]),
          category=item["category"],status="active",cover=catalog["cover"],
          description=item["description"])
-        if dest:dest.update(patch)
-        else:library.append(patch)
+        if dest:
+            dest.update(patch)
+        elif item.get("replaces"):
+            old_id=item["replaces"]
+            indexes=[idx for idx,x in enumerate(library) if x["id"]==old_id]
+            if len(indexes)!=1 or library[indexes[0]]["status"]!="soon":
+                raise ValueError("Placeholder a substituir não existe ou já está ativo: "+old_id)
+            library[indexes[0]]=patch
+        else:
+            library.append(patch)
     # Exclusivamente após a conclusão das duas auditorias.
     (ROOT/"src").mkdir(exist_ok=True)
     (ROOT/"src/index.html").write_text(source,encoding="utf-8")
