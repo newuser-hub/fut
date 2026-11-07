@@ -19,3 +19,12 @@
 - Verificar HTTP 401 sem credenciais em `/`, `/library.json` e ficheiros individuais novos; não consultar nem divulgar `FUT_ALBUM_PASSWORD`.
 
 Este checkpoint existe para retoma sem repetir as auditorias e não autoriza trabalho assíncrono.
+
+## Publicação final: pendência identificada
+- **Commit de código/roteiro já validado:** `4362a5318f20af85c0f9f00f2d6d69a12c4300b8`, contendo 27 coleções e roteiro 6/20 integradas, 3 suspensas, 11 pendentes.
+- **Verificador de integridade:** https://github.com/newuser-hub/fut/actions/runs/42421863749 — sucesso (27 coleções, 17.822 cartas; 6 integradas no roteiro).
+- **Teste de acesso anónimo:** https://github.com/newuser-hub/fut/actions/runs/42421863753 — sucesso, **HTTP 401** em ambos os domínios de produção para `/`, `/library.json`, `/data/idolos-pt-2026-27.json`, `/data/ucl-topps-2025-26.json` e `/data/match-attax-extra-2025-26.json`.
+- **Deploy final Vercel NÃO concluído**: o pedido explícito de deployment do SHA `4362a531...`, projeto `fut`, alvo `production`, recebeu **HTTP 402 `api-deployments-free-per-day`**, `retryAfter=86400`, indicando limite diário de mais de 100 deployments. Não mudar o plano Vercel ou contornar quotas sem autorização.
+- **Último deployment READY confirmado** no final da execução: commit `d372f412af9d1828bf6dda06a2936ed7d77e9956`, URL `https://fut-bix8h8tb3-pjr-s-projects.vercel.app`; essa versão **ainda tem as 25 coleções antigas**, não os novos dois catálogos.
+- O Vercel CLI não estava instalado no sandbox da execução anterior. Não existe confirmação de uma alternativa CLI autenticada capaz de ultrapassar a mesma quota. Não afirmar que o novo lote está publicado.
+- **Retoma**: consultar primeiro o novo HEAD da `main`, os Actions e deployments; quando o limite permitir, publicar **esse HEAD** para o projeto `fut` em `production`, confirmar READY e SHA, verificar o portal com 27 coleções e os botões do roteiro, e repetir testes anónimos HTTP 401. Não repetir a auditoria de imagens nem os imports.
