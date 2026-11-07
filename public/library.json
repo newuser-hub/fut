@@ -295,5 +295,27 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/lUrwjRnLco1j3RJD1XT45YH6Vhxa4IF98MLX8GXR.jpg",
     "description": "Edição Match Attax Extra 2025–2026 · Topps; 445 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "fifa-365-2026",
+    "title": "FIFA 365 2026",
+    "year": "2026",
+    "count": 524,
+    "sections": 31,
+    "category": "Clubes · FIFA 365",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/hioZnCAwTFu35UwNR24Oa8TwZ6ll6yWGqjS0FpEo.png",
+    "description": "Edição FIFA 365 2026 · Panini; 524 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "liga-portugal-2023-24",
+    "title": "Liga Portugal 2023/24",
+    "year": "23/24",
+    "count": 527,
+    "sections": 26,
+    "category": "Clubes · Liga Portugal",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/UJVSHtjzb4qufwqcES0YxQYXmhSoghyHIRj0QGo0.png",
+    "description": "Edição Futebol 2023–2024 · Panini; 527 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
   }
 ]
