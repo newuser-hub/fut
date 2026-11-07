@@ -30,5 +30,6 @@
       "description": "Edição Match Attax Extra 2025–2026 · Topps; 445 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     }
-  ]
+  ],
+  "auditPipelineVersion": 2
 }

@@ -37,6 +37,8 @@ jobs:
           python3 scripts/verify_expansion_plan.py
       - name: Importar as duas coleções autorizadas
         run: python3 -u scripts/ingest_batch.py requests/roadmap-batch.json
+      - name: Sincronizar auditorias do lote no roteiro
+        run: python3 scripts/sync_expansion_plan.py requests/roadmap-batch.json
       - name: Validar TODAS as coleções e frontend
         run: |
           node scripts/unpack-data.mjs
