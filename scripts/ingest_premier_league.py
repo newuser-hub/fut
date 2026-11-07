@@ -107,7 +107,7 @@ def main():
             if not name:
                 unmatched.append((p,line))
                 continue
-            if number.isdigit():kind="Future Stars" if int(number)<=20 else "Base"
+            if number.isdigit():kind="Future Stars" if int(number)<=20 else club
             else:
                 code=number.split("-")[0] if "-" in number else number.split(" ")[0]
                 kind=AUTOS.get(code) if "-" in number and code in AUTOS else SECTION.get(code,section or "Extras")
@@ -129,7 +129,7 @@ def main():
     for i,c in enumerate(items,1):
         if c["section"] not in sections:sections.append(c["section"])
         c.update(id=SLUG+"-"+hashlib.sha1(c["number"].encode()).hexdigest()[:12],
-                 originalNumber=c["number"],order=i,optional=c["section"] not in ("Future Stars","Base"),
+                 originalNumber=c["number"],order=i,optional=c["number"].isdigit()==False,
                  type=c["section"],image=None,available=False,sha256=None,bytes=0)
     for number,url in PROMO.items():
         candidates=[c for c in items if c["number"]==number]
@@ -141,10 +141,16 @@ def main():
                                      bytes=len(img),imageKind="official-preview")
         except Exception as exc:
             print("Official image unavailable:",number,type(exc).__name__,str(exc)[:150],flush=True)
+            # The images.topps.com CDN blocks GitHub runner IPs (HTTP 403).
+            # Keep an honest direct-source *link* for browser rendering, but
+            # never manufacture bytes or a SHA256 checksum for that image.
+            if "403" in str(exc) and url.startswith("https://images.topps.com/"):
+                candidates[0].update(image=url,available=True,imageKind="official-preview-link",bytes=0,sha256=None)
     image_count=sum(c["available"] for c in items)
-    audit={"available":image_count,"missing":len(items)-image_count,
+    verified_count=sum(bool(c["sha256"]) for c in items)
+    audit={"available":image_count,"verified":verified_count,"linked":image_count-verified_count,"missing":len(items)-image_count,
            "checkedAt":datetime.now(timezone.utc).date().isoformat(),
-           "source":"Topps official preview images, GET / MIME / size / SHA256"}
+           "source":"Official Topps links (HTTP 403 on runner); only downloaded bytes receive SHA256"}
     cat={"id":SLUG,"title":"Premier League · Topps Flagship 2026/27",
          "subtitle":"Official Topps Flagship Premier League 2026/27",
          "year":"26/27","source":OFFICIAL,"publisher":"Topps","cover":None,
@@ -157,12 +163,12 @@ def main():
         oldfile=ROOT/"public/data"/(SLUG+".json")
         if oldfile.exists():
             previous=json.loads(oldfile.read_text(encoding="utf8"))
-            if previous.get("imageAudit",{}).get("available",0)>=image_count:
+            if (previous.get("imageAudit",{}).get("available",0)>=image_count and previous.get("sections")==sections):
                 print("No-op; no additional images to integrate",flush=True)
                 return
     entry={"id":SLUG,"title":cat["title"],"year":"26/27","count":len(items),
            "sections":len(sections),"category":"Clubes · Premier League","status":"active",
-           "cover":None,"description":"Checklist oficial de 1.138 cartas. Imagens apenas quando existe uma pré-visualização oficial verificável; restantes sem fotografia."}
+           "cover":None,"description":"Checklist oficial completa. Cinco ligações diretas a imagens promocionais Topps (não auditadas por hash, disponibilidade variável); restantes cartas sem imagem."}
     if existing:existing.update(entry)
     else:library.append(entry)
     target=ROOT/"public/data";target.mkdir(exist_ok=True,parents=True)
