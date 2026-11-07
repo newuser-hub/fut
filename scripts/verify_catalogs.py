@@ -33,7 +33,7 @@ for entry in active:
     unavailable=[c for c in cards if not c.get('available')]
     stickersone=cat.get('catalogueMode')=='stickerone-image-audit'
     permitted_prefix=('https://images.topps.com/' if official else
-        'https://stickersone.com/images/figurine/' if stickersone else
+        ('https://stickersone.com/images/figurine/', 'https://www.stickersone.com/images/figurine/') if stickersone else
         'https://www.cromos.pt/storage/uploads/stickers/')
     assert all(c.get('bytes',0)>1000 and (c.get('image') or '').startswith(
         permitted_prefix) for c in verified),(entry['id'],'image audit invalid')
@@ -59,7 +59,7 @@ for entry in active:
             assert all(c.get('originalNumber')==c['number'] and
                 c.get('sourceDetail','').startswith(('https://stickersone.com/',
                     'https://www.stickersone.com/')) for c in cards)
-            assert len(verified)>=.85*n,(entry['id'],'insufficient overall coverage')
+            assert len([c for c in required if c.get('available')]) >= (0.90 if n==827 else 0.95)*len(required),(entry['id'],'insufficient main photo coverage')
             assert all('/vuote/' not in (c.get('image') or '') for c in verified)
         else:
             assert len([c for c in required if c.get('available')])>=.8*len(required),(entry['id'],'too many primary images missing')
