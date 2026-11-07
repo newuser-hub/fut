@@ -21,33 +21,48 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
-      - name: Diagnosticar identificadores e URLs de imagens
-        shell: bash
+      - name: Verificar contagens e amostras de imagens das duas coleções
         run: |
           python3 -m pip install --quiet beautifulsoup4
           python3 - <<'PY'
           from bs4 import BeautifulSoup
           from collections import Counter
-          from urllib.parse import urljoin,urlparse
-          from urllib.request import urlopen,Request
+          from urllib.parse import urljoin
+          from urllib.request import Request,urlopen
+          import re,hashlib
           urls={
-           'ITA': 'https://stickersone.com/it/albumgrid-calciatori-2026-2027-panini-4689',
-           'FRA': 'https://stickersone.com/en/albumgrid-ligue-1-2026-2027-adrenalyn-xl-panini-4650',
-           'UNA': 'https://unacollezione.it/checklist/panini-calciatori-anno-2026-27-checklist',
+           'italia':'https://stickersone.com/it/albumgrid-calciatori-2026-2027-panini-4689',
+           'franca':'https://stickersone.com/en/albumgrid-ligue-1-2026-2027-adrenalyn-xl-panini-4650',
           }
           for key,url in urls.items():
-            print('===',key,flush=True)
-            html=urlopen(Request(url,headers={'User-Agent':'Mozilla/5.0'}),timeout=15).read(3_000_000).decode('utf-8','replace')
-            bs=BeautifulSoup(html,'html.parser')
-            imgs=bs.find_all('img')
-            print('IMG COUNT',len(imgs))
-            print('DOMAINS',Counter(urlparse(urljoin(url,i.get('src',''))).netloc for i in imgs).most_common(10))
-            print('PATH_PREFIX',Counter('/'.join((i.get('src') or '').split('/')[:5]) for i in imgs).most_common(12))
-            print('TAIL',[(i.get('src'),i.get('alt')) for i in imgs[-16:]])
-            for token in ['1', '5','10','441','589','825','Figurina n°','Card n°']:
-              texts=bs.find_all(string=lambda x:x and token in x)
-              if texts:
-                node=texts[0].parent
-                for _ in range(2):node=node.parent
-                print('SAMPLE',repr(token),str(node)[:850].replace('\n',' '))
+            html=urlopen(Request(url,headers={'User-Agent':'Mozilla/5.0'}),timeout=25).read(3_000_000)
+            soup=BeautifulSoup(html,'html.parser')
+            tiles=soup.select('.card.figurina.card-body')
+            rows=[]
+            for tile in tiles:
+              strong=tile.select_one('.area-text strong')
+              label=strong.get_text(' ',strip=True) if strong else ''
+              m=re.search(r'(?:Figurina|Card)\s+n[°.]*\s*(.+)',label)
+              number=m.group(1).strip() if m else ''
+              name=tile.select_one('.area-text.mt-2 strong')
+              name=name.get_text(' ',strip=True) if name else ''
+              img=tile.select_one('.area-img picture img')
+              img=img.get('src','') if img else ''
+              badge=tile.select_one('.area-img img.scudetto')
+              team=badge.get('title','').strip() if badge else None
+              rows.append((number,name,img,team))
+            numbers=[x[0] for x in rows]
+            missing=[x for x in rows if not x[2] or '/vuote/' in x[2]]
+            genuine=[x for x in rows if x[2] and '/vuote/' not in x[2]]
+            print(key,'TOTAL',len(rows),'UNIQUE',len(set(numbers)),'MISSING',len(missing),'IMAGE_LINKS',len(genuine),flush=True)
+            print('FIRST',rows[:7],'LAST',rows[-7:],flush=True)
+            print('IMAGE_SOURCE_EXAMPLES',genuine[:4],flush=True)
+            print('SECTIONS',Counter(x[3] for x in rows).most_common(10),flush=True)
+            for n,name,path,team in genuine[:3]:
+              u=urljoin(url,path)
+              try:
+                with urlopen(Request(u,headers={'User-Agent':'Mozilla/5.0','Referer':'https://stickersone.com/'}),timeout=18) as response:
+                  body=response.read(3_000_001)
+                  print('GET',n,name,response.status,response.headers.get('Content-Type'),len(body),hashlib.sha256(body).hexdigest()[:12],flush=True)
+              except Exception as exc:print('GET_ERROR',n,type(exc).__name__,str(exc)[:180],flush=True)
           PY
