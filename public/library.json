@@ -86,5 +86,25 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/q2LqS6Ubso8z6PjX41eVIDWYac9rlyVD0ErQ6S2a.jpg",
     "description": "Época 2026/27: coleção de cartas europeias, incluindo FC Porto, Benfica e séries especiais."
+  },
+  {
+    "id": "euro-france-2016",
+    "title": "Euro França 2016",
+    "year": "2016",
+    "count": null,
+    "sections": null,
+    "category": "Seleções · Europeu",
+    "status": "soon",
+    "description": "Portugal campeão europeu de 2016: coleção Panini a auditar antes da integração."
+  },
+  {
+    "id": "world-cup-russia-2018",
+    "title": "Mundial Rússia 2018",
+    "year": "2018",
+    "count": null,
+    "sections": null,
+    "category": "Seleções · Mundial",
+    "status": "soon",
+    "description": "Mundial de 2018, com Portugal e cromos especiais; catálogo por auditar."
   }
 ]
