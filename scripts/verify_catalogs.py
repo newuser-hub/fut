@@ -34,7 +34,16 @@ for entry in active:
                for c in verified),(entry['id'],'image audit invalid')
     assert all(not c.get('image') and not c.get('sha256') for c in unavailable),(entry['id'],'unverified image metadata')
     required=[c for c in cards if not c.get('optional')]
-    assert len([c for c in required if c.get('available')])>=.8*len(required),(entry['id'],'too many primary images missing')
+    if cat.get('catalogueMode')=='official-checklist':
+        assert entry['id']=='premier-league-flagship-2026-27'
+        assert cat['source'].startswith('https://cdn.shopify.com/')
+        assert n==1138 and len(required)==300,(entry['id'],'official checklist count')
+        assert all(c.get('originalNumber')==c['number'] and c.get('team') for c in cards)
+        assert all(c.get('imageKind')=='official-preview' for c in verified)
+        # The official 2026/27 checklist is complete, but only selected
+        # promotional card fronts are publicly available and verifiable.
+    else:
+        assert len([c for c in required if c.get('available')])>=.8*len(required),(entry['id'],'too many primary images missing')
     assert all(c['id'] and c.get('originalNumber',c['number']) is not None for c in cards)
     if 'imageAudit' in cat:
         assert cat['imageAudit']['available']==len(verified)

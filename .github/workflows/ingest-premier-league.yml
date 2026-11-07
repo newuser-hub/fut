@@ -21,23 +21,37 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Diagnosticar formato da checklist oficial
-        shell: bash
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install PDF parser
+        run: python3 -m pip install --quiet pymupdf
+      - name: Importar checklist oficial e validar apenas imagens autênticas
+        run: python3 -u scripts/ingest_premier_league.py
+      - name: Construir e verificar todas as coleções
         run: |
-          set -euo pipefail
-          curl -fsSL --retry 3 'https://cdn.shopify.com/s/files/1/0739/2015/1805/files/26_27_Topps_Flagship_Premier_League_Checklist_2.pdf?v=1784890627' -o /tmp/premier.pdf
-          python3 -m pip install --quiet pymupdf
+          node scripts/unpack-data.mjs
+          python3 scripts/verify_catalogs.py
           python3 - <<'PY'
-          import fitz
+          from pathlib import Path
           import re
-          doc=fitz.open('/tmp/premier.pdf')
-          s=[]
-          for idx,page in enumerate(doc):
-            s.extend([f'===== PAGE {idx} =====']+page.get_text(sort=True).splitlines())
-          print('TOTAL LINES',len(s))
-          for i,x in enumerate(s[1140:1180],1140):print(i,repr(x))
-          print('==== HEADERS ====')
-          for i,x in enumerate(s):
-            if re.match(r'^[ \t]*[A-Z][A-Z0-9 /&-]{5,}[ \t]*$',x):
-              print(i,repr(x))
+          source=Path('public/index.html').read_text()
+          scripts=re.findall(r'<script[^>]*>(.*?)</script>',source,re.S)
+          assert len(scripts)==1
+          Path('/tmp/fut-premier.js').write_text(scripts[0])
           PY
+          node --check /tmp/fut-premier.js
+      - name: Commit dos catálogos auditados
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/library.json public/data/premier-league-flagship-2026-27.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Integrar Premier League Flagship 2026-27 com checklist oficial [skip actions]"
+            git push origin HEAD:main
+          else
+            echo "No catalog change"
+          fi

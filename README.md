@@ -79,3 +79,7 @@ Auditados em novembro de 2026. Os cromos e cartas com fotografia são **referenc
 O Vercel protege o portal com autenticação HTTP Basic. O utilizador é `fut`; a palavra-passe fica exclusivamente na variável sensível `FUT_ALBUM_PASSWORD`. Não colocar o segredo em commits, issues ou publicações.
 
 Projeto independente, não oficial e não afiliado à Panini, Topps, FIFA, UEFA ou Cromos.pt. Imagens, marcas e cromos pertencem aos respetivos titulares. A acessibilidade pública **não** equivale a licença de reprodução ou distribuição; confirmar permissões antes de promover publicamente o portal.
+
+## Premier League Flagship 2026/27 — Topps
+
+Importação através de `scripts/ingest_premier_league.py` e da workflow `.github/workflows/ingest-premier-league.yml`, independente da fila de dois lotes. Fonte de verdade: [checklist PDF oficial Topps](https://cdn.shopify.com/s/files/1/0739/2015/1805/files/26_27_Topps_Flagship_Premier_League_Checklist_2.pdf?v=1784890627). O importador só publica quando reconcilia exatamente **1.138 referências** e identifica a correspondência de todas. As imagens promocionais publicadas pela Topps são associadas apenas à carta correspondente após validação HTTP GET, MIME, bytes e SHA-256. As restantes posições têm imagem ausente assinalada, não fotografia genérica. O progresso é independente e mantém a lógica das outras coleções.
