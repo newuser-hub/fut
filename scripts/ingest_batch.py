@@ -107,17 +107,23 @@ def fetch_catalog(item:dict, fixture_dir:Path|None=None, prefetched:Path|None=No
         raise ValueError("Coleção incompleta")
     if len({c["id"] for c in cards})!=len(cards):
         raise ValueError("IDs repetidos")
-    # Algumas séries limitadas partilham o número "OPT" e só são
-    # distinguíveis pelo ID interno da fonte. Guardamos a referência original.
-    seen_numbers=set()
+    # O catálogo editorial por vezes reutiliza a mesma posição impressa
+    # em variantes, atualizações ("BIS") ou séries opcionais ("OPT").
+    # O número original é preservado em originalNumber; só o rótulo de
+    # navegação recebe o ID imutável da fonte quando há colisão.
+    original_counts={}
     for c in cards:
-        if c["number"] in seen_numbers:
-            if not c["optional"]:
-                raise ValueError("Posição de carta principal repetida: "+c["number"])
+        original_counts[c["number"]]=original_counts.get(c["number"],0)+1
+    duplicates=0
+    for c in cards:
+        if original_counts[c["number"]]>1:
             c["number"]=f"{c['number']} (ref. {c['sourceId']})"
-        if c["number"] in seen_numbers:
-            raise ValueError("Posição repetida após desambiguação: "+c["number"])
-        seen_numbers.add(c["number"])
+            c["positionDisambiguated"]=True
+            duplicates+=1
+    if len({c["number"] for c in cards})!=len(cards):
+        raise ValueError("Posições repetidas após desambiguação")
+    if duplicates:
+        print(f"{slug}: {duplicates} posições ambíguas distinguidas por sourceId",flush=True)
     if sum(not c["optional"] for c in cards)<col["stickers_count"]:
         raise ValueError("Coleção principal incompleta")
 
