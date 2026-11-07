@@ -1,0 +1,14 @@
+{
+  "name": "fut-album-library",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FUT: coleções de cromos digitais de futebol",
+  "scripts": {
+    "build": "node scripts/unpack-data.mjs",
+    "test": "python3 scripts/verify_catalogs.py"
+  },
+  "dependencies": {
+    "@vercel/functions": "3.11.0"
+  }
+}
