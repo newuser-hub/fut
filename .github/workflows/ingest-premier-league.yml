@@ -21,38 +21,23 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Diagnóstico da checklist oficial Topps
+      - name: Diagnosticar formato da checklist oficial
         shell: bash
         run: |
           set -euo pipefail
           curl -fsSL --retry 3 'https://cdn.shopify.com/s/files/1/0739/2015/1805/files/26_27_Topps_Flagship_Premier_League_Checklist_2.pdf?v=1784890627' -o /tmp/premier.pdf
-          file /tmp/premier.pdf
           python3 -m pip install --quiet pymupdf
-          python3 - <<'PY' >/tmp/premier.txt
-          import fitz
-          doc=fitz.open('/tmp/premier.pdf')
-          for idx,page in enumerate(doc):
-            print(f'===== PAGE {idx} =====')
-            print(page.get_text(sort=True))
-          PY
           python3 - <<'PY'
+          import fitz
           import re
-          s=open('/tmp/premier.txt').read().splitlines()
-          print('TOTAL LINES:',len(s))
-          print('---- FIRST 30 ----')
-          for i,x in enumerate(s[:30]): print(i,repr(x))
-          print('---- SELECTED 40 ----')
+          doc=fitz.open('/tmp/premier.pdf')
+          s=[]
+          for idx,page in enumerate(doc):
+            s.extend([f'===== PAGE {idx} =====']+page.get_text(sort=True).splitlines())
+          print('TOTAL LINES',len(s))
+          for i,x in enumerate(s[1140:1180],1140):print(i,repr(x))
+          print('==== HEADERS ====')
           for i,x in enumerate(s):
-            if re.search(r'(^|\s)(?:DA-DS|DA-ZP|BR-AC|BA-OW|CA-AC|1\s+Max Dowman|300\s)',x):
+            if re.match(r'^[ \t]*[A-Z][A-Z0-9 /&-]{5,}[ \t]*$',x):
               print(i,repr(x))
-          print('---- DUAL AUTOGRAPH BLOCK ----')
-          for i,x in enumerate(s[1140:1180],1140): print(i,repr(x))
-          print('---- HEADERS ----')
-          for i,x in enumerate(s):
-            if re.match(r'^\s*[A-Z][A-Z0-9 /&-]{5,}\s*
-          for i,x in enumerate(s[-20:],len(s)-20):print(i,repr(x))
-          PY
-,x):print(i,repr(x))
-          print('---- LAST 20 ----')
-          for i,x in enumerate(s[-20:],len(s)-20):print(i,repr(x))
           PY
