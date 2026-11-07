@@ -207,5 +207,27 @@
     "status": "active",
     "cover": "https://www.stickersone.com/images/albums/jpg/4380.jpg",
     "description": "Caderneta francesa de 2025/26, com 556 cromos e imagens individuais de quase todas as posições."
+  },
+  {
+    "id": "euro-poland-ukraine-2012",
+    "title": "Euro 2012 — Polónia/Ucrânia",
+    "year": "2012",
+    "count": null,
+    "sections": null,
+    "category": "Seleções · Europeu",
+    "status": "soon",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/A72u13LAtgWaOV2Jfss9S27rfiqtvBlh7hru8ZMs.jpg",
+    "description": "Candidato Panini: 540 cromos principais e 15 extras. Auditoria integral pendente."
+  },
+  {
+    "id": "world-cup-germany-2006",
+    "title": "Mundial Alemanha 2006",
+    "year": "2006",
+    "count": null,
+    "sections": null,
+    "category": "Seleções · Mundial",
+    "status": "soon",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/h2Kp7zHCi1nmMXtMCnY75gE7ElgjgAb7mo6n2uVS.jpg",
+    "description": "Candidato Panini: 597 cromos principais e 8 extras. Auditoria integral pendente."
   }
 ]
