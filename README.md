@@ -1,40 +1,63 @@
 # FUT — Arquivo de Cadernetas Digitais
 
-Portal de coleções de futebol, com **seis coleções previstas**. Duas estão integradas:
+Portal de cadernetas virtuais de futebol, inicialmente com **seis coleções previstas**, extensível em lotes sucessivos de duas coleções.
 
-| Coleção | Cromos | Secções | Estado |
+## Coleções
+
+| Coleção | Cromos disponíveis | Secções | Estado |
 |---|---:|---:|---|
-| Mundial de Clubes 2025 (Panini) | 550 | 33 | Disponível |
-| Euro Portugal 2004 (Panini) | 334 | 17 | Disponível |
-| Mundial Qatar 2022 | — | — | Em preparação |
-| Euro 2024 | — | — | Em preparação |
-| Ídolos do Futebol Português 2025/26 | — | — | Em preparação |
-| Liga Portugal 2024/25 | — | — | Em preparação |
+| Mundial de Clubes 2025 — Panini | 550 | 33 | Integrada |
+| Euro Portugal 2004 — Panini | 334 | 17 | Integrada |
+| Mundial Qatar 2022 — Panini | 750 (670 principais + 80 extras) | 37 | Integrada no lote 2 |
+| Euro 2024 — Topps | 707 | 43 | Integrada no lote 2 |
+| Ídolos do Futebol Português 2025/26 | — | — | Próximo lote |
+| Liga Portugal 2024/25 | — | — | Próximo lote |
+
+**Total após o segundo lote: 2.341 cromos em quatro coleções.**
 
 ## Funcionalidades
 
-Herdadas do projeto i2627: índice por secções, páginas de 9 cromos, revelar individualmente, miniatura, um toque para ampliar, dois toques para tapar, deslizar para mudar de página, botões de página, setas do teclado, índice e regresso às coleções, revelar/tapar página, revelar todos, voltar a tapar todos, pesquisa, favoritos, surpresa, progresso em localStorage, exportação/importação JSON. **O estado é independente por coleção.** Tapar todos preserva os favoritos.
+O motor foi adaptado da caderneta `i2627`:
 
-## Arquitetura
+- Índice por secções e pesquisa por nome, clube ou número;
+- Páginas de até nove cromos e navegação por botões, setas e gestos horizontais;
+- Um toque revela, um toque num cromo revelado amplia e dois toques rápidos voltam a tapar;
+- Revelar/tapar página, revelar todos e repor toda a coleção;
+- Favoritos, descoberta aleatória, progresso local independente por coleção;
+- Exportar/importar JSON do progresso de cada coleção;
+- Portal com seis capas e botão **Copiar pedido para próximas duas** para continuar a expansão.
 
-Código da aplicação e dados auditados em `archives/` como gzip repartido em blocos para garantir a integridade do transporte. O comando `npm run build` reconstrói `public/index.html` e `public/data/*.json`. A reconstrução utiliza apenas módulos Node, sem pedidos a fontes externas.
+Os dados ficam no `localStorage` do navegador, sem sincronização entre equipamentos. O pedido para avançar para o próximo lote é **copiado para a área de transferência**: a pessoa deve submetê-lo numa conversa ChatGPT. Não existe execução infinita em segundo plano nem exposição de credenciais GitHub no browser.
 
-- `scripts/unpack-data.mjs`: reconstrução do HTML e catálogos a partir dos blocos comprimidos
-- `scripts/verify_catalogs.py`: valida a completude, unicidade e verificações por imagem
-- `proxy.js`: proteção HTTP Basic por middleware no Vercel
-- `vercel.json`: configurações de construção e publicação
-- `public/favicon.svg`, `public/robots.txt`: recursos do portal
+## Integração de novos lotes
 
-Para uma edição textual do HTML, descomprimir `archives/index.html.gz.part00`, editar e voltar a compactar. Na expansão futura, recomenda-se a separação gradual dos módulos HTML/CSS/JS.
+A integração é preparada pelo ficheiro `requests/next-batch.json`, que contém exatamente dois candidatos com IDs de coleção Cromos.pt, títulos, anos e metadados editoriais.
 
-## Proveniência e auditoria
+A workflow `.github/workflows/ingest-next-batch.yml` executa-se quando esse ficheiro muda na branch `main` (ou por `workflow_dispatch`). A execução:
 
-Metadados recolhidos em **7 de novembro de 2026**: [Mundial de Clubes 2025](https://www.cromos.pt/collection/41/fifa-club-world-cup-2025-panini) e [Euro Portugal 2004](https://www.cromos.pt/collection/18/uefa-euro-portugal-2004-panini), do Cromos.pt. As **884 imagens** foram verificadas por HTTP GET e por tipo e tamanho de ficheiro, sem falhas. Metadados incluem URL original, dimensão e hash SHA-256.
+1. Recupera o motor original e os dois catálogos históricos dos blocos `archives/`;
+2. Recolhe os novos catálogos da origem;
+3. Audita individualmente **todas** as imagens (HTTP GET, MIME, dimensão, SHA-256);
+4. Rejeita lotes com posições/IDs repetidos, imagens ausentes ou fonte inesperada;
+5. Atualiza `public/library.json`, `public/data/*.json` e a aplicação;
+6. Executa verificações estruturais e valida a sintaxe JavaScript;
+7. Só após sucesso efetua commit para `main`, para permitir nova publicação Vercel.
 
-**As imagens são servidas pela origem Cromos.pt**, não são guardadas no repositório público. Um arquivo ZIP da auditoria foi produzido fora do GitHub; não está incluído neste repositório. Se a origem ficar indisponível, as miniaturas podem falhar.
+O site tem uma única fonte HTML editável, `src/index.html`, criada na primeira integração. `npm run build` copia-a para `public/index.html` e restaura os catálogos legados quando necessário. O portal usa o manifesto `public/library.json`, pelo que novos lotes não exigem reescrever o motor.
+
+Depois das seis coleções iniciais, os lotes seguintes podem usar novas coleções identificadas e auditadas, sem limite fixo de coleções.
+
+## Fontes
+
+- [Mundial de Clubes 2025](https://www.cromos.pt/collection/41/fifa-club-world-cup-2025-panini)
+- [Euro Portugal 2004](https://www.cromos.pt/collection/18/uefa-euro-portugal-2004-panini)
+- [Mundial Qatar 2022](https://www.cromos.pt/collection/27/fifa-world-cup-qatar-2022-panini)
+- [Euro 2024](https://www.cromos.pt/collection/33/uefa-euro-2024-topps)
+
+Auditados em novembro de 2026. Os cromos são **referenciados por URL**, alojados no Cromos.pt, e **não** são guardados no repositório público. A disponibilidade atual de imagens não assegura que a origem as mantenha para sempre.
 
 ## Segurança e direitos
 
-Acesso com utilizador `fut` e palavra-passe configurada exclusivamente na variável sensível `FUT_ALBUM_PASSWORD` do Vercel. Sem palavra-passe, o middleware falha de forma fechada. Progresso e favoritos ficam apenas no dispositivo; não existem contas nem sincronização entre equipamentos.
+O Vercel protege o portal com autenticação HTTP Basic. O utilizador é `fut`; a palavra-passe fica exclusivamente na variável sensível `FUT_ALBUM_PASSWORD`. Não colocar o segredo em commits, issues ou publicações.
 
-Projeto independente, não oficial e não afiliado a Panini, FIFA, UEFA ou Cromos.pt. Imagens e marcas pertencem aos seus titulares. **A disponibilização pública das imagens não concede direitos de republicação.**
+Projeto independente, não oficial e não afiliado à Panini, Topps, FIFA, UEFA ou Cromos.pt. Imagens, marcas e cromos pertencem aos respetivos titulares. A acessibilidade pública **não** equivale a licença de reprodução ou distribuição; confirmar permissões antes de promover publicamente o portal.

@@ -1,20 +1,34 @@
 #!/usr/bin/env python3
-"""Validação reprodutível dos catálogos estáticos do portal."""
+"""Integridade do FUT: todos os catálogos ativos completos, sem duplicados."""
 from pathlib import Path
 import json
-ROOT=Path(__file__).resolve().parent.parent
-EXPECTED={'club-world-cup-2025':(550,33),'euro-2004':(334,17)}
-for slug,(count,sections) in EXPECTED.items():
- path=ROOT/'public/data'/f'{slug}.json'
- d=json.loads(path.read_text(encoding='utf8'))
- cards=d['cards']
- assert len(cards)==count,(slug,len(cards),count)
- assert len(d['sections'])==sections,(slug,len(d['sections']),sections)
- ids=[x['id'] for x in cards]
- positions=[x['number'] for x in cards]
- assert len(set(ids))==count and len(set(positions))==count
- assert positions==[str(i) for i in range(1,count+1)],slug
- assert all(c['name'] and c['section'] and c['available'] and c['image'] and c['sha256'] and c['bytes']>1000 for c in cards)
- assert all(c['image'].startswith('https://www.cromos.pt/storage/uploads/stickers/') for c in cards)
- print(f'{slug}: {count} cromos, {sections} secções, {sum(c["bytes"] for c in cards):,} bytes de imagens auditados')
-print('PASS: 884 cromos auditados, sem duplicados ou imagens em falta.')
+
+root=Path(__file__).resolve().parent.parent
+manifest=root/'public/library.json'
+if manifest.exists():
+    library=json.loads(manifest.read_text(encoding='utf-8'))
+    active=[x for x in library if x['status']=='active']
+else:
+    active=[
+      {'id':'club-world-cup-2025','count':550,'sections':33},
+      {'id':'euro-2004','count':334,'sections':17}
+    ]
+
+assert len(set(x['id'] for x in library))==len(library) if manifest.exists() else True
+total=0
+for entry in active:
+    cat=json.loads((root/'public/data'/f"{entry['id']}.json").read_text(encoding='utf-8'))
+    cards=cat['cards']
+    n=len(cards)
+    assert n==entry['count'],(entry['id'],'count',n)
+    assert len(cat['sections'])==entry['sections'],(entry['id'],'sections')
+    assert cat['id']==entry['id']
+    assert len({c['id'] for c in cards})==n,(entry['id'],'duplicate ids')
+    assert len({str(c['number']) for c in cards})==n,(entry['id'],'duplicate positions')
+    assert all(c.get('available') and c.get('sha256') and c.get('bytes',0)>1000 for c in cards),(entry['id'],'image not verified')
+    assert all(c.get('image','').startswith('https://www.cromos.pt/storage/uploads/stickers/') for c in cards)
+    assert all(c['name'] and c['section'] for c in cards)
+    total+=n
+    print(f"{entry['id']}: {n} cromos / {len(cat['sections'])} secções")
+print(f"PASS: {len(active)} collections, {total} distinct image-verified cards")
+

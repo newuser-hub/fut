@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "batch": 2,
+  "collections": [
+    {
+      "id": "qatar-2022",
+      "sourceId": 27,
+      "sourceSlug": "fifa-world-cup-qatar-2022-panini",
+      "title": "Mundial Qatar 2022",
+      "subtitle": "FIFA World Cup Qatar 2022 · Panini",
+      "year": "2022",
+      "publisher": "Panini",
+      "category": "Seleções · Mundial",
+      "description": "As 32 seleções do Qatar 2022, incluindo os 80 cromos de atualização."
+    },
+    {
+      "id": "euro-2024",
+      "sourceId": 33,
+      "sourceSlug": "uefa-euro-2024-topps",
+      "title": "Euro 2024",
+      "subtitle": "UEFA EURO 2024 · Topps",
+      "year": "2024",
+      "publisher": "Topps",
+      "category": "Seleções · Europeu",
+      "description": "As seleções do Euro 2024, com jogadores, grupos e cromos especiais."
+    }
+  ]
+}
+
