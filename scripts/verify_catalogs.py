@@ -31,10 +31,12 @@ for entry in active:
     verified=[c for c in cards if c.get('available') and c.get('sha256')]
     linked=[c for c in cards if c.get('available') and not c.get('sha256')]
     unavailable=[c for c in cards if not c.get('available')]
-    assert all(c.get('bytes',0)>1000 and (
-        c.get('image') or '').startswith(
-        'https://images.topps.com/' if official else 'https://www.cromos.pt/storage/uploads/stickers/'
-        ) for c in verified),(entry['id'],'image audit invalid')
+    stickersone=cat.get('catalogueMode')=='stickerone-image-audit'
+    permitted_prefix=('https://images.topps.com/' if official else
+        'https://stickersone.com/images/figurine/' if stickersone else
+        'https://www.cromos.pt/storage/uploads/stickers/')
+    assert all(c.get('bytes',0)>1000 and (c.get('image') or '').startswith(
+        permitted_prefix) for c in verified),(entry['id'],'image audit invalid')
     assert all(not c.get('image') and not c.get('sha256') for c in unavailable),(entry['id'],'unavailable image metadata')
     required=[c for c in cards if not c.get('optional')]
     if official:
@@ -48,7 +50,19 @@ for entry in active:
             for c in linked),(entry['id'],'preview link provenance')
     else:
         assert not linked,(entry['id'],'unverified image present')
-        assert len([c for c in required if c.get('available')])>=.8*len(required),(entry['id'],'too many primary images missing')
+        if stickersone:
+            assert cat['source'].startswith(('https://stickersone.com/',
+                'https://www.stickersone.com/'))
+            expected={'serie-a-calciatori-2026-27':(827,589),
+                      'ligue-1-foot-2025-26':(556,556)}
+            assert entry['id'] in expected and (n,len(required))==expected[entry['id']]
+            assert all(c.get('originalNumber')==c['number'] and
+                c.get('sourceDetail','').startswith(('https://stickersone.com/',
+                    'https://www.stickersone.com/')) for c in cards)
+            assert len(verified)>=.85*n,(entry['id'],'insufficient overall coverage')
+            assert all('/vuote/' not in (c.get('image') or '') for c in verified)
+        else:
+            assert len([c for c in required if c.get('available')])>=.8*len(required),(entry['id'],'too many primary images missing')
     assert all(c['id'] and c.get('originalNumber',c['number']) is not None for c in cards)
     if 'imageAudit' in cat:
         assert cat['imageAudit']['available']==len(verified)+len(linked)
