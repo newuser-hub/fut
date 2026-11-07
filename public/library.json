@@ -91,21 +91,23 @@
     "id": "euro-france-2016",
     "title": "Euro França 2016",
     "year": "2016",
-    "count": null,
-    "sections": null,
+    "count": 767,
+    "sections": 25,
     "category": "Seleções · Europeu",
-    "status": "soon",
-    "description": "Portugal campeão europeu de 2016: coleção Panini a auditar antes da integração."
+    "status": "active",
+    "description": "O Europeu conquistado por Portugal em 2016, com cromos das seleções e 87 variantes e atualizações.",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/CXMLrSI05IylZQsOrJT3gL73F6cCzzhgO3ebn16N.jpg"
   },
   {
     "id": "world-cup-russia-2018",
     "title": "Mundial Rússia 2018",
     "year": "2018",
-    "count": null,
-    "sections": null,
+    "count": 787,
+    "sections": 37,
     "category": "Seleções · Mundial",
-    "status": "soon",
-    "description": "Mundial de 2018, com Portugal e cromos especiais; catálogo por auditar."
+    "status": "active",
+    "description": "As seleções do Mundial 2018, com 686 cromos principais e 101 cromos adicionais.",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/WV63cNx4eLNXvgTE1MfDkyiPSzb0tTwMOAa01VwF.jpg"
   },
   {
     "id": "laliga-este-2026-27",
