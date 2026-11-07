@@ -1,0 +1,67 @@
+name: FUT - Integrar lote 1 do roteiro de 20 coleções
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "requests/roadmap-batch.json"
+      - ".github/workflows/ingest-roadmap-batch.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# A mesma fila dos lotes principais: nunca modifica os catálogos em simultâneo.
+concurrency:
+  group: fut-ingest-collections
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      # main é obtida no início da execução, depois de outros lotes acabarem.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validar situação e reconstruir ficheiros legados
+        run: |
+          git log -1 --format='HEAD %H %s'
+          node scripts/unpack-data.mjs
+          python3 scripts/verify_expansion_plan.py
+      - name: Importar Mundial 2026 e Liga Portugal 2025-26
+        run: python3 -u scripts/ingest_batch.py requests/roadmap-batch.json
+      - name: Validar TODAS as coleções e frontend
+        run: |
+          node scripts/unpack-data.mjs
+          python3 scripts/verify_catalogs.py
+          python3 scripts/verify_expansion_plan.py
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          html=Path("public/index.html").read_text(encoding="utf-8")
+          scripts=re.findall(r"<script[^>]*>(.*?)</script>",html,re.S)
+          assert len(scripts)==1
+          assert "roadmap-grid" in html and "roadmap-copy" in html
+          Path("/tmp/fut-roadmap-batch.js").write_text(scripts[0],encoding="utf-8")
+          PY
+          node --check /tmp/fut-roadmap-batch.js
+      - name: Commit e publicação sem reescrever pedidos em paralelo
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/index.html public/index.html public/library.json public/data
+          if git diff --cached --quiet; then
+            echo "Lote já presente; sem alterações"
+            exit 0
+          fi
+          git commit -m "Integrar primeiro lote do roteiro FUT: Mundial 2026 e Liga Portugal [skip actions]"
+          git push origin HEAD:main
