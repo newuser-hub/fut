@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "batch": 5,
+  "collections": [
+    {
+      "id": "laliga-este-2026-27",
+      "sourceId": 337,
+      "sourceSlug": "laliga-2026-2027-este-panini",
+      "title": "LaLiga ESTE 2026/27",
+      "subtitle": "LaLiga 2026–2027 · Colección ESTE Panini",
+      "year": "26/27",
+      "publisher": "Panini",
+      "category": "Clubes · Liga Espanhola",
+      "description": "Cromos Panini da LaLiga 2026/27, com clubes, plantéis, destaques e atualizações."
+    },
+    {
+      "id": "laliga-megacracks-2026-27",
+      "sourceId": 80,
+      "sourceSlug": "laliga-2026-2027-megacracks-panini",
+      "title": "LaLiga Megacracks 2026/27",
+      "subtitle": "LaLiga 2026–2027 · Megacracks Panini",
+      "year": "26/27",
+      "publisher": "Panini",
+      "category": "Clubes · Liga Espanhola",
+      "description": "Cartas Megacracks Panini da LaLiga 2026/27, com jogadores, equipas e séries especiais."
+    }
+  ]
+}

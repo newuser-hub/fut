@@ -1,28 +1,30 @@
 {
   "version": 1,
-  "batch": 5,
+  "batch": 6,
   "collections": [
     {
-      "id": "laliga-este-2026-27",
-      "sourceId": 337,
-      "sourceSlug": "laliga-2026-2027-este-panini",
-      "title": "LaLiga ESTE 2026/27",
-      "subtitle": "LaLiga 2026–2027 · Colección ESTE Panini",
-      "year": "26/27",
+      "id": "euro-france-2016",
+      "sourceId": 24,
+      "sourceSlug": "uefa-euro-france-2016-panini",
+      "title": "Euro França 2016",
+      "subtitle": "UEFA Euro France 2016 · Panini",
+      "year": "2016",
       "publisher": "Panini",
-      "category": "Clubes · Liga Espanhola",
-      "description": "Cromos Panini da LaLiga 2026/27, com clubes, plantéis, destaques e atualizações."
+      "category": "Seleções · Europeu",
+      "description": "O Europeu conquistado por Portugal em 2016, com cromos das seleções e 87 variantes e atualizações.",
+      "requireAllImages": true
     },
     {
-      "id": "laliga-megacracks-2026-27",
-      "sourceId": 80,
-      "sourceSlug": "laliga-2026-2027-megacracks-panini",
-      "title": "LaLiga Megacracks 2026/27",
-      "subtitle": "LaLiga 2026–2027 · Megacracks Panini",
-      "year": "26/27",
+      "id": "world-cup-russia-2018",
+      "sourceId": 25,
+      "sourceSlug": "fifa-world-cup-russia-2018-panini",
+      "title": "Mundial Rússia 2018",
+      "subtitle": "FIFA World Cup Russia 2018 · Panini",
+      "year": "2018",
       "publisher": "Panini",
-      "category": "Clubes · Liga Espanhola",
-      "description": "Cartas Megacracks Panini da LaLiga 2026/27, com jogadores, equipas e séries especiais."
+      "category": "Seleções · Mundial",
+      "description": "As seleções do Mundial 2018, com 686 cromos principais e 101 cromos adicionais.",
+      "requireAllImages": true
     }
   ]
 }
