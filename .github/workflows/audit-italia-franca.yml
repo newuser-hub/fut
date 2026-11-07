@@ -33,6 +33,7 @@ jobs:
           urls={
            'italia':'https://stickersone.com/it/albumgrid-calciatori-2026-2027-panini-4689',
            'franca':'https://stickersone.com/en/albumgrid-ligue-1-2026-2027-adrenalyn-xl-panini-4650',
+           'franca25':'https://www.stickersone.com/it/albumgrid-foot-ligue-1-2025-2026-panini-4380',
           }
           for key,url in urls.items():
             html=urlopen(Request(url,headers={'User-Agent':'Mozilla/5.0'}),timeout=25).read(3_000_000)
