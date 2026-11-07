@@ -163,5 +163,27 @@
     "status": "active",
     "cover": null,
     "description": "Checklist oficial de 1.138 cartas. Imagens apenas quando existe uma pré-visualização oficial verificável; restantes sem fotografia."
+  },
+  {
+    "id": "euro-2020-tournament",
+    "title": "Euro 2020 — Tournament Edition",
+    "year": "2020",
+    "count": null,
+    "sections": null,
+    "category": "Seleções · Europeu",
+    "status": "soon",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/KZhiCW8793g9pD6QxOtcnwhZ4Z5kywtEQAGVKlwI.png",
+    "description": "Panini Tournament Edition: 750 cromos identificados, pendentes de auditoria integral."
+  },
+  {
+    "id": "world-cup-south-africa-2010",
+    "title": "Mundial África do Sul 2010",
+    "year": "2010",
+    "count": null,
+    "sections": null,
+    "category": "Seleções · Mundial",
+    "status": "soon",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/LkDtLSvQDXslZOjeT4UFMQJynVdst3D31ICOZg86.jpg",
+    "description": "Panini: 640 cromos principais e 77 extras, pendentes de auditoria integral."
   }
 ]
