@@ -1,6 +1,6 @@
 # FUT — Arquivo de Cadernetas Digitais
 
-Portal de cadernetas virtuais de futebol, com **doze coleções ativas** e uma expansão autorizada por lotes sucessivos de duas coleções, sem um limite predefinido.
+Portal de cadernetas virtuais de futebol, com **quinze coleções ativas** e uma expansão autorizada por lotes sucessivos de duas coleções, sem um limite predefinido.
 
 ## Coleções
 
@@ -18,10 +18,13 @@ Portal de cadernetas virtuais de futebol, com **doze coleções ativas** e uma e
 | LaLiga Megacracks 2026/27 — Panini | 534 (450 principais + 84 extras; 451 com fotografia) | 33 | Integrada no lote 5 |
 | UEFA Euro França 2016 — Panini | 767 (680 principais + 87 extras) | 25 | Integrada neste lote |
 | Mundial Rússia 2018 — Panini | 787 (686 principais + 101 extras) | 37 | Integrada neste lote |
-| Mundial Brasil 2014 — Panini | — | — | Candidata ao próximo lote; imagens por auditar |
-| Copa América 2024 — Panini | — | — | Candidata ao próximo lote; imagens por auditar |
+| Mundial Brasil 2014 — Panini | 746 (643 principais + 103 extras) | 35 | Integrada; 746/746 imagens verificadas |
+| Copa América 2024 — Panini | 430 | 22 | Integrada; 430/430 imagens verificadas |
+| Premier League Flagship 2026/27 — Topps | 1.138 posições (imagens apenas quando verificadas) | 44 | Integrada em paralelo |
+| Euro 2020 Tournament Edition — Panini | — | — | Próximo lote; por auditar |
+| Mundial África do Sul 2010 — Panini | — | — | Próximo lote; por auditar |
 
-**Total atual: 7.434 posições em doze coleções ativas.** As novas cadernetas Euro França 2016 e Mundial Rússia 2018 acrescentaram **1.554 cromos (767 + 787), todos com imagens verificadas por HTTP GET, MIME, tamanho e SHA-256**.  As duas coleções espanholas acrescentaram 1.277 posições em 67 secções, das quais **1.074 têm imagem verificada e 203 não têm fotografia acessível** na fonte em 7 de novembro de 2026. O catálogo ESTE apresenta quatro entradas com numeração impressa coincidente (dois pares); os números originais foram mantidos e cada posição recebeu uma referência inequívoca da origem para navegação. As duas cadernetas portuguesas acrescentadas neste lote têm **966 imagens verificadas em 966 posições** (438 na edição 2021/22 e 528 na edição 2024/25). Ídolos 2025/26 foi substituída por ter quatro cartas de autógrafos sem fotografia no catálogo de referência. As edições Match Attax de 2025/26 e 2026/27 foram integradas e publicadas em 7 de novembro de 2026, preservando as quatro coleções anteriores. Das 1.296 novas cartas, 1.184 têm imagem verificada por HTTP GET, MIME, dimensão e SHA-256 (662 e 522, respetivamente). As restantes 112 posições mantêm-se navegáveis com a indicação de imagem indisponível. Nenhuma fotografia foi inventada.
+**Total atual: 9.748 posições em quinze coleções ativas.** Mundial Brasil 2014 e Copa América 2024 acrescentaram **1.176 cromos em 57 secções, com 1.176/1.176 imagens verificadas**. Uma execução paralela adicionou também a Premier League Flagship 2026/27 (1.138 posições, 44 secções), com imagens apenas onde existe pré-visualização oficial verificável.  As novas cadernetas Euro França 2016 e Mundial Rússia 2018 acrescentaram **1.554 cromos (767 + 787), todos com imagens verificadas por HTTP GET, MIME, tamanho e SHA-256**.  As duas coleções espanholas acrescentaram 1.277 posições em 67 secções, das quais **1.074 têm imagem verificada e 203 não têm fotografia acessível** na fonte em 7 de novembro de 2026. O catálogo ESTE apresenta quatro entradas com numeração impressa coincidente (dois pares); os números originais foram mantidos e cada posição recebeu uma referência inequívoca da origem para navegação. As duas cadernetas portuguesas acrescentadas neste lote têm **966 imagens verificadas em 966 posições** (438 na edição 2021/22 e 528 na edição 2024/25). Ídolos 2025/26 foi substituída por ter quatro cartas de autógrafos sem fotografia no catálogo de referência. As edições Match Attax de 2025/26 e 2026/27 foram integradas e publicadas em 7 de novembro de 2026, preservando as quatro coleções anteriores. Das 1.296 novas cartas, 1.184 têm imagem verificada por HTTP GET, MIME, dimensão e SHA-256 (662 e 522, respetivamente). As restantes 112 posições mantêm-se navegáveis com a indicação de imagem indisponível. Nenhuma fotografia foi inventada.
 
 ## Funcionalidades
 
@@ -65,8 +68,10 @@ Concluídas as dez cadernetas atuais, os lotes seguintes podem usar novas coleç
 - [Futebol 2024/25](https://www.cromos.pt/collection/52/futebol-2024-2025-panini)
 - [Euro França 2016](https://www.cromos.pt/collection/24/uefa-euro-france-2016-panini)
 - [Mundial Rússia 2018](https://www.cromos.pt/collection/25/fifa-world-cup-russia-2018-panini)
-- [Mundial Brasil 2014 — candidato](https://www.cromos.pt/collection/23/fifa-world-cup-brazil-2014-panini)
-- [Copa América 2024 — candidata](https://www.cromos.pt/collection/42/copa-america-2024-panini)
+- [Mundial Brasil 2014](https://www.cromos.pt/collection/23/fifa-world-cup-brazil-2014-panini)
+- [Copa América 2024](https://www.cromos.pt/collection/42/copa-america-2024-panini)
+- [Euro 2020 Tournament Edition — candidata](https://www.cromos.pt/collection/26/uefa-euro-2020-tournament-edition-panini)
+- [Mundial África do Sul 2010 — candidato](https://www.cromos.pt/collection/21/fifa-world-cup-south-africa-2010-panini)
 - [Match Attax 2025/26](https://www.cromos.pt/collection/50/match-attax-2025-2026-topps)
 - [Match Attax 2026/27](https://www.cromos.pt/collection/81/topps-uefa-champions-league-europa-league-2026-2027-match-attax)
 - [LaLiga ESTE 2026/27](https://www.cromos.pt/collection/337/laliga-2026-2027-este-panini)
