@@ -212,22 +212,22 @@
     "id": "euro-poland-ukraine-2012",
     "title": "Euro 2012 — Polónia/Ucrânia",
     "year": "2012",
-    "count": null,
-    "sections": null,
+    "count": 555,
+    "sections": 20,
     "category": "Seleções · Europeu",
-    "status": "soon",
+    "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/A72u13LAtgWaOV2Jfss9S27rfiqtvBlh7hru8ZMs.jpg",
-    "description": "Candidato Panini: 540 cromos principais e 15 extras. Auditoria integral pendente."
+    "description": "Euro 2012: 540 cromos principais e 15 extras, com Portugal entre as seleções."
   },
   {
     "id": "world-cup-germany-2006",
     "title": "Mundial Alemanha 2006",
     "year": "2006",
-    "count": null,
-    "sections": null,
+    "count": 605,
+    "sections": 35,
     "category": "Seleções · Mundial",
-    "status": "soon",
+    "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/h2Kp7zHCi1nmMXtMCnY75gE7ElgjgAb7mo6n2uVS.jpg",
-    "description": "Candidato Panini: 597 cromos principais e 8 extras. Auditoria integral pendente."
+    "description": "Mundial Alemanha 2006: 597 cromos principais e 8 cromos adicionais."
   }
 ]
