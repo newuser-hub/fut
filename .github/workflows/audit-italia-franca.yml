@@ -31,6 +31,7 @@ jobs:
         run: python3 -m pip install --quiet beautifulsoup4
       - name: Auditar todos os cromos e as imagens de ambas as ligas
         run: python3 -u scripts/ingest_italia_franca.py
+      # As séries extra podem não ter fotografia; a cobertura do conjunto principal é auditada.
       - name: Validar integridade das coleções e JavaScript
         run: |
           node scripts/unpack-data.mjs
