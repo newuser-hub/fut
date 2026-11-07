@@ -177,7 +177,17 @@
       "declaredMainCount": 584,
       "description": "Edição UEFA Champions League 2025–2026 · Topps; 584 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/49/uefa-champions-league-2025-2026-topps",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-07",
+        "positions": 584,
+        "principal": 584,
+        "principalWithImage": 574,
+        "verifiedImages": 574,
+        "missingImages": 10,
+        "sections": 44,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42421482706"
+      }
     },
     {
       "priority": 8,
@@ -192,7 +202,17 @@
       "declaredMainCount": 445,
       "description": "Edição Match Attax Extra 2025–2026 · Topps; 445 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/51/match-attax-extra-2025-2026-topps",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-07",
+        "positions": 445,
+        "principal": 445,
+        "principalWithImage": 416,
+        "verifiedImages": 416,
+        "missingImages": 29,
+        "sections": 71,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42421482706"
+      }
     },
     {
       "priority": 9,
@@ -222,7 +242,16 @@
       "declaredMainCount": 478,
       "description": "Edição FIFA 365 2024 · Panini; 478 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/321/fifa-365-2024-panini",
-      "imageAudit": "pending"
+      "imageAudit": "blocked",
+      "auditSummary": {
+        "auditedAt": "2026-11-07",
+        "positions": 478,
+        "principal": 478,
+        "principalWithImage": 0,
+        "verifiedImages": 0,
+        "reason": "O catálogo Cromos.pt ID 321 contém 478 entradas, mas 0 caminhos para fotografias individuais; alternativa ainda não certificada.",
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42419529030"
+      }
     },
     {
       "priority": 11,
@@ -394,6 +423,23 @@
       "rationale": "Sem fotografias individuais nas duas edições FIFA 365 2027, foi integrada a próxima candidata elegível do plano: Mundial FIFA 2026 Adrenalyn XL.",
       "auditRun": "https://github.com/newuser-hub/fut/actions/runs/42419529030",
       "integrationRun": "https://github.com/newuser-hub/fut/actions/runs/42419643838"
+    },
+    {
+      "batch": "roadmap-3",
+      "authorized": [
+        49,
+        51
+      ],
+      "integrated": [
+        "ucl-topps-2025-26",
+        "match-attax-extra-2025-26"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/42421482706",
+      "actualPositions": 1029,
+      "verifiedImages": 990,
+      "missingImages": 39,
+      "evidence": "Todas as imagens existentes foram descarregadas, verificadas por HTTP, MIME, dimensão e SHA-256. 990 hashes distintos; 39 posições sem fotografia.",
+      "preservation": "As 25 coleções existentes e a lógica local de progresso foram mantidas; o commit de integração adicionou apenas dois ficheiros JSON e duas entradas no manifesto."
     }
   ]
 }
