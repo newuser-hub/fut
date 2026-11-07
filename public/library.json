@@ -44,22 +44,26 @@
     "cover": "https://www.cromos.pt/storage/uploads/collections/Lw2mMqeDKccvAOty6IHqoUNkbr2JppHaRYZYELsX.jpg"
   },
   {
-    "id": "idolos-2025-26",
-    "title": "Ídolos 2025/26",
-    "year": "25/26",
-    "category": "Futebol português",
-    "status": "soon",
-    "count": null,
-    "description": "Os ídolos dos clubes portugueses na época 2025/26."
+    "id": "liga-2021-22",
+    "title": "Liga Portugal 2021/22",
+    "year": "21/22",
+    "count": 438,
+    "sections": 23,
+    "category": "Liga Portugal",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/AdQFsN65PbTr4193YT40g0N7OqrEPfJW5cvGvuk9.png",
+    "description": "Uma época histórica do futebol português, com 421 cromos principais e 17 extras."
   },
   {
     "id": "liga-2024-25",
     "title": "Liga Portugal 2024/25",
     "year": "24/25",
     "category": "Liga Portugal",
-    "status": "soon",
-    "count": null,
-    "description": "A coleção oficial do futebol português de 2024/25."
+    "status": "active",
+    "count": 528,
+    "description": "As equipas da Liga Portugal 2024/25, com 497 cromos principais e 31 extras.",
+    "sections": 27,
+    "cover": "https://www.cromos.pt/storage/uploads/collection/4PoROTCkRarkoNEpcnHPlgrgjKrpuaaw7hc3FM1F.png"
   },
   {
     "id": "match-attax-2025-26",
