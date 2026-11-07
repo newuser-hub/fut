@@ -12,10 +12,10 @@ Portal de cadernetas virtuais de futebol, inicialmente com **seis coleções pre
 | Euro 2024 — Topps | 707 | 43 | Integrada no lote 2 |
 | Ídolos do Futebol Português 2025/26 | — | — | Próximo lote |
 | Liga Portugal 2024/25 | — | — | Próximo lote |
-| Champions League Match Attax 2025/26 — Topps | 738 anunciadas pela fonte | 77 | Lote 3 em auditoria |
-| Champions League & Europa League Match Attax 2026/27 — Topps | 491 principais + 67 extras anunciadas | 42 | Lote 3 em auditoria |
+| Champions League Match Attax 2025/26 — Topps | 738 (662 com fotografia) | 77 | Integrada no lote 3 |
+| Champions League & Europa League Match Attax 2026/27 — Topps | 558 (491 principais + 67 extras; 522 com fotografia) | 42 | Integrada no lote 3 |
 
-**Total após o segundo lote: 2.341 cromos em quatro coleções.** O lote 3 foi preparado para incorporar as edições Match Attax de 2025/26 e 2026/27 através da workflow de auditoria, preservando as quatro coleções existentes. As cartas especiais sem imagem pública são mantidas como registos identificados (imagem indisponível), sem apresentar uma fotografia inventada.
+**Total após o terceiro lote: 3.637 posições em seis coleções ativas.** As edições Match Attax de 2025/26 e 2026/27 foram integradas e publicadas em 7 de novembro de 2026, preservando as quatro coleções anteriores. Das 1.296 novas cartas, 1.184 têm imagem verificada por HTTP GET, MIME, dimensão e SHA-256 (662 e 522, respetivamente). As restantes 112 posições mantêm-se navegáveis com a indicação de imagem indisponível. Nenhuma fotografia foi inventada.
 
 ## Funcionalidades
 
@@ -39,8 +39,8 @@ A workflow `.github/workflows/ingest-next-batch.yml` executa-se quando esse fich
 
 1. Recupera o motor original e os dois catálogos históricos dos blocos `archives/`;
 2. Recolhe os novos catálogos da origem;
-3. Audita individualmente **todas** as imagens (HTTP GET, MIME, dimensão, SHA-256);
-4. Rejeita lotes com posições/IDs repetidos, imagens ausentes ou fonte inesperada;
+3. Audita individualmente as imagens disponíveis (HTTP GET, MIME, dimensão, SHA-256) e assinala posições sem fotografia na origem;
+4. Rejeita lotes com IDs repetidos, números principais ambíguos, fonte inesperada ou cobertura de imagens principais inferior a 80%;
 5. Atualiza `public/library.json`, `public/data/*.json` e a aplicação;
 6. Executa verificações estruturais e valida a sintaxe JavaScript;
 7. Só após sucesso efetua commit para `main`, para permitir nova publicação Vercel.
@@ -58,7 +58,7 @@ Depois das seis coleções iniciais, os lotes seguintes podem usar novas coleç�
 - [Match Attax 2025/26](https://www.cromos.pt/collection/50/match-attax-2025-2026-topps)
 - [Match Attax 2026/27](https://www.cromos.pt/collection/81/topps-uefa-champions-league-europa-league-2026-2027-match-attax)
 
-Auditados em novembro de 2026. Os cromos são **referenciados por URL**, alojados no Cromos.pt, e **não** são guardados no repositório público. A disponibilidade atual de imagens não assegura que a origem as mantenha para sempre.
+Auditados em novembro de 2026. Os cromos e cartas com fotografia são **referenciados por URL**, alojados no Cromos.pt, e **não** são guardados no repositório público. A disponibilidade atual de imagens não assegura que a origem as mantenha para sempre.
 
 ## Segurança e direitos
 

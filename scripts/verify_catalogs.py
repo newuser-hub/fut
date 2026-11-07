@@ -42,5 +42,5 @@ for entry in active:
     assert all(c['name'] and c['section'] for c in cards)
     total+=n
     print(f"{entry['id']}: {n} posições / {len(cat['sections'])} secções / {len(verified)} imagens auditadas")
-print(f"PASS: {len(active)} collections, {total} distinct image-verified cards")
+print(f"PASS: {len(active)} coleções ativas, {total} posições catalogadas")
 
