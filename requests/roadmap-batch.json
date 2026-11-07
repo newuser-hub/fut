@@ -1,40 +1,33 @@
 {
   "version": 1,
-  "batch": "roadmap-2-fallback",
-  "originallyAuthorized": [
-    340,
-    335
-  ],
-  "substitutions": [
-    {
-      "replacesSourceId": 340,
-      "sourceId": 34,
-      "reason": "Cromos.pt e StickersOne sem imagens individuais para FIFA 365 2027; Adrenalyn XL 2027 também sem imagens"
-    }
+  "batch": "roadmap-3",
+  "authorizedSourceIds": [
+    49,
+    51
   ],
   "collections": [
     {
-      "id": "idolos-pt-2026-27",
-      "sourceId": 335,
-      "sourceSlug": "idolos-do-futebol-portugues-2026-2027-panini",
-      "title": "Ídolos do Futebol Português 2026/27",
-      "subtitle": "Ídolos do Futebol Português 2026–2027 · Panini",
-      "year": "26/27",
-      "publisher": "Panini",
-      "category": "Portugal · Ídolos",
-      "description": "Edição Ídolos do Futebol Português 2026–2027 · Panini; 252 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "id": "ucl-topps-2025-26",
+      "sourceId": 49,
+      "sourceSlug": "uefa-champions-league-2025-2026-topps",
+      "title": "Champions League 2025/26 — Topps",
+      "subtitle": "UEFA Champions League 2025–2026 · Topps",
+      "year": "25/26",
+      "publisher": "Topps",
+      "category": "Clubes · Champions League",
+      "description": "Edição UEFA Champions League 2025–2026 · Topps; 584 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     },
     {
-      "id": "world-cup-adrenalyn-2026",
-      "sourceId": 34,
-      "sourceSlug": "fifa-world-cup-2026-adrenalyn-xl-panini",
-      "title": "Mundial FIFA 2026 — Adrenalyn XL",
-      "subtitle": "FIFA World Cup 2026 Adrenalyn XL · Panini",
-      "year": "2026",
-      "publisher": "Panini",
-      "category": "Seleções · Mundial",
-      "description": "Edição FIFA World Cup 2026 Adrenalyn XL · Panini; 700 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "id": "match-attax-extra-2025-26",
+      "sourceId": 51,
+      "sourceSlug": "match-attax-extra-2025-2026-topps",
+      "title": "Match Attax Extra 2025/26",
+      "subtitle": "Match Attax Extra 2025–2026 · Topps",
+      "year": "25/26",
+      "publisher": "Topps",
+      "category": "Clubes · Champions League",
+      "description": "Edição Match Attax Extra 2025–2026 · Topps; 445 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     }
   ]
