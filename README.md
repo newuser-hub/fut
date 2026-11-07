@@ -12,8 +12,10 @@ Portal de cadernetas virtuais de futebol, inicialmente com **seis coleções pre
 | Euro 2024 — Topps | 707 | 43 | Integrada no lote 2 |
 | Ídolos do Futebol Português 2025/26 | — | — | Próximo lote |
 | Liga Portugal 2024/25 | — | — | Próximo lote |
+| Champions League Match Attax 2025/26 — Topps | 738 anunciadas pela fonte | 77 | Lote 3 em auditoria |
+| Champions League & Europa League Match Attax 2026/27 — Topps | 491 principais + 67 extras anunciadas | 42 | Lote 3 em auditoria |
 
-**Total após o segundo lote: 2.341 cromos em quatro coleções.**
+**Total após o segundo lote: 2.341 cromos em quatro coleções.** O lote 3 foi preparado para incorporar as edições Match Attax de 2025/26 e 2026/27 através da workflow de auditoria, preservando as quatro coleções existentes. As cartas especiais sem imagem pública são mantidas como registos identificados (imagem indisponível), sem apresentar uma fotografia inventada.
 
 ## Funcionalidades
 
@@ -53,6 +55,8 @@ Depois das seis coleções iniciais, os lotes seguintes podem usar novas coleç�
 - [Euro Portugal 2004](https://www.cromos.pt/collection/18/uefa-euro-portugal-2004-panini)
 - [Mundial Qatar 2022](https://www.cromos.pt/collection/27/fifa-world-cup-qatar-2022-panini)
 - [Euro 2024](https://www.cromos.pt/collection/33/uefa-euro-2024-topps)
+- [Match Attax 2025/26](https://www.cromos.pt/collection/50/match-attax-2025-2026-topps)
+- [Match Attax 2026/27](https://www.cromos.pt/collection/81/topps-uefa-champions-league-europa-league-2026-2027-match-attax)
 
 Auditados em novembro de 2026. Os cromos são **referenciados por URL**, alojados no Cromos.pt, e **não** são guardados no repositório público. A disponibilidade atual de imagens não assegura que a origem as mantenha para sempre.
 

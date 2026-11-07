@@ -85,29 +85,69 @@ def fetch_catalog(item:dict, fixture_dir:Path|None=None, prefetched:Path|None=No
         if section=="-":section="Atualizações internacionais"
         if section not in sections:sections.append(section)
         pathname=str(raw.get("img_path") or "").lstrip("/")
-        if not pathname or ".." in pathname or pathname.startswith("http"):
-            raise ValueError("Imagem em falta ou caminho inválido: "+str(raw.get("id")))
-        image=f"{MAIN_HOST}/storage/uploads/stickers/{item['sourceId']}/{pathname}"
+        if pathname and (".." in pathname or pathname.startswith("http")):
+            raise ValueError("Caminho de imagem inválido: "+str(raw.get("id")))
+        is_optional=bool(raw.get("is_optional"))
+        raw_number=str(raw.get("collection_pos") or "").strip()
+        if not raw_number and not is_optional:
+            raise ValueError("Posição obrigatória em falta: "+str(raw.get("id")))
         cards.append(dict(
-            id=f"{slug}-{raw['id']}",number=str(raw["collection_pos"]),name=raw["name"],
-            section=section,category=section,image=image,sourceId=raw["id"],
-            type=raw.get("type") or None,optional=bool(raw.get("is_optional")),
-            order=raw["order_in_collection"]
+            id=f"{slug}-{raw['id']}",
+            number=raw_number or "OPT",
+            originalNumber=raw_number,
+            name=raw["name"],
+            section=section,category=section,
+            image=f"{MAIN_HOST}/storage/uploads/stickers/{item['sourceId']}/{pathname}" if pathname else None,
+            sourceId=raw["id"],type=raw.get("type") or None,
+            optional=is_optional,order=int(raw.get("order_in_collection") or 0),
+            available=False
         ))
-    cards.sort(key=lambda c:c["order"])
+    cards.sort(key=lambda c:(c["order"],c["sourceId"]))
     if len(cards)<col["stickers_count"] or len(cards)<100:
         raise ValueError("Coleção incompleta")
-    if len({c["id"] for c in cards})!=len(cards) or len({c["number"] for c in cards})!=len(cards):
-        raise ValueError("IDs ou posições repetidos")
+    if len({c["id"] for c in cards})!=len(cards):
+        raise ValueError("IDs repetidos")
+    # Algumas séries limitadas partilham o número "OPT" e só são
+    # distinguíveis pelo ID interno da fonte. Guardamos a referência original.
+    seen_numbers=set()
+    for c in cards:
+        if c["number"] in seen_numbers:
+            if not c["optional"]:
+                raise ValueError("Posição de carta principal repetida: "+c["number"])
+            c["number"]=f"{c['number']} (ref. {c['sourceId']})"
+        if c["number"] in seen_numbers:
+            raise ValueError("Posição repetida após desambiguação: "+c["number"])
+        seen_numbers.add(c["number"])
+    if sum(not c["optional"] for c in cards)<col["stickers_count"]:
+        raise ValueError("Coleção principal incompleta")
+
     def verify(c):
-        data,mime=request_bytes(c["image"])
-        if not mime.startswith("image/") or len(data)<1500:
-            raise ValueError(f"Imagem inválida {slug} {c['number']}: {mime}")
-        return len(data),hashlib.sha256(data).hexdigest()
+        if not c["image"]:
+            return None
+        try:
+            data,mime=request_bytes(c["image"])
+            if not mime.startswith("image/") or len(data)<1500:
+                return None
+            return len(data),hashlib.sha256(data).hexdigest()
+        except Exception:
+            # Um catálogo pode incluir cartas extra sem fotografia pública.
+            # Preservamos o registo e assinalamos a ausência da imagem.
+            return None
     print(f"Validating {len(cards)} images for {slug}...",flush=True)
     with ThreadPoolExecutor(max_workers=5) as pool:
-        for c,(size,digest) in zip(cards,pool.map(verify,cards)):
-            c.update(available=True,bytes=size,sha256=digest)
+        for c,result in zip(cards,pool.map(verify,cards)):
+            if result:
+                size,digest=result
+                c.update(available=True,bytes=size,sha256=digest)
+            else:
+                c.update(available=False,bytes=0,sha256=None,image=None)
+    principal=[c for c in cards if not c["optional"]]
+    principal_with_image=sum(c["available"] for c in principal)
+    if principal_with_image<len(principal)*0.9:
+        raise ValueError(
+            f"Auditoria insuficiente: {principal_with_image}/{len(principal)} imagens principais")
+    verified=sum(c["available"] for c in cards)
+    missing=len(cards)-verified
     cover_path=str(col.get("img_path") or "").lstrip("/")
     cover=f"{MAIN_HOST}/storage/{cover_path}" if cover_path else None
     result=dict(
@@ -115,10 +155,10 @@ def fetch_catalog(item:dict, fixture_dir:Path|None=None, prefetched:Path|None=No
         source=url,publisher=item["publisher"],cover=cover,
         sections=sections,cards=cards,declaredCount=col["stickers_count"],
         sourceCollectionId=item["sourceId"],sourceTotal=len(cards),
-        imageAudit=dict(available=len(cards),checkedAt=datetime.now(timezone.utc).date().isoformat(),
+        imageAudit=dict(available=verified,missing=missing,checkedAt=datetime.now(timezone.utc).date().isoformat(),
         source="Cromos.pt HTTP GET, MIME, size and SHA256")
     )
-    print(f"OK: {slug} -> {len(cards)} images, {len(sections)} sections",flush=True)
+    print(f"OK: {slug} -> {verified}/{len(cards)} verified images, {missing} without photo; {len(sections)} sections",flush=True)
     return result
 
 def ensure_modern_html() -> str:
