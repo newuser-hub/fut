@@ -27,8 +27,14 @@ jobs:
           set -euo pipefail
           curl -fsSL --retry 3 'https://cdn.shopify.com/s/files/1/0739/2015/1805/files/26_27_Topps_Flagship_Premier_League_Checklist_2.pdf?v=1784890627' -o /tmp/premier.pdf
           file /tmp/premier.pdf
-          command -v pdftotext
-          pdftotext -layout /tmp/premier.pdf /tmp/premier.txt
+          python3 -m pip install --quiet pymupdf
+          python3 - <<'PY' >/tmp/premier.txt
+          import fitz
+          doc=fitz.open('/tmp/premier.pdf')
+          for idx,page in enumerate(doc):
+            print(f'===== PAGE {idx} =====')
+            print(page.get_text(sort=True))
+          PY
           python3 - <<'PY'
           import re
           s=open('/tmp/premier.txt').read().splitlines()
