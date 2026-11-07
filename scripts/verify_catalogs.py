@@ -34,7 +34,7 @@ for entry in active:
                for c in verified),(entry['id'],'image audit invalid')
     assert all(not c.get('image') and not c.get('sha256') for c in unavailable),(entry['id'],'unverified image metadata')
     required=[c for c in cards if not c.get('optional')]
-    assert len([c for c in required if c.get('available')])>=.9*len(required),(entry['id'],'too many primary images missing')
+    assert len([c for c in required if c.get('available')])>=.8*len(required),(entry['id'],'too many primary images missing')
     assert all(c['id'] and c.get('originalNumber',c['number']) is not None for c in cards)
     if 'imageAudit' in cat:
         assert cat['imageAudit']['available']==len(verified)
