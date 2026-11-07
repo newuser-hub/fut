@@ -185,5 +185,27 @@
     "status": "soon",
     "cover": "https://www.cromos.pt/storage/uploads/collections/LkDtLSvQDXslZOjeT4UFMQJynVdst3D31ICOZg86.jpg",
     "description": "Panini: 640 cromos principais e 77 extras, pendentes de auditoria integral."
+  },
+  {
+    "id": "serie-a-calciatori-2026-27",
+    "title": "Serie A · Calciatori 2026/27",
+    "year": "26/27",
+    "count": 827,
+    "sections": 35,
+    "category": "Clubes · Serie A",
+    "status": "active",
+    "cover": "https://www.stickersone.com/images/albums/jpg/4689.jpg",
+    "description": "Caderneta italiana de 2026/27: equipas, jogadores, lendas e séries adicionais."
+  },
+  {
+    "id": "ligue-1-foot-2025-26",
+    "title": "Ligue 1 · Foot 2025/26",
+    "year": "25/26",
+    "count": 556,
+    "sections": 20,
+    "category": "Clubes · Ligue 1",
+    "status": "active",
+    "cover": "https://www.stickersone.com/images/albums/jpg/4380.jpg",
+    "description": "Caderneta francesa de 2025/26, com 556 cromos e imagens individuais de quase todas as posições."
   }
 ]
