@@ -21,38 +21,33 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
-      - name: Inspecionar catalogos alternativos
+      - name: Diagnosticar identificadores e URLs de imagens
         shell: bash
         run: |
           python3 -m pip install --quiet beautifulsoup4
           python3 - <<'PY'
-          import urllib.request,re
           from bs4 import BeautifulSoup
+          from collections import Counter
+          from urllib.parse import urljoin,urlparse
+          from urllib.request import urlopen,Request
           urls={
-            'ita_unacollezione':'https://unacollezione.it/checklist/panini-calciatori-anno-2026-27-checklist',
-            'ita_tracker':'https://tradingcardstracker.com/en/collections/calciatori-2026-2027/',
-            'ita_stickersone':'https://stickersone.com/it/albumgrid-calciatori-2026-2027-panini-4689',
-            'ita_final':'https://www.finalsticker.com/it/album/calciatori-2026-2027',
-            'fra_stckrs':'https://stckrs.app/albums/2026/ligue-1-2026-27/',
-            'fra_trouver':'https://trouve-ton-sticker.fr/checklist-adrenalyn-xl-ligue-1-2026-2027/',
-            'fra_panini':'https://www.panini.fr/media/paniniFiles/005563-Guide_AXL_LIGUE-1_27.pdf',
-            'fra_tcdb':'https://www.tcdb.com/ViewSet.cfm/sid/686638/2026-27-Panini-Adrenalyn-XL-Ligue-1',
+           'ITA': 'https://stickersone.com/it/albumgrid-calciatori-2026-2027-panini-4689',
+           'FRA': 'https://stickersone.com/en/albumgrid-ligue-1-2026-2027-adrenalyn-xl-panini-4650',
+           'UNA': 'https://unacollezione.it/checklist/panini-calciatori-anno-2026-27-checklist',
           }
           for key,url in urls.items():
-            print('===',key,url,flush=True)
-            try:
-              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36'})
-              with urllib.request.urlopen(req,timeout=13) as r:
-                content=r.read(4_000_000)
-                print('HTTP',r.status,'bytes',len(content),'mime',r.headers.get('Content-Type'),flush=True)
-              if content.startswith(b'%PDF'):continue
-              bs=BeautifulSoup(content,'html.parser')
-              print('HEAD',bs.title.get_text(' ',strip=True) if bs.title else '',flush=True)
-              print('TABLES',len(bs.select('table tr')),'LINKS',len(bs.find_all('a',href=True)),'IMAGES',len(bs.find_all('img')),flush=True)
-              print('IMGS',[(x.get('src'),x.get('data-src'),x.get('alt')) for x in bs.find_all('img')[:6]],flush=True)
-              print('ROWS',[t.get_text(' ',strip=True)[:180] for t in bs.select('table tr')[:6]],flush=True)
-              print('COLLECTION LINKS',[(a.get('href'),a.get_text(' ',strip=True)[:40]) for a in bs.find_all('a',href=True) if any(s in a.get('href','') for s in ['/card/','/cards/','/figurina/','/sticker/'])][:7],flush=True)
-              print('TEXT',bs.get_text(' ',strip=True)[:400],flush=True)
-            except Exception as e:
-              print('ERROR',type(e).__name__,str(e)[:180],flush=True)
+            print('===',key,flush=True)
+            html=urlopen(Request(url,headers={'User-Agent':'Mozilla/5.0'}),timeout=15).read(3_000_000).decode('utf-8','replace')
+            bs=BeautifulSoup(html,'html.parser')
+            imgs=bs.find_all('img')
+            print('IMG COUNT',len(imgs))
+            print('DOMAINS',Counter(urlparse(urljoin(url,i.get('src',''))).netloc for i in imgs).most_common(10))
+            print('PATH_PREFIX',Counter('/'.join((i.get('src') or '').split('/')[:5]) for i in imgs).most_common(12))
+            print('TAIL',[(i.get('src'),i.get('alt')) for i in imgs[-16:]])
+            for token in ['1', '5','10','441','589','825','Figurina n°','Card n°']:
+              texts=bs.find_all(string=lambda x:x and token in x)
+              if texts:
+                node=texts[0].parent
+                for _ in range(2):node=node.parent
+                print('SAMPLE',repr(token),str(node)[:850].replace('\n',' '))
           PY
