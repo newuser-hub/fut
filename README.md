@@ -1,6 +1,6 @@
 # FUT — Arquivo de Cadernetas Digitais
 
-Portal de cadernetas virtuais de futebol, com **quinze coleções ativas** e uma expansão autorizada por lotes sucessivos de duas coleções, sem um limite predefinido.
+Portal de cadernetas virtuais de futebol, com **dezassete coleções ativas** e uma expansão autorizada por lotes sucessivos de duas coleções, sem um limite predefinido.
 
 ## Coleções
 
@@ -20,11 +20,13 @@ Portal de cadernetas virtuais de futebol, com **quinze coleções ativas** e uma
 | Mundial Rússia 2018 — Panini | 787 (686 principais + 101 extras) | 37 | Integrada neste lote |
 | Mundial Brasil 2014 — Panini | 746 (643 principais + 103 extras) | 35 | Integrada; 746/746 imagens verificadas |
 | Copa América 2024 — Panini | 430 | 22 | Integrada; 430/430 imagens verificadas |
-| Premier League Flagship 2026/27 — Topps | 1.138 posições (imagens apenas quando verificadas) | 44 | Integrada em paralelo |
+| Premier League Flagship 2026/27 — Topps | 1.138 (5 ligações oficiais não verificadas por SHA-256) | 63 | Integrada em paralelo |
+| Serie A Calciatori 2026/27 — Panini | 827 (589 principais + 238 extras; 640 imagens auditadas) | 35 | Integrada — imagens de referência StickersOne |
+| Ligue 1 Foot 2025/26 — Panini | 556 (548 imagens auditadas) | 20 | Integrada — imagens de referência StickersOne |
 | Euro 2020 Tournament Edition — Panini | — | — | Próximo lote; por auditar |
 | Mundial África do Sul 2010 — Panini | — | — | Próximo lote; por auditar |
 
-**Total atual: 9.748 posições em quinze coleções ativas.** Mundial Brasil 2014 e Copa América 2024 acrescentaram **1.176 cromos em 57 secções, com 1.176/1.176 imagens verificadas**. Uma execução paralela adicionou também a Premier League Flagship 2026/27 (1.138 posições, 44 secções), com imagens apenas onde existe pré-visualização oficial verificável.  As novas cadernetas Euro França 2016 e Mundial Rússia 2018 acrescentaram **1.554 cromos (767 + 787), todos com imagens verificadas por HTTP GET, MIME, tamanho e SHA-256**.  As duas coleções espanholas acrescentaram 1.277 posições em 67 secções, das quais **1.074 têm imagem verificada e 203 não têm fotografia acessível** na fonte em 7 de novembro de 2026. O catálogo ESTE apresenta quatro entradas com numeração impressa coincidente (dois pares); os números originais foram mantidos e cada posição recebeu uma referência inequívoca da origem para navegação. As duas cadernetas portuguesas acrescentadas neste lote têm **966 imagens verificadas em 966 posições** (438 na edição 2021/22 e 528 na edição 2024/25). Ídolos 2025/26 foi substituída por ter quatro cartas de autógrafos sem fotografia no catálogo de referência. As edições Match Attax de 2025/26 e 2026/27 foram integradas e publicadas em 7 de novembro de 2026, preservando as quatro coleções anteriores. Das 1.296 novas cartas, 1.184 têm imagem verificada por HTTP GET, MIME, dimensão e SHA-256 (662 e 522, respetivamente). As restantes 112 posições mantêm-se navegáveis com a indicação de imagem indisponível. Nenhuma fotografia foi inventada.
+**Total atual: 11.131 posições em dezassete coleções ativas.** Foram integrados 827 cromos da Serie A Calciatori 2026/27 e 556 da Ligue 1 Foot 2025/26. A auditoria verificou **1.188 imagens individuais** (640 + 548), incluindo 588 de 589 cromos principais italianos e 548 de 556 franceses. Os restantes 195 registos mantêm-se navegáveis, assinalados sem fotografia.  Mundial Brasil 2014 e Copa América 2024 acrescentaram **1.176 cromos em 57 secções, com 1.176/1.176 imagens verificadas**. Uma execução paralela adicionou também a Premier League Flagship 2026/27 (1.138 posições, 63 secções), com cinco ligações a pré-visualizações oficiais Topps que não puderam ser verificadas por hash (HTTP 403 na origem).  As novas cadernetas Euro França 2016 e Mundial Rússia 2018 acrescentaram **1.554 cromos (767 + 787), todos com imagens verificadas por HTTP GET, MIME, tamanho e SHA-256**.  As duas coleções espanholas acrescentaram 1.277 posições em 67 secções, das quais **1.074 têm imagem verificada e 203 não têm fotografia acessível** na fonte em 7 de novembro de 2026. O catálogo ESTE apresenta quatro entradas com numeração impressa coincidente (dois pares); os números originais foram mantidos e cada posição recebeu uma referência inequívoca da origem para navegação. As duas cadernetas portuguesas acrescentadas neste lote têm **966 imagens verificadas em 966 posições** (438 na edição 2021/22 e 528 na edição 2024/25). Ídolos 2025/26 foi substituída por ter quatro cartas de autógrafos sem fotografia no catálogo de referência. As edições Match Attax de 2025/26 e 2026/27 foram integradas e publicadas em 7 de novembro de 2026, preservando as quatro coleções anteriores. Das 1.296 novas cartas, 1.184 têm imagem verificada por HTTP GET, MIME, dimensão e SHA-256 (662 e 522, respetivamente). As restantes 112 posições mantêm-se navegáveis com a indicação de imagem indisponível. Nenhuma fotografia foi inventada.
 
 ## Funcionalidades
 
@@ -74,6 +76,8 @@ Concluídas as dez cadernetas atuais, os lotes seguintes podem usar novas coleç
 - [Mundial África do Sul 2010 — candidato](https://www.cromos.pt/collection/21/fifa-world-cup-south-africa-2010-panini)
 - [Match Attax 2025/26](https://www.cromos.pt/collection/50/match-attax-2025-2026-topps)
 - [Match Attax 2026/27](https://www.cromos.pt/collection/81/topps-uefa-champions-league-europa-league-2026-2027-match-attax)
+- [Serie A Calciatori 2026/27 — StickersOne](https://stickersone.com/it/albumgrid-calciatori-2026-2027-panini-4689)
+- [Ligue 1 Foot 2025/26 — StickersOne](https://www.stickersone.com/it/albumgrid-foot-ligue-1-2025-2026-panini-4380)
 - [LaLiga ESTE 2026/27](https://www.cromos.pt/collection/337/laliga-2026-2027-este-panini)
 - [LaLiga Megacracks 2026/27](https://www.cromos.pt/collection/80/laliga-2026-2027-megacracks-panini)
 
@@ -88,3 +92,9 @@ Projeto independente, não oficial e não afiliado à Panini, Topps, FIFA, UEFA 
 ## Premier League Flagship 2026/27 — Topps
 
 Importação através de `scripts/ingest_premier_league.py` e da workflow `.github/workflows/ingest-premier-league.yml`, independente da fila de dois lotes. Fonte de verdade: [checklist PDF oficial Topps](https://cdn.shopify.com/s/files/1/0739/2015/1805/files/26_27_Topps_Flagship_Premier_League_Checklist_2.pdf?v=1784890627). O importador só publica quando reconcilia exatamente **1.138 referências** e identifica a correspondência de todas. O servidor de imagens Topps devolve HTTP 403 aos runners GitHub; por isso, as cinco pré-visualizações associadas inequivocamente às cartas corretas são guardadas como **ligações oficiais não auditadas por checksum**, podendo não carregar em todos os navegadores. O catálogo não inventa bytes, SHA-256 nem fotografias. Todas as restantes posições têm imagem indisponível assinalada. O progresso é independente e mantém a lógica das outras coleções.
+
+## Expansão Itália e França — 7 de novembro de 2026
+
+Foi criado o importador auditado `scripts/ingest_italia_franca.py`, executado pela workflow `.github/workflows/audit-italia-franca.yml` (sem alterar o mecanismo histórico dos lotes de duas coleções). A importação foi transacional: ambos os catálogos foram lidos e todos os URLs de cromos candidatos foram verificados por GET, MIME, dimensão e SHA-256 antes de modificar o manifesto ou publicar. Mantiveram-se os identificadores originais, secções e progresso local independente. A fonte dos ficheiros de imagem continua a ser o StickersOne; os ficheiros não foram copiados para o repositório. A acessibilidade e os direitos de reprodução futuros dependem dos titulares.
+
+Escolha editorial: Itália utiliza a edição **2026/27**, mais recente, com 827 posições (589 principais e 238 adicionais). A edição francesa **2025/26** foi preferida à Adrenalyn XL 2026/27 porque tem 548 fotografias verificáveis de 556 cromos, enquanto os 522 registos da edição francesa 2026/27 consultada apresentavam apenas imagens genéricas de substituição. Esta seleção dá prioridade à experiência visual exigida pelo FUT, sem apresentar uma coleção sem imagens como completa em termos visuais.
