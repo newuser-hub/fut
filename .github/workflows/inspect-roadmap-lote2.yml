@@ -1,0 +1,74 @@
+name: FUT - Auditar alternativas do lote 2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/inspect-roadmap-lote2.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Examinar cobertura de imagens das candidatas e fonte alternativa
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet beautifulsoup4
+          python3 - <<'PY'
+          import html,json,hashlib
+          from urllib.request import Request,urlopen
+          from urllib.parse import urljoin
+          from html.parser import HTMLParser
+          from collections import Counter
+          from bs4 import BeautifulSoup
+          class Parse(HTMLParser):
+              def __init__(self):super().__init__();self.payload=None
+              def handle_starttag(self,t,a):
+                  d=dict(a)
+                  if 'data-page' in d:self.payload=json.loads(html.unescape(d['data-page']))
+          ua={'User-Agent':'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120.0 Safari/537.36'}
+          plan=json.load(open('public/expansion-plan.json'))
+          for entry in plan['collections'][2:12]:
+              id=entry['sourceId'];url=entry['sourceUrl']
+              print('=== CANDIDATE',id,entry['title'],url,flush=True)
+              try:
+                  with urlopen(Request(url,headers=ua),timeout=22) as resp:body=resp.read(5_000_000)
+                  parser=Parse();parser.feed(body.decode('utf8','replace'))
+                  col=parser.payload['props']['collection']
+                  cards=col['stickers'];required=[x for x in cards if not x.get('is_optional')]
+                  photos=[x for x in cards if x.get('img_path')]
+                  primary=[x for x in required if x.get('img_path')]
+                  sample=photos[0] if photos else None
+                  print('COUNTS',id,'expected',col['stickers_count'],'all',len(cards),'main',len(required),'MAIN_PHOTOS',len(primary),'ALL_PHOTOS',len(photos),'MISSING',len(cards)-len(photos),'EXAMPLE',str(sample)[:400],flush=True)
+                  if sample:
+                      imgurl=f'https://www.cromos.pt/storage/uploads/stickers/{id}/'+str(sample['img_path']).lstrip('/')
+                      try:
+                          with urlopen(Request(imgurl,headers=ua),timeout=15) as response:
+                              data=response.read(600000);mime=response.headers.get('Content-Type')
+                          print('GET',id,len(data),mime,hashlib.sha256(data).hexdigest()[:10],flush=True)
+                      except Exception as exc:print('GET_ERROR',id,type(exc).__name__,str(exc)[:100],flush=True)
+              except Exception as exc: print('ERROR',id,type(exc).__name__,str(exc)[:140],flush=True)
+          print('=== ALTERNATE STICKERSONE FIFA 365 2027',flush=True)
+          url='https://stickersone.com/en/albumgrid-fifa-365-2027-panini-4690'
+          try:
+              with urlopen(Request(url,headers=ua),timeout=20) as r:body=r.read(4_000_000)
+              soup=BeautifulSoup(body,'html.parser')
+              cards=soup.select('.card.figurina.card-body')
+              valid=[x for x in cards if x.select_one('.area-img picture img') and '/vuote/' not in (x.select_one('.area-img picture img').get('src',''))]
+              print('STICKERSONE COUNT',len(cards),'PHOTO LINKS',len(valid),flush=True)
+              for tile in valid[:3]:
+                  img=tile.select_one('.area-img picture img').get('src')
+                  image=urljoin(url,img)
+                  try:
+                      with urlopen(Request(image,headers=ua),timeout=15) as r:d=r.read(1500000);mime=r.headers.get('Content-Type')
+                      print('PHOTO GET',image,len(d),mime,hashlib.sha256(d).hexdigest()[:10],flush=True)
+                  except Exception as exc:print('PHOTO ERROR',str(exc)[:100],flush=True)
+          except Exception as exc:print('ALTERNATE_ERROR',type(exc).__name__,str(exc)[:160],flush=True)
+          PY
