@@ -1,0 +1,64 @@
+[
+  {
+    "id": "club-world-cup-2025",
+    "title": "Mundial de Clubes 2025",
+    "year": "2025",
+    "count": 550,
+    "sections": 33,
+    "category": "Clubes · Mundial",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/8SAsKzSQphLZYveZEluzCeDrq6GNeu0XszRAo4SR.jpg",
+    "description": "32 clubes de todo o mundo, incluindo FC Porto e Benfica."
+  },
+  {
+    "id": "euro-2004",
+    "title": "Euro Portugal 2004",
+    "year": "2004",
+    "count": 334,
+    "sections": 17,
+    "category": "Seleções · Europeu",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/2Au22I1VV9YWtChhO7Z3YGA5AAMjLLSOMAgmQA71.jpg",
+    "description": "O Euro organizado por Portugal: Figo, Ronaldo, Rui Costa e mais."
+  },
+  {
+    "id": "qatar-2022",
+    "title": "Mundial Qatar 2022",
+    "year": "2022",
+    "category": "Seleções · Mundial",
+    "status": "active",
+    "count": 750,
+    "description": "As 32 seleções do Qatar 2022, incluindo os 80 cromos de atualização.",
+    "sections": 37,
+    "cover": "https://www.cromos.pt/storage/uploads/collection/M5bxx1eTSOzlrDNzSWAE7WJmn6G4FAzGj6bXGHDQ.webp"
+  },
+  {
+    "id": "euro-2024",
+    "title": "Euro 2024",
+    "year": "2024",
+    "category": "Seleções · Europeu",
+    "status": "active",
+    "count": 707,
+    "description": "As seleções do Euro 2024, com jogadores, grupos e cromos especiais.",
+    "sections": 43,
+    "cover": "https://www.cromos.pt/storage/uploads/collections/Lw2mMqeDKccvAOty6IHqoUNkbr2JppHaRYZYELsX.jpg"
+  },
+  {
+    "id": "idolos-2025-26",
+    "title": "Ídolos 2025/26",
+    "year": "25/26",
+    "category": "Futebol português",
+    "status": "soon",
+    "count": null,
+    "description": "Os ídolos dos clubes portugueses na época 2025/26."
+  },
+  {
+    "id": "liga-2024-25",
+    "title": "Liga Portugal 2024/25",
+    "year": "24/25",
+    "category": "Liga Portugal",
+    "status": "soon",
+    "count": null,
+    "description": "A coleção oficial do futebol português de 2024/25."
+  }
+]

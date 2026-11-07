@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#07192e" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="description" content="FUT — arquivo de cadernetas digitais de futebol, com cromos interativos e progresso por coleção." />
+  <title>FUT — Arquivo de Cadernetas Digitais</title>
+  <style>
+    :root{--night:#07192e;--navy:#102948;--sky:#26d2ba;--gold:#dfb56b;--cream:#f6f3e9;--paper:#fffcf5;--line:#dcd7cb;--ink:#16283c;--muted:#657284;--shadow:0 18px 55px rgba(5,20,37,.24);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--night);color:#fff;min-height:100vh}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.38;cursor:not-allowed}a{color:inherit}
+    .app-top{position:sticky;top:0;z-index:80;background:rgba(7,25,46,.94);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.1)}
+    .top-inner{max-width:1450px;margin:auto;padding:12px 22px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .brand{border:0;background:none;color:#fff;text-align:left;display:flex;align-items:center;gap:11px;padding:2px 0}.brand-mark{display:grid;place-items:center;width:41px;height:41px;border:1px solid var(--gold);border-radius:13px;color:var(--gold);font-weight:900;font-size:22px}.brand strong{font-size:16px;letter-spacing:.08em}.brand small{display:block;color:#b1bec9;font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-top:3px}
+    .top-actions,.nav-actions,.tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.pill{border:1px solid rgba(255,255,255,.21);border-radius:99px;background:rgba(255,255,255,.06);color:#fff;padding:10px 15px;font-weight:650;font-size:12px;white-space:nowrap}.pill:hover,.pill:focus-visible{border-color:var(--sky);outline:none}.pill.is-active{background:var(--sky);color:#05313c;border-color:var(--sky)}.pill.gold{background:var(--gold);color:#16253d;border-color:var(--gold)}
+    .progress-strip{height:3px;background:#19334e}.progress-strip >div{height:100%;background:linear-gradient(90deg,var(--gold),var(--sky));transition:width .3s}
+    .content{max-width:1450px;margin:auto;padding:34px 24px 70px}.section-label{display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:11px;font-weight:850;letter-spacing:.18em;text-transform:uppercase}.section-label:before{content:"";width:20px;height:1px;background:var(--gold)}h1,h2,h3,p{margin-top:0}
+    .hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(240px,.8fr);align-items:center;gap:35px;padding:42px 44px;border-radius:23px;background:radial-gradient(circle at 77% 25%,#1d506c 0,#112d4a 30%,#091e35 75%);border:1px solid #27506b;overflow:hidden;position:relative;min-height:330px}.hero:after{content:"";position:absolute;right:24%;top:-45%;height:120%;width:1px;background:rgba(255,255,255,.08);transform:rotate(24deg)}
+    .hero h1{font-size:clamp(35px,5vw,71px);line-height:.99;letter-spacing:-.055em;margin:18px 0}.hero h1 em{font-style:normal;color:var(--gold)}.hero p{color:#afc1d0;line-height:1.65;max-width:580px;font-size:14px}.hero-art{position:relative;min-height:240px;display:grid;place-items:center}.hero-ring{width:min(100%,250px);aspect-ratio:1;border:1px solid rgba(223,181,107,.45);border-radius:50%;display:grid;place-items:center;box-shadow:0 0 0 32px rgba(223,181,107,.045),0 0 0 65px rgba(223,181,107,.022)}.hero-ring span{font-size:92px;color:var(--gold);font-weight:900;letter-spacing:-.12em;transform:translateX(-6px)}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}.metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0 34px}.metric{padding:22px 20px;border:1px solid #29415b;border-radius:15px;background:#112942}.metric strong{font-size:28px;letter-spacing:-.04em;display:block}.metric span{color:#aebecb;text-transform:uppercase;letter-spacing:.11em;font-size:10px;font-weight:800}
+    .section-heading{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:17px}.section-heading h2{font-size:24px;letter-spacing:-.035em;margin:7px 0 0}.section-heading p{margin:5px 0 0;color:#a7b6c5;font-size:13px}
+    .search-wrap{display:flex;gap:9px;align-items:center;background:#112942;border:1px solid #314d68;border-radius:12px;padding:0 14px;width:min(100%,360px);color:#9bb2c5}.search-wrap input{background:transparent;outline:none;border:0;color:#fff;padding:13px 2px;width:100%;font-size:14px}.search-wrap input::placeholder{color:#9bb2c5}
+    .index-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.index-card{border:1px solid #29445f;border-radius:14px;background:#102b47;text-align:left;color:#fff;min-height:145px;padding:21px;transition:background .2s,border-color .2s,transform .2s;display:flex;flex-direction:column;justify-content:space-between}.index-card:hover{background:#163955;border-color:var(--gold);transform:translateY(-2px)}.index-card small{color:var(--gold);font-size:10px;font-weight:850;letter-spacing:.12em}.index-card h3{font-size:19px;margin:11px 0 2px}.index-card .count{color:#b7c7d5;font-size:12px}.bar{height:4px;background:#30465c;border-radius:5px;overflow:hidden;margin-top:16px}.bar i{display:block;height:100%;border-radius:4px;background:var(--sky)}
+    .paper-shell{touch-action:pan-y;border-radius:17px;padding:28px;background:linear-gradient(90deg,#e8e1d4 0,#fffaf1 3%,#fffaf1 97%,#e6d8c4 100%);color:var(--ink);box-shadow:var(--shadow);min-height:450px;position:relative}.paper-shell:before{content:"";position:absolute;left:13px;top:0;bottom:0;width:2px;background:rgba(113,75,37,.13)}.paper-top{display:flex;justify-content:space-between;align-items:center;gap:15px;border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:25px}.paper-top small{font-size:11px;letter-spacing:.15em;color:#92754a;font-weight:850;text-transform:uppercase}.paper-top h2{margin:6px 0 0;font-size:27px;letter-spacing:-.03em}.paper-top .folio{font-size:12px;color:#667184;text-align:right}
+    .toolbar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 0 18px;align-items:center}.toolbar .tools{flex-wrap:wrap}.tool{border:1px solid #38516a;border-radius:9px;background:#132e4b;padding:11px 13px;color:#fff;font-size:12px;font-weight:750}.tool:hover{border-color:var(--sky)}.tool.accent{background:#117d78;border-color:#17887f}.tool.on{background:#dfb56b;border-color:#dfb56b;color:#16283c}.small-muted{color:#a9bbc9;font-size:12px}
+    .card-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;perspective:1000px}.card-cell{min-width:0}.flip-card{position:relative;width:100%;border:0;padding:0;background:transparent;touch-action:manipulation;-webkit-user-select:none;user-select:none;aspect-ratio: .72;perspective:950px;border-radius:9px;display:block}.flip-inner{display:block;width:100%;height:100%;position:relative;-webkit-transform-style:preserve-3d;transition:transform .58s cubic-bezier(.2,.82,.2,1);transform-style:preserve-3d}.flip-card.is-flipped .flip-inner{transform:rotateY(180deg)}.face{position:absolute;inset:0;border-radius:8px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}.cover-face{border:1px solid #1f3b59;background:radial-gradient(circle at 50% 25%,#3a5475 0,#1b3552 35%,#112940 72%);display:grid;place-items:center;color:#fff;box-shadow:inset 0 0 0 5px rgba(223,181,107,.12),0 4px 9px rgba(34,32,29,.13)}.cover-face:before,.cover-face:after{content:"";position:absolute;border:1px solid rgba(223,181,107,.48);border-radius:4px;inset:11px}.cover-face:after{inset:16px;opacity:.32}.cover-top{position:absolute;top:24px;font-size:10px;letter-spacing:.24em;color:#d8bd86;font-weight:900}.cover-number{font-size:clamp(26px,3.5vw,45px);font-weight:900;letter-spacing:-.08em;color:var(--gold)}.cover-bottom{position:absolute;bottom:23px;text-transform:uppercase;letter-spacing:.13em;font-size:9px;opacity:.75}.image-face{transform:rotateY(180deg);background:#dae2e5;border:1px solid #ccd4dc;display:flex;align-items:center;justify-content:center}.image-face img{display:block;width:77%;height:73%;max-width:100%;object-fit:contain;background:#fff;padding:3px;border:1px solid #c0cbd4;border-radius:4px;box-shadow:0 4px 12px rgba(21,40,60,.20)}.image-face:before{content:'MINIATURA';position:absolute;left:0;right:0;top:5px;color:#586b7e;font-size:clamp(6px,.7vw,9px);font-weight:900;letter-spacing:.14em;text-align:center;pointer-events:none}.flip-card.is-flipped .image-face{background:linear-gradient(145deg,#e9edf0,#d4dfe7)}.no-image{display:grid;place-items:center;text-align:center;padding:12px;height:100%;font-size:12px;line-height:1.5;color:#6a7686}.card-cell .card-bottom{display:flex;align-items:flex-start;justify-content:space-between;margin-top:9px;gap:4px;min-height:27px}.card-bottom .card-name{font-weight:800;font-size:11px;line-height:1.35;max-width:calc(100% - 28px)}.card-bottom .card-name.muted{color:#87909c}.star{border:0;background:transparent;color:#a2aeb9;font-size:19px;padding:0 2px}.star.saved{color:#ae7f2f}
+    .page-nav{display:flex;align-items:center;justify-content:center;gap:13px;margin:24px 0}.page-nav .tool{font-size:13px}.page-indicator{font-size:13px;color:#b6c5cf;min-width:80px;text-align:center}.select-page{border:1px solid #36536d;border-radius:10px;background:#183450;color:#fff;padding:11px;max-width:235px;min-width:130px;font-size:12px}
+    .result-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:24px 0}.result{border:1px solid #31506b;border-radius:10px;padding:14px;text-align:left;color:#fff;background:#122c48;display:flex;justify-content:space-between;align-items:center;gap:10px}.result small{color:#b7c9d7}.result strong{display:block;margin-bottom:4px}.empty{border:1px dashed #45607a;border-radius:14px;padding:40px;text-align:center;color:#a9bfce}
+    .footer{text-align:center;padding:32px 12px;color:#8095aa;font-size:12px;line-height:1.7}.footer a{color:#d1c4a0}.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:100;background:#f6f3e9;color:#1b344c;border-radius:13px;box-shadow:var(--shadow);padding:13px 18px;font-weight:750;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s}.toast.show{opacity:1}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,14,28,.87);z-index:200;display:grid;place-items:center;padding:20px}.modal{background:#fffdf7;max-width:min(100%,430px);width:100%;color:var(--ink);padding:24px;border-radius:16px;max-height:94dvh;overflow:auto}.modal-header{display:flex;justify-content:space-between;align-items:start;gap:20px}.modal-header h3{margin:0 0 6px}.modal p{font-size:13px;line-height:1.6;color:#516374}.modal img{max-width:100%;max-height:60dvh;display:block;margin:18px auto;border-radius:6px}.modal button{padding:9px 12px;border-radius:9px;border:1px solid #aaa;cursor:pointer;background:#fff}.modal .modal-controls{display:flex;justify-content:space-between;gap:8px}.hidden{display:none!important}
+    @media(max-width:1100px){.index-grid{grid-template-columns:repeat(3,1fr)}.card-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.hero{padding:32px}.hero-ring{width:190px}.hero-ring span{font-size:70px}}
+    @media(max-width:700px){.top-inner{padding:10px 14px}.brand strong{font-size:14px}.brand small{font-size:8px}.top-actions{width:100%;justify-content:space-between}.pill{padding:9px 12px}.content{padding:18px 12px 48px}.hero{grid-template-columns:1fr;padding:27px 24px;min-height:0}.hero-art{display:none}.hero h1{font-size:44px}.metric-row{grid-template-columns:repeat(2,1fr);gap:8px;margin:14px 0 25px}.metric{padding:16px}.metric strong{font-size:24px}.index-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.index-card{padding:15px;min-height:125px}.index-card h3{font-size:15px}.section-heading{align-items:start;flex-direction:column}.search-wrap{width:100%}.paper-shell{padding:20px 14px}.paper-top h2{font-size:22px}.card-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.cover-top{top:16px;font-size:7px}.cover-bottom{font-size:7px;bottom:16px}.cover-face:before{inset:7px}.cover-face:after{inset:11px}.cover-number{font-size:26px}.card-bottom .card-name{font-size:10px}.toolbar .tool{padding:10px 11px}.result-list{grid-template-columns:1fr}}
+    @media(max-width:390px){.card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.paper-top .folio{font-size:10px}.top-actions .pill{font-size:11px;padding:9px 10px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+    /* Página principal do portal — mantém a linguagem visual da caderneta. */
+    .portal-hero{position:relative;overflow:hidden;border:1px solid #315575;border-radius:24px;padding:clamp(27px,5vw,64px);background:radial-gradient(ellipse at 85% 15%,rgba(38,210,186,.14),transparent 42%),linear-gradient(125deg,#122e4c,#07192e 72%);margin-bottom:24px}
+    .portal-hero:after{content:"FUT";position:absolute;right:-5%;bottom:-30%;font-weight:950;font-size:clamp(150px,25vw,350px);letter-spacing:-.13em;line-height:1;color:rgba(255,255,255,.035);pointer-events:none}
+    .portal-hero h1{font-size:clamp(43px,7vw,86px);line-height:.99;letter-spacing:-.065em;margin:20px 0 23px;max-width:900px}.portal-hero h1 em{font-style:normal;color:var(--gold)}
+    .portal-hero p{font-size:15px;line-height:1.8;color:#b9cbd9;max-width:660px}.portal-intro{position:relative;z-index:1}
+    .library-summary{display:flex;gap:25px;flex-wrap:wrap;margin-top:32px}.library-summary span{font-size:12px;color:#bdcbd7}.library-summary strong{display:block;font-size:25px;color:white;letter-spacing:-.05em}
+    .library-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin-top:20px}
+    .library-tile{position:relative;overflow:hidden;min-width:0;min-height:386px;background:#102843;border:1px solid #2c4865;border-radius:19px;display:flex;flex-direction:column;color:#fff;text-align:left;padding:0;box-shadow:0 10px 34px rgba(0,0,0,.13);transition:border .2s,transform .2s,box-shadow .2s}
+    .library-tile:not(.soon):hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.24)}
+    .library-tile:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+    .library-cover{height:225px;background:radial-gradient(circle at center,#385475,#152c46);display:grid;place-items:center;position:relative;overflow:hidden}
+    .library-cover img{display:block;max-width:68%;max-height:95%;width:auto;height:auto;object-fit:contain;filter:drop-shadow(0 8px 19px rgba(0,0,0,.55))}
+    .library-cover::before{content:"";position:absolute;inset:15px;border:1px solid rgba(223,181,107,.13);border-radius:12px;pointer-events:none}
+    .library-cover .cover-placeholder{font-weight:900;color:rgba(223,181,107,.82);font-size:72px;letter-spacing:-.08em}
+    .library-tile.soon{opacity:.75}.library-tile.soon .library-cover{background:repeating-linear-gradient(135deg,#14314e,#14314e 14px,#172d45 14px,#172d45 28px)}
+    .library-info{padding:20px 22px 17px;display:flex;flex-direction:column;gap:7px;flex:1}
+    .library-info .eyebrow{color:var(--gold);font-size:10px;font-weight:850;letter-spacing:.16em;text-transform:uppercase}
+    .library-info h3{font-size:20px;letter-spacing:-.035em;line-height:1.2;margin:0}
+    .library-info p{font-size:12px;line-height:1.55;color:#afc1cf;margin:0}
+    .library-tile-foot{padding-top:13px;margin-top:auto;display:flex;justify-content:space-between;align-items:center;color:#9fb8c8;font-size:12px;border-top:1px solid rgba(255,255,255,.09)}
+    .library-tile-foot strong{color:var(--sky);font-size:12px}
+    .portal-note{color:#9ab0c2;font-size:12px;line-height:1.7;margin:22px 2px}
+    .subtrail{display:flex;align-items:center;gap:8px;color:#a4b9c8;font-size:12px;flex-wrap:wrap;margin-bottom:16px}
+    .subtrail button{background:transparent;color:var(--gold);padding:4px 0;border:0;text-decoration:underline;text-underline-offset:3px}
+    @media(max-width:1100px){.library-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:700px){.library-grid{grid-template-columns:1fr;gap:13px}.library-tile{min-height:310px}.library-cover{height:180px}.portal-hero{padding:30px 24px}.portal-hero h1{font-size:44px}.library-summary{gap:20px}.library-cover img{max-width:53%}.library-info h3{font-size:19px}}
+
+    .next-batch{border:1px solid rgba(223,181,107,.4);border-radius:17px;background:linear-gradient(120deg,#132e4a,#0b213a);padding:24px;margin:28px 0 6px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+    .next-batch h3{font-size:20px;margin:7px 0}.next-batch p{font-size:12px;color:#a8bfd1;margin:0;line-height:1.65;max-width:630px}
+    .next-batch .pill{flex-shrink:0}
+      </style>
+</head>
+<body>
+  <header class="app-top">
+    <div class="top-inner">
+      <button class="brand" data-action="portal" aria-label="Voltar às coleções"><span class="brand-mark">F</span><span><strong>FUT · CROMOS</strong><small>Arquivo de cadernetas digitais</small></span></button>
+      <nav class="top-actions" aria-label="Navegação principal"><button class="pill" data-action="portal" id="nav-portal">⌂ Coleções</button><button class="pill" data-action="index" id="nav-index">▦ Índice</button><button class="pill" data-action="album" id="nav-album">▣ Caderneta</button><button class="pill" data-action="favorites" id="nav-favorites">☆ Favoritos</button><button class="pill" data-action="random" id="nav-random" title="Revelar um cromo aleatório">✦ Surpresa</button></nav>
+    </div><div class="progress-strip" aria-hidden="true"><div id="top-progress" style="width:0%"></div></div>
+  </header>
+  <main class="content" id="app"><div class="empty">A carregar o catálogo…</div></main>
+  <footer class="footer"><div>FUT — arquivo independente para consulta pessoal · Não afiliado à Panini, FIFA, UEFA ou Cromos.pt</div><div>Imagens e marcas pertencem aos respetivos titulares. Dados e imagens referenciados a partir de <a href="https://www.cromos.pt/" target="_blank" rel="noopener noreferrer">Cromos.pt</a>. A disponibilidade pública não equivale a uma licença de reprodução.</div></footer>
+  <input type="file" id="import-file" accept="application/json,.json" class="hidden" aria-label="Importar progresso">
+  <div class="toast" id="toast" role="status" aria-live="polite"></div><div id="modal-root"></div>
+  <script>
+  (() => {
+    "use strict";
+    let LIBRARY = [];
+    let activeCollectionId = null;
+    const stateKey = id => "fut.album."+id+".progress.v1";
+    const app = document.getElementById("app");
+    const toastNode = document.getElementById("toast");
+    let catalog = {cards:[], sections:[]}; let sections = []; let pages = []; let currentPage = 0; let view = "portal"; let query = ""; let modalCard = null;
+    let state = {revealed:{}, favorites:{}};
+    // Estado independente por coleção: é carregado ao selecionar a caderneta.
+    const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c]);
+    const percent = (n,d) => d?Math.round(n*100/d):0;
+    const keyCard = c => c.id;
+    const isRevealed = c => !!state.revealed[keyCard(c)];
+    const isFavorite = c => !!state.favorites[keyCard(c)];
+    const save = () => {try{localStorage.setItem(stateKey(activeCollectionId),JSON.stringify(state))}catch(e){notify("Sem espaço para guardar o progresso neste dispositivo.")}};
+    function notify(message){toastNode.textContent=message;toastNode.classList.add("show");clearTimeout(notify.timer);notify.timer=setTimeout(()=>toastNode.classList.remove("show"),2600)}
+    function pageFor(cardId){return pages.findIndex(p=>p.cards.some(c=>c.id===cardId))}
+    function sectionStats(section){let n=section.cards.filter(isRevealed).length;return {n,total:section.cards.length,pct:percent(n,section.cards.length)}}
+    function stats(){return {all:catalog.cards.length, revealed:catalog.cards.filter(isRevealed).length,favs:catalog.cards.filter(isFavorite).length}}
+    function computePages(){sections=[];pages=[];const map=new Map();catalog.cards.forEach(c=>{const slug=c.sectionSlug||"outros";if(!map.has(slug)){const s={slug,name:c.section||slug,cards:[]};map.set(slug,s);sections.push(s)}map.get(slug).cards.push(c)});sections.forEach(s=>{for(let offset=0;offset<s.cards.length;offset+=9)pages.push({section:s,cards:s.cards.slice(offset,offset+9),pageInSection:1+Math.floor(offset/9),sectionPages:Math.ceil(s.cards.length/9)})})}
+    const sectionLabel = c => c.section||"Coleção";
+    const buttons = [{action:"portal"},{action:"index"},{action:"album"},{action:"favorites"}];
+    function updateTop(){const s=stats();document.getElementById("top-progress").style.width=percent(s.revealed,s.all)+"%";buttons.forEach(b=>document.getElementById("nav-"+b.action).classList.toggle("is-active",view===b.action));["index","album","favorites","random"].forEach(a=>document.getElementById("nav-"+a).disabled=!activeCollectionId)}
+    function portalStats(item){
+      try{
+        const raw=JSON.parse(localStorage.getItem(stateKey(item.id))||'{}');
+        const count=Object.keys(raw.revealed||{}).length;
+        return {revealed:Math.min(count,item.count||0),pct:percent(count,item.count||0)};
+      }catch(e){return {revealed:0,pct:0}}
+    }
+    function portalView(){
+      const ready=LIBRARY.filter(c=>c.status==='active');
+      let html='<section class="portal-hero"><div class="portal-intro"><span class="section-label">Arquivo interativo · Futebol</span><h1>As grandes coleções.<br><em>Uma só caderneta digital.</em></h1><p>Descobre os cromos, vira cada um, amplia a imagem e guarda o teu progresso. Cada coleção tem o seu próprio índice, favoritos e registo neste equipamento.</p><div class="hero-actions"><button class="pill gold" data-action="scroll-collections">Explorar coleções ↓</button>'+(activeCollectionId?'<button class="pill" data-action="index">Continuar a última coleção ↗</button>':'')+'</div><div class="library-summary"><span><strong>'+LIBRARY.length+'</strong>Coleções no portal</span><span><strong>'+ready.length+'</strong>Disponíveis</span><span><strong>'+ready.reduce((n,x)=>n+x.count,0).toLocaleString('pt-PT')+'</strong>Cromos catalogados</span></div></div></section>';
+      html+='<section class="section-heading" id="collection-grid"><div><span class="section-label">A tua biblioteca</span><h2>Escolhe uma coleção</h2><p>As coleções disponíveis estão completas e auditadas; as restantes serão acrescentadas ao portal.</p></div></section><div class="library-grid">';
+      LIBRARY.forEach(item=>{
+        const enabled=item.status==='active';
+        const progress=enabled?portalStats(item):{revealed:0,pct:0};
+        const top='<div class="library-cover">'+(item.cover?'<img src="'+esc(item.cover)+'" loading="lazy" alt="Capa da coleção '+esc(item.title)+'" onerror="this.style.display=\'none\'">':'<span class="cover-placeholder" aria-hidden="true">'+esc(item.year)+'</span>')+'</div>';
+        const info='<div class="library-info"><span class="eyebrow">'+esc(item.category)+' · '+esc(item.year)+'</span><h3>'+esc(item.title)+'</h3><p>'+esc(item.description)+'</p><div class="library-tile-foot"><span>'+(item.count?item.count+' cromos':'Catálogo por preparar')+'</span><strong>'+(enabled?'Abrir coleção ↗':'Em preparação')+'</strong></div>'+(enabled?'<div class="bar"><i style="width:'+progress.pct+'%"></i></div><span style="color:#a7c7d1;font-size:11px">'+progress.revealed+' / '+item.count+' revelados</span>':'')+'</div>';
+        html+=(enabled?'<button class="library-tile" data-action="collection" data-collection="'+esc(item.id)+'" aria-label="Abrir '+esc(item.title)+'">':'<article class="library-tile soon">')+top+info+(enabled?'</button>':'</article>');
+      });
+      const pending=LIBRARY.filter(x=>x.status!=='active').slice(0,2);
+      html+='</div><section class="next-batch"><div><span class="section-label">Expansão contínua</span><h3>Mais duas coleções no próximo lote</h3><p>'+(pending.length?pending.map(x=>esc(x.title)).join(' + '):'Serão escolhidas duas coleções novas com imagens verificáveis.')+'. Prepara um pedido para continuar o trabalho nesta conversa do ChatGPT.</p></div><button class="pill gold" data-action="next-batch">✦ Copiar pedido para próximas duas ↗</button></section><p class="portal-note">O progresso fica apenas neste navegador. Para mudar de equipamento, utiliza Exportar / Importar em cada caderneta. Imagens de referência provenientes de fontes públicas, sujeitas aos direitos dos respetivos titulares.</p>';
+      return html;
+    }
+    async function selectCollection(id,replaceRoute=true){
+      const item=LIBRARY.find(x=>x.id===id&&x.status==='active');
+      if(!item)return;
+      cancelPendingCardTap();
+      closeModal();
+      if(activeCollectionId===id&&catalog.cards.length){
+        navigate('index');
+        return;
+      }
+      app.innerHTML='<div class="empty">A abrir '+esc(item.title)+'…</div>';
+      try{
+        const response=await fetch('/data/'+encodeURIComponent(id)+'.json',{cache:'no-cache'});
+        if(!response.ok)throw new Error('Erro ao carregar: '+response.status);
+        const data=await response.json();
+        if(!Array.isArray(data.cards)||data.cards.length!==item.count)throw Error('Catálogo incompleto');
+        const all=new Set();
+        data.cards.forEach(c=>{
+          if(all.has(c.id)||!c.id||!c.name||!c.section||!c.number)throw Error('Cromo inválido ou repetido');
+          all.add(c.id);
+          c.sectionSlug=sectionSlug(c.section);
+        });
+        activeCollectionId=id;
+        catalog=data;
+        try{
+          const saved=JSON.parse(localStorage.getItem(stateKey(id))||'{}');
+          state={revealed:saved.revealed||{},favorites:saved.favorites||{}};
+        }catch(e){state={revealed:{},favorites:{}}}
+        currentPage=0;
+        query='';
+        computePages();
+        view='index';
+        if(replaceRoute)history.replaceState(null,'',routeHash());
+        render();
+        window.scrollTo({top:0,behavior:'smooth'});
+      }catch(e){
+        activeCollectionId=null;
+        catalog={cards:[],sections:[]};
+        view='portal';
+        render();
+        notify('Não foi possível abrir a coleção: '+e.message);
+      }
+    }
+    function sectionSlug(s){return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}
+    function hero(){const s=stats(),item=LIBRARY.find(x=>x.id===activeCollectionId);return '<div class="subtrail"><button data-action="portal">Todas as coleções</button> / '+esc(item.title)+'</div><section class="hero"><div><span class="section-label">'+esc(catalog.subtitle||item.title)+' · '+esc(catalog.year)+'</span><h1>'+esc(item.title)+'.<br><em>A tua caderneta.</em></h1><p>Explora todas as secções, revela os cromos e guarda o teu progresso neste dispositivo. Um toque amplia, dois toques rápidos voltam a tapar.</p><div class="hero-actions"><button class="pill gold" data-action="album">Abrir caderneta ↗</button><button class="pill" data-action="random">Descobrir um cromo ✦</button><button class="pill" data-action="hide-all">↺ Tapar todos os cromos</button></div></div><div class="hero-art" aria-hidden="true"><div class="hero-ring"><span>'+esc(item.year)+'</span></div></div></section><section class="metric-row"><div class="metric"><strong>'+s.all+'</strong><span>Cromos no catálogo</span></div><div class="metric"><strong>'+s.revealed+'</strong><span>Revelados</span></div><div class="metric"><strong>'+percent(s.revealed,s.all)+'%</strong><span>Descobertos</span></div><div class="metric"><strong>'+s.favs+'</strong><span>Favoritos</span></div></section>'}
+    function indexView(){let html=hero()+'<section class="section-heading"><div><span class="section-label">Explorar a coleção</span><h2>Índice de secções</h2><p>Seleciona uma secção para abrir as respetivas páginas.</p></div><div class="search-wrap">⌕ <input id="search" aria-label="Pesquisar cromos" placeholder="Jogador, clube ou número..." value="'+esc(query)+'"></div></section>';
+      if(query.trim()){const lower=query.trim().toLocaleLowerCase("pt-PT");const found=catalog.cards.filter(c=>[c.name,c.number,c.section].some(v=>String(v||"").toLocaleLowerCase("pt-PT").includes(lower)));html+='<p class="small-muted">'+found.length+' resultados</p><div class="result-list">'+found.slice(0,120).map(c=>'<button class="result" data-action="jump" data-id="'+esc(c.id)+'"><span><strong>'+esc(c.number||"—")+' · '+esc(c.name||"Cromo")+'</strong><small>'+esc(sectionLabel(c))+'</small></span><span>'+(isRevealed(c)?'✓':'↗')+'</span></button>').join("")+'</div>'+(found.length>120?'<p class="small-muted">A mostrar os primeiros 120 resultados.</p>':'');if(!found.length)html+='<div class="empty">Nenhum cromo encontrado. Experimenta outro termo.</div>';
+      }else{html+='<div class="index-grid">'+sections.map((s,i)=>{const x=sectionStats(s);return '<button class="index-card" data-action="section" data-slug="'+esc(s.slug)+'"><div><small>SECÇÃO '+String(i+1).padStart(2,"0")+'</small><h3>'+esc(s.name)+'</h3><div class="count">'+x.n+' / '+x.total+' revelados</div></div><div class="bar"><i style="width:'+x.pct+'%"></i></div></button>'}).join("")+'</div>'}
+      html+=toolsFooter();return html}
+    function toolsFooter(){return '<section class="toolbar" style="margin-top:27px"><span class="small-muted">Progresso privado neste navegador</span><div class="tools"><button class="tool" data-action="export">↓ Exportar</button><button class="tool" data-action="import">↑ Importar</button><button class="tool" data-action="hide-all">⟳ Repor revelações</button></div></section>'}
+    function cardMarkup(c){const turned=isRevealed(c);const label=turned?"Um toque para ampliar, dois toques para tapar cromo":"Virar cromo";const image=c.available!==false&&c.image?'<img '+(turned?'src="'+esc(c.image)+'"':'data-src="'+esc(c.image)+'"')+' data-source="'+esc(c.source||'')+'" alt="'+esc(c.number+' '+c.name)+'" loading="lazy" onerror="if(this.dataset.source && this.src !== this.dataset.source){this.src=this.dataset.source;this.dataset.source=\'\'}else{this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'}">':'';
+      return '<div class="card-cell" data-card="'+esc(c.id)+'"><button class="flip-card'+(turned?' is-flipped':'')+'" data-action="flip" data-id="'+esc(c.id)+'" aria-label="'+esc(label+' '+(c.number||''))+'" aria-pressed="'+turned+'"><span class="flip-inner"><span class="face cover-face"><span class="cover-top">FUT · '+esc(catalog.year)+'</span><span class="cover-number">'+esc(c.number||'✦')+'</span><span class="cover-bottom">TOCA PARA REVELAR</span></span><span class="face image-face">'+image+'<span class="no-image" style="'+(image?'display:none':'')+'">'+esc(c.name||"Cromo sem imagem")+'<br>Imagem não disponível</span></span></span></button><div class="card-bottom"><span class="card-name'+(turned?'':' muted')+'">'+esc(turned?(c.name||"Cromo"):(c.number||"Cromo por revelar"))+'</span><button class="star'+(isFavorite(c)?' saved':'')+'" data-action="favorite" data-id="'+esc(c.id)+'" aria-label="'+(isFavorite(c)?'Remover dos':'Adicionar aos')+' favoritos" title="Favoritos">'+(isFavorite(c)?'★':'☆')+'</button></div>'+'</div>'}
+    function pageView(){if(!pages.length)return '<div class="empty">O arquivo de cromos ainda está a ser preparado.</div>';currentPage=Math.max(0,Math.min(currentPage,pages.length-1));const p=pages[currentPage],cnt=p.cards.filter(isRevealed).length;
+      let html='<div class="toolbar"><div class="tools"><button class="tool" data-action="portal">⌂ Coleções</button><button class="tool" data-action="index">▦ Índice</button><select class="select-page" id="jump-select" aria-label="Ir para secção">'+sections.map(s=>'<option value="'+esc(s.slug)+'"'+(s.slug===p.section.slug?' selected':'')+'>'+esc(s.name)+'</option>').join('')+'</select></div><div class="tools"><button class="tool accent" data-action="reveal-page">◉ Revelar página</button><button class="tool" data-action="hide-page">◌ Tapar página</button><button class="tool" data-action="reveal-all">✦ Revelar tudo</button></div></div>';
+      html+='<p class="small-muted" style="margin:0 0 12px">Desliza ← para a página seguinte · → para a anterior. Cromos revelados: um toque amplia · dois toques rápidos tapam.</p>';
+      html+='<article class="paper-shell"><header class="paper-top"><div><small>Secção '+(sections.indexOf(p.section)+1)+' / '+sections.length+'</small><h2>'+esc(p.section.name)+'</h2></div><div class="folio">Página '+(currentPage+1)+' / '+pages.length+'<br>'+cnt+' / '+p.cards.length+' revelados</div></header><div class="card-grid">'+p.cards.map(cardMarkup).join('')+'</div></article>';
+      html+='<div class="page-nav"><button class="tool" data-action="prev"'+(currentPage===0?' disabled':'')+'>← Anterior</button><span class="page-indicator">'+(currentPage+1)+' / '+pages.length+'</span><button class="tool" data-action="next"'+(currentPage===pages.length-1?' disabled':'')+'>Seguinte →</button></div><div class="toolbar"><span class="small-muted">'+esc(p.section.name)+' · '+p.pageInSection+' / '+p.sectionPages+' nesta secção</span><div class="tools"><button class="tool" data-action="index">⌂ Índice</button><button class="tool" data-action="export">↓ Exportar progresso</button></div></div>';return html}
+    function favoritesView(){const fav=catalog.cards.filter(isFavorite);return '<div class="section-heading"><div><span class="section-label">A tua seleção</span><h2>Favoritos</h2><p>Marca com ☆ os cromos que queres encontrar rapidamente.</p></div><button class="tool" data-action="index">⌂ Índice</button></div>'+(fav.length?'<div class="result-list">'+fav.map(c=>'<button class="result" data-action="jump" data-id="'+esc(c.id)+'"><span><strong>'+esc(c.number||"—")+' · '+esc(c.name||"Cromo")+'</strong><small>'+esc(sectionLabel(c))+'</small></span><span>↗</span></button>').join('')+'</div>':'<div class="empty">Ainda não adicionaste nenhum cromo aos favoritos.</div>')}
+    function routeHash(){if(view==='portal'||!activeCollectionId)return '#/colecoes';const base='#/c/'+encodeURIComponent(activeCollectionId);if(view==='index')return base+'/indice';if(view==='favorites')return base+'/favoritos';const p=pages[currentPage];return p?base+'/secao/'+encodeURIComponent(p.section.slug)+'/'+p.pageInSection:base+'/indice'}
+    function navigate(nextView,page){cancelPendingCardTap();if(nextView!=='portal'&&!activeCollectionId)return;view=nextView;if(typeof page==='number')currentPage=Math.max(0,Math.min(page,pages.length-1));history.replaceState(null,'',routeHash());render();window.scrollTo({top:0,behavior:'smooth'})}
+    function render(){cancelPendingCardTap();updateTop();app.innerHTML=view==='portal'?portalView():view==='index'?indexView():view==='favorites'?favoritesView():pageView();updateTop()}
+    function cardById(id){return catalog.cards.find(c=>c.id===id)}
+    function reveal(ids,value){ids.forEach(id=>{if(value)state.revealed[id]=true;else delete state.revealed[id]});save();render()}
+    function zoom(c){if(!c)return;modalCard=c.id;const root=document.getElementById('modal-root');root.innerHTML='<div class="modal-backdrop" data-action="close-modal"><div class="modal" role="dialog" aria-modal="true" aria-label="Detalhes do cromo"><div class="modal-header"><div><h3>'+esc(c.number+' · '+c.name)+'</h3><p style="margin:0">'+esc(c.section)+'</p></div><button data-action="close-modal" aria-label="Fechar">✕</button></div>'+(c.available!==false&&c.image?'<img src="'+esc(c.image)+'" alt="'+esc(c.name)+'" onerror="if(this.dataset.fallback){this.src=this.dataset.fallback;this.dataset.fallback=\'\'}" data-fallback="'+esc(c.source||'')+'">':'<div class="empty">Sem imagem disponível</div>')+'<div class="modal-controls"><button data-action="favorite" data-id="'+esc(c.id)+'">'+(isFavorite(c)?'★ Favorito':'☆ Favorito')+'</button><button data-action="close-modal">Fechar</button></div></div></div>';document.body.style.overflow='hidden'}
+    function closeModal(){document.getElementById('modal-root').innerHTML='';document.body.style.overflow='';modalCard=null}
+    function exportProgress(){const payload={app:'fut',collection:activeCollectionId,version:1,exportedAt:new Date().toISOString(),revealed:Object.keys(state.revealed),favorites:Object.keys(state.favorites)};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const href=URL.createObjectURL(blob),a=document.createElement('a');a.href=href;a.download='fut-'+activeCollectionId+'-progresso.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),500);notify('Progresso exportado.')}
+    async function importProgress(file){if(!file||!activeCollectionId)return;try{const obj=JSON.parse(await file.text());if(obj.app!=='fut'||obj.collection!==activeCollectionId||!Array.isArray(obj.revealed)||!Array.isArray(obj.favorites))throw Error('O ficheiro pertence a outra coleção ou está inválido');if(!confirm('Substituir o progresso atual desta coleção pelo ficheiro importado?'))return;const valid=new Set(catalog.cards.map(c=>c.id));state.revealed={};state.favorites={};obj.revealed.filter(id=>valid.has(id)).forEach(id=>state.revealed[id]=true);obj.favorites.filter(id=>valid.has(id)).forEach(id=>state.favorites[id]=true);save();render();notify('Progresso importado com sucesso.')}catch(e){notify('Ficheiro não reconhecido: '+e.message)}}
+    // Esperamos brevemente para distinguir toque único de duplo nos cromos já revelados.
+    // A mesma lógica funciona com rato e com toques no Safari/iPhone.
+    let pendingCardTap = null;
+    const DOUBLE_TAP_MS = 340;
+    function cancelPendingCardTap(){
+      if(pendingCardTap){
+        clearTimeout(pendingCardTap.timer);
+        pendingCardTap = null;
+      }
+    }
+    function handleCardClick(card, btn, event){
+      if(!isRevealed(card)){
+        cancelPendingCardTap();
+        state.revealed[card.id]=true;
+        save();
+        btn.classList.add('is-flipped');
+        btn.setAttribute('aria-pressed','true');
+        btn.setAttribute('aria-label','Um toque para ampliar, dois toques para tapar cromo '+(card.number||''));
+        const img=btn.querySelector('img[data-src]');
+        if(img){img.src=img.dataset.src;delete img.dataset.src}
+        setTimeout(()=>{if(view==='album'&&!modalCard)render()},520);
+        return;
+      }
+      // Enter/Espaço: ampliar imediatamente; não existe gesto de duplo toque no teclado.
+      if(event.detail===0){
+        cancelPendingCardTap();
+        zoom(card);
+        return;
+      }
+      if(pendingCardTap && pendingCardTap.id===card.id){
+        cancelPendingCardTap();
+        delete state.revealed[card.id];
+        save();
+        btn.classList.remove('is-flipped');
+        btn.setAttribute('aria-pressed','false');
+        btn.setAttribute('aria-label','Virar cromo '+(card.number||''));
+        setTimeout(()=>{if(view==='album'&&!modalCard)render()},520);
+        notify('Cromo novamente tapado.');
+        return;
+      }
+      cancelPendingCardTap();
+      const id=card.id;
+      const timer=setTimeout(()=>{
+        if(pendingCardTap?.id===id){
+          pendingCardTap=null;
+          if(isRevealed(card) && !modalCard) zoom(card);
+        }
+      },DOUBLE_TAP_MS);
+      pendingCardTap={id,timer};
+    }
+    // Passar páginas por gesto horizontal no ecrã tátil (Safari/iPhone e Android).
+    // Não capturamos os movimentos verticais, para preservar o scroll natural.
+    let swipeOrigin=null;
+    let swipeClickBlockUntil=0;
+    app.addEventListener('touchstart',event=>{
+      swipeOrigin=null;
+      if(view!=='album'||modalCard||event.touches.length!==1||!event.target.closest('.paper-shell'))return;
+      const touch=event.touches[0];
+      swipeOrigin={x:touch.clientX,y:touch.clientY,id:touch.identifier,page:currentPage,started:Date.now()};
+    },{passive:true});
+    app.addEventListener('touchend',event=>{
+      if(!swipeOrigin)return;
+      const origin=swipeOrigin;
+      swipeOrigin=null;
+      if(view!=='album'||modalCard||origin.page!==currentPage||event.touches.length!==0)return;
+      const touch=Array.from(event.changedTouches).find(t=>t.identifier===origin.id);
+      if(!touch)return;
+      const dx=touch.clientX-origin.x;
+      const dy=touch.clientY-origin.y;
+      if(Math.abs(dx)<65||Math.abs(dx)<Math.abs(dy)*1.4||Date.now()-origin.started>1400)return;
+      // Descartar o clique sintético após swipe, sem virar um cromo acidentalmente.
+      event.preventDefault();
+      swipeClickBlockUntil=Date.now()+550;
+      cancelPendingCardTap();
+      const target=currentPage+(dx<0?1:-1);
+      if(target>=0&&target<pages.length)navigate('album',target);
+    },{passive:false});
+    app.addEventListener('touchcancel',()=>{swipeOrigin=null},{passive:true});
+    app.addEventListener('click',event=>{
+      if(Date.now()<swipeClickBlockUntil && event.target.closest('.paper-shell')){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    },true);
+    app.addEventListener('click',event=>{const btn=event.target.closest('[data-action]');if(!btn)return;const action=btn.dataset.action;const card=cardById(btn.dataset.id);if(action==='next-batch'){
+      const waiting=LIBRARY.filter(x=>x.status!=='active').slice(0,2);
+      const scope=waiting.length>=2
+        ?'as coleções '+waiting.map(x=>x.title).join(' e ')
+        :'duas novas coleções de futebol com imagens completas e acessíveis, ainda não existentes no FUT';
+      const prompt='Autorizo o próximo lote de duas coleções no repositório newuser-hub/fut, já ligado ao Vercel: integra '+scope+'. Verifica integralmente os catálogos, números, imagens, secções, favoritos, progresso independente e gestos; publica e testa em produção. Mantém todas as coleções anteriores. No final, apresenta novamente o botão de autorização para as próximas duas, repetindo o ciclo.';
+      if(navigator.clipboard?.writeText)navigator.clipboard.writeText(prompt).then(()=>notify('Pedido copiado. Cola-o na conversa do ChatGPT.')).catch(()=>window.prompt('Copia o pedido para o ChatGPT:',prompt));
+      else window.prompt('Copia o pedido para o ChatGPT:',prompt);
+    }else if(action==='portal')navigate('portal');else if(action==='collection')selectCollection(btn.dataset.collection);else if(action==='scroll-collections'){app.querySelector('#collection-grid')?.scrollIntoView({behavior:'smooth'})}else if(!activeCollectionId)return;else if(action==='index')navigate('index');else if(action==='album')navigate('album');else if(action==='favorites')navigate('favorites');else if(action==='section'){const idx=pages.findIndex(p=>p.section.slug===btn.dataset.slug);navigate('album',idx>=0?idx:0)}else if(action==='jump'&&card){navigate('album',pageFor(card.id));const el=app.querySelector('[data-card="'+CSS.escape(card.id)+'"]');if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.add('spotlight')}}else if(action==='prev')navigate('album',currentPage-1);else if(action==='next')navigate('album',currentPage+1);else if(action==='flip'&&card){handleCardClick(card,btn,event)}else if(action==='favorite'&&card){if(isFavorite(card))delete state.favorites[card.id];else state.favorites[card.id]=true;save();if(modalCard)zoom(card);else render()}else if(action==='reveal-page'){reveal(pages[currentPage].cards.map(c=>c.id),true);notify('Todos os cromos desta página revelados.')}else if(action==='hide-page'){reveal(pages[currentPage].cards.map(c=>c.id),false);notify('Cromos desta página novamente tapados.')}else if(action==='reveal-all'){reveal(catalog.cards.map(c=>c.id),true);notify('Toda a coleção foi revelada.')}else if(action==='hide-all'){if(confirm('Voltar a tapar todos os cromos? Os favoritos serão preservados.')){state.revealed={};save();render();notify('Todos os cromos ficaram tapados.')}}else if(action==='random'){const pool=catalog.cards.filter(c=>!isRevealed(c));const candidates=pool.length?pool:catalog.cards;if(!candidates.length)return;const chosen=candidates[Math.floor(Math.random()*candidates.length)];state.revealed[chosen.id]=true;save();navigate('album',pageFor(chosen.id));notify('Descoberto: '+chosen.number+' · '+chosen.name)}else if(action==='export')exportProgress();else if(action==='import')document.getElementById('import-file').click()});
+    document.getElementById('modal-root').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;if(b.dataset.action==='close-modal' && b.classList.contains('modal-backdrop') && e.target!==b)return;if(b.dataset.action==='close-modal')closeModal();else if(b.dataset.action==='favorite'){const c=cardById(b.dataset.id);if(c){if(isFavorite(c))delete state.favorites[c.id];else state.favorites[c.id]=true;save();zoom(c)}}});
+    app.addEventListener('change',e=>{if(e.target.id==='jump-select'){const idx=pages.findIndex(p=>p.section.slug===e.target.value);if(idx>=0)navigate('album',idx)}});
+    app.addEventListener('input',e=>{if(e.target.id==='search'){const pos=e.target.selectionStart;query=e.target.value;render();const input=document.getElementById('search');input.focus();input.setSelectionRange(pos,pos)}});
+    document.querySelector('header.app-top').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;if(a==='portal')navigate('portal');if(!activeCollectionId)return;if(a==='index')navigate('index');if(a==='album')navigate('album');if(a==='favorites')navigate('favorites');if(a==='random'){const pool=catalog.cards.filter(c=>!isRevealed(c));const a=pool.length?pool:catalog.cards;if(a.length){const c=a[Math.floor(Math.random()*a.length)];state.revealed[c.id]=true;save();navigate('album',pageFor(c.id));notify('Descoberto: '+c.number+' · '+c.name)}}});
+    document.getElementById('import-file').addEventListener('change',e=>{importProgress(e.target.files[0]);e.target.value=''});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();return}if(view==='album'&&!modalCard&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){if(e.key==='ArrowRight'){e.preventDefault();navigate('album',Math.min(pages.length-1,currentPage+1))}else if(e.key==='ArrowLeft'){e.preventDefault();navigate('album',Math.max(0,currentPage-1))}}});
+    window.addEventListener('hashchange',restoreHash);
+    async function restoreHash(){
+      const parts=decodeURIComponent(location.hash||'').split('/');
+      if(parts[1]!=='c'||!parts[2]){view='portal';render();return}
+      const id=parts[2];
+      if(id!==activeCollectionId){await selectCollection(id,false)}
+      if(!activeCollectionId)return;
+      const kind=parts[3];
+      if(kind==='favoritos'){view='favorites'}
+      else if(kind==='secao'){
+        const idx=pages.findIndex(p=>p.section.slug===parts[4]&&p.pageInSection===Number(parts[5]||'1'));
+        currentPage=idx>=0?idx:0;
+        view='album';
+      }else{view='index'}
+      render();
+    }
+    async function start(){
+      try{
+        const response=await fetch('/library.json',{cache:'no-cache'});
+        if(!response.ok)throw new Error('Índice de coleções indisponível');
+        const items=await response.json();
+        if(!Array.isArray(items) || items.length<2)throw new Error('Índice inválido');
+        LIBRARY=items;
+        if(location.hash.startsWith('#/c/'))await restoreHash();
+        else{view='portal';render()}
+      }catch(error){
+        app.innerHTML='<div class="empty"><h2>Não foi possível abrir a biblioteca</h2><p>'+esc(error.message)+'</p><button class="tool" onclick="location.reload()">Tentar novamente</button></div>';
+      }
+    }
+    start();
+  })();
+  </script>
+</body>
+</html>
