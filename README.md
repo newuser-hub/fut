@@ -1,6 +1,6 @@
 # FUT — Arquivo de Cadernetas Digitais
 
-Portal de cadernetas virtuais de futebol, com **oito coleções ativas** e uma expansão autorizada por lotes sucessivos de duas coleções, sem um limite predefinido.
+Portal de cadernetas virtuais de futebol, com **dez coleções ativas** e uma expansão autorizada por lotes sucessivos de duas coleções, sem um limite predefinido.
 
 ## Coleções
 
@@ -14,10 +14,12 @@ Portal de cadernetas virtuais de futebol, com **oito coleções ativas** e uma e
 | Liga Portugal 2024/25 — Panini | 528 (497 principais + 31 extras) | 27 | Integrada neste lote |
 | Champions League Match Attax 2025/26 — Topps | 738 (662 com fotografia) | 77 | Integrada no lote 3 |
 | Champions League & Europa League Match Attax 2026/27 — Topps | 558 (491 principais + 67 extras; 522 com fotografia) | 42 | Integrada no lote 3 |
+| LaLiga ESTE 2026/27 — Panini | 743 (640 principais + 103 extras; 623 com fotografia) | 34 | Integrada no lote 5 |
+| LaLiga Megacracks 2026/27 — Panini | 534 (450 principais + 84 extras; 451 com fotografia) | 33 | Integrada no lote 5 |
 | UEFA Euro França 2016 — Panini | — | — | Candidata à próxima expansão |
 | Mundial Rússia 2018 — Panini | — | — | Candidata à próxima expansão |
 
-**Total atual: 4.603 posições em oito coleções ativas.** As duas cadernetas portuguesas acrescentadas neste lote têm **966 imagens verificadas em 966 posições** (438 na edição 2021/22 e 528 na edição 2024/25). Ídolos 2025/26 foi substituída por ter quatro cartas de autógrafos sem fotografia no catálogo de referência. As edições Match Attax de 2025/26 e 2026/27 foram integradas e publicadas em 7 de novembro de 2026, preservando as quatro coleções anteriores. Das 1.296 novas cartas, 1.184 têm imagem verificada por HTTP GET, MIME, dimensão e SHA-256 (662 e 522, respetivamente). As restantes 112 posições mantêm-se navegáveis com a indicação de imagem indisponível. Nenhuma fotografia foi inventada.
+**Total atual: 5.880 posições em dez coleções ativas.** As duas coleções espanholas acrescentaram 1.277 posições em 67 secções, das quais **1.074 têm imagem verificada e 203 não têm fotografia acessível** na fonte em 7 de novembro de 2026. O catálogo ESTE apresenta quatro entradas com numeração impressa coincidente (dois pares); os números originais foram mantidos e cada posição recebeu uma referência inequívoca da origem para navegação. As duas cadernetas portuguesas acrescentadas neste lote têm **966 imagens verificadas em 966 posições** (438 na edição 2021/22 e 528 na edição 2024/25). Ídolos 2025/26 foi substituída por ter quatro cartas de autógrafos sem fotografia no catálogo de referência. As edições Match Attax de 2025/26 e 2026/27 foram integradas e publicadas em 7 de novembro de 2026, preservando as quatro coleções anteriores. Das 1.296 novas cartas, 1.184 têm imagem verificada por HTTP GET, MIME, dimensão e SHA-256 (662 e 522, respetivamente). As restantes 112 posições mantêm-se navegáveis com a indicação de imagem indisponível. Nenhuma fotografia foi inventada.
 
 ## Funcionalidades
 
@@ -42,14 +44,14 @@ A workflow `.github/workflows/ingest-next-batch.yml` executa-se quando esse fich
 1. Recupera o motor original e os dois catálogos históricos dos blocos `archives/`;
 2. Recolhe os novos catálogos da origem;
 3. Audita individualmente as imagens disponíveis (HTTP GET, MIME, dimensão, SHA-256) e assinala posições sem fotografia na origem;
-4. Rejeita lotes com IDs repetidos, números principais ambíguos, fonte inesperada ou cobertura de imagens principais inferior a 80%; quando a opção `requireAllImages` está ativa, exige **100% das imagens**, e `replaces` permite substituir um lugar reservado incompleto sem duplicar entradas;
+4. Rejeita lotes com IDs de origem repetidos, fonte inesperada ou cobertura das imagens principais inferior a 80%; quando há números impressos repetidos, preserva-os em `originalNumber` e desambigua cada posição pelo `sourceId`, sem perder entradas. A opção `requireAllImages` exige **100% das imagens**, e `replaces` permite substituir um lugar reservado incompleto sem duplicar entradas;
 5. Atualiza `public/library.json`, `public/data/*.json` e a aplicação;
 6. Executa verificações estruturais e valida a sintaxe JavaScript;
 7. Só após sucesso efetua commit para `main`, para permitir nova publicação Vercel.
 
 O site tem uma única fonte HTML editável, `src/index.html`, criada na primeira integração. `npm run build` copia-a para `public/index.html` e restaura os catálogos legados quando necessário. O portal usa o manifesto `public/library.json`, pelo que novos lotes não exigem reescrever o motor.
 
-Concluídas as oito cadernetas atuais, os lotes seguintes podem usar novas coleções identificadas e auditadas, **sem limite fixo de coleções**. Os candidatos seguintes são Euro França 2016 e Mundial Rússia 2018; a inclusão dependerá de nova auditoria completa e da autorização do utilizador.
+Concluídas as dez cadernetas atuais, os lotes seguintes podem usar novas coleções identificadas e auditadas, **sem limite fixo de coleções**. Os candidatos seguintes são Euro França 2016 e Mundial Rússia 2018; a inclusão dependerá de nova auditoria completa e da autorização do utilizador.
 
 ## Fontes
 
@@ -63,6 +65,8 @@ Concluídas as oito cadernetas atuais, os lotes seguintes podem usar novas cole�
 - [Mundial Rússia 2018 — candidato](https://www.cromos.pt/collection/25/fifa-world-cup-russia-2018-panini)
 - [Match Attax 2025/26](https://www.cromos.pt/collection/50/match-attax-2025-2026-topps)
 - [Match Attax 2026/27](https://www.cromos.pt/collection/81/topps-uefa-champions-league-europa-league-2026-2027-match-attax)
+- [LaLiga ESTE 2026/27](https://www.cromos.pt/collection/337/laliga-2026-2027-este-panini)
+- [LaLiga Megacracks 2026/27](https://www.cromos.pt/collection/80/laliga-2026-2027-megacracks-panini)
 
 Auditados em novembro de 2026. Os cromos e cartas com fotografia são **referenciados por URL**, alojados no Cromos.pt, e **não** são guardados no repositório público. A disponibilidade atual de imagens não assegura que a origem as mantenha para sempre.
 
