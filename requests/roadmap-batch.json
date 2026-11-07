@@ -1,35 +1,35 @@
 {
   "version": 1,
-  "batch": "roadmap-3",
+  "batch": "roadmap-4",
   "authorizedSourceIds": [
-    49,
-    51
+    44,
+    53
   ],
+  "auditPipelineVersion": 2,
   "collections": [
     {
-      "id": "ucl-topps-2025-26",
-      "sourceId": 49,
-      "sourceSlug": "uefa-champions-league-2025-2026-topps",
-      "title": "Champions League 2025/26 — Topps",
-      "subtitle": "UEFA Champions League 2025–2026 · Topps",
-      "year": "25/26",
-      "publisher": "Topps",
-      "category": "Clubes · Champions League",
-      "description": "Edição UEFA Champions League 2025–2026 · Topps; 584 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "id": "fifa-365-2026",
+      "sourceId": 44,
+      "sourceSlug": "fifa-365-2026-panini",
+      "title": "FIFA 365 2026",
+      "subtitle": "FIFA 365 2026 · Panini",
+      "year": "2026",
+      "publisher": "Panini",
+      "category": "Clubes · FIFA 365",
+      "description": "Edição FIFA 365 2026 · Panini; 524 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     },
     {
-      "id": "match-attax-extra-2025-26",
-      "sourceId": 51,
-      "sourceSlug": "match-attax-extra-2025-2026-topps",
-      "title": "Match Attax Extra 2025/26",
-      "subtitle": "Match Attax Extra 2025–2026 · Topps",
-      "year": "25/26",
-      "publisher": "Topps",
-      "category": "Clubes · Champions League",
-      "description": "Edição Match Attax Extra 2025–2026 · Topps; 445 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "id": "liga-portugal-2023-24",
+      "sourceId": 53,
+      "sourceSlug": "futebol-2023-2024-panini",
+      "title": "Liga Portugal 2023/24",
+      "subtitle": "Futebol 2023–2024 · Panini",
+      "year": "23/24",
+      "publisher": "Panini",
+      "category": "Clubes · Liga Portugal",
+      "description": "Edição Futebol 2023–2024 · Panini; 527 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     }
-  ],
-  "auditPipelineVersion": 2
+  ]
 }
