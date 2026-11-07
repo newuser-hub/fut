@@ -54,6 +54,23 @@ jobs:
             echo "Nada a atualizar — a coleção já está no portal."
           else
             git commit -m "Integrar lote de duas coleções FUT [skip actions]"
-            git push origin HEAD:main
+            # As outras integrações também podem atualizar main durante a auditoria.
+            # Rebase não destrutivo: nunca executar push --force.
+            for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+              if git push origin HEAD:main; then
+                echo "Lote integrado em main."
+                exit 0
+              fi
+              echo "Atualização concorrente detetada (tentativa $attempt)."
+              git fetch origin main
+              if ! git rebase origin/main; then
+                git rebase --abort || true
+                echo "::error::Conflito de alterações. Nenhum ficheiro remoto foi substituído."
+                exit 1
+              fi
+              sleep 2
+            done
+            echo "::error::Não foi possível publicar após 12 tentativas."
+            exit 1
           fi
 
