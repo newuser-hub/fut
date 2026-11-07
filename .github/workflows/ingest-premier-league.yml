@@ -45,6 +45,14 @@ jobs:
           for i,x in enumerate(s):
             if re.search(r'(^|\s)(?:DA-DS|DA-ZP|BR-AC|BA-OW|CA-AC|1\s+Max Dowman|300\s)',x):
               print(i,repr(x))
+          print('---- DUAL AUTOGRAPH BLOCK ----')
+          for i,x in enumerate(s[1140:1180],1140): print(i,repr(x))
+          print('---- HEADERS ----')
+          for i,x in enumerate(s):
+            if re.match(r'^\s*[A-Z][A-Z0-9 /&-]{5,}\s*
+          for i,x in enumerate(s[-20:],len(s)-20):print(i,repr(x))
+          PY
+,x):print(i,repr(x))
           print('---- LAST 20 ----')
           for i,x in enumerate(s[-20:],len(s)-20):print(i,repr(x))
           PY
