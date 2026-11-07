@@ -32,6 +32,12 @@ jobs:
           content=urlopen(req,timeout=20).read(6_000_000).decode('utf-8','replace')
           p=P();p.feed(content)
           if p.data:
+            cs=p.data['props']['collections']
+            print('TOTAL COLLECTIONS',len(cs))
+            print('SCHEMA',list(cs[0].keys()))
+            for c in cs:
+              if c.get('category_id')==1:
+                print('FOOTBALL',json.dumps({k:c.get(k) for k in ['id','name','slug','stickers_count','optional_count','is_coming_soon','series_id','publisher_id']},ensure_ascii=False))
             print('COMPONENT',p.data.get('component'))
             print('PROP KEYS',list(p.data.get('props',{}).keys()))
             for key,val in p.data.get('props',{}).items():
