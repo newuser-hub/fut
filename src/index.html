@@ -141,10 +141,21 @@
         const data=await response.json();
         if(!Array.isArray(data.cards)||data.cards.length!==item.count)throw Error('Catálogo incompleto');
         const all=new Set();
+        // Nomes distintos podem criar slugs iguais (pontuação e hífens).
+        // Resolver a colisão sem alterar IDs nem progresso dos cromos.
+        const sectionNames=new Map();
+        const usedSectionSlugs=new Set();
         data.cards.forEach(c=>{
           if(all.has(c.id)||!c.id||!c.name||!c.section||!c.number)throw Error('Cromo inválido ou repetido');
           all.add(c.id);
-          c.sectionSlug=sectionSlug(c.section);
+          if(!sectionNames.has(c.section)){
+            const base=sectionSlug(c.section)||'secao';
+            let slug=base,num=2;
+            while(usedSectionSlugs.has(slug))slug=base+'-'+num++;
+            usedSectionSlugs.add(slug);
+            sectionNames.set(c.section,slug);
+          }
+          c.sectionSlug=sectionNames.get(c.section);
         });
         activeCollectionId=id;
         catalog=data;
