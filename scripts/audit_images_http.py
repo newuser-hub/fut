@@ -23,7 +23,8 @@ from urllib.request import HTTPRedirectHandler, Request, build_opener, HTTPSHand
 ALLOWED_HOSTS = frozenset({
     "www.cromos.pt", "cromos.pt",
     "www.stickersone.com", "stickersone.com",
-    "images.topps.com"
+    "images.topps.com",
+    "blogger.googleusercontent.com"  # capa publicada no manifesto de 2026/27
 })
 RETRY_HTTP = frozenset({408, 425, 429, 500, 502, 503, 504})
 MIME_PREFIX = "image/"
