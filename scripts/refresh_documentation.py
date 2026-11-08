@@ -124,6 +124,18 @@ def as_markdown_title(s: str) -> str:
     return s.replace("|", r"\|").replace("\n", " ")
 
 
+def year_start(value:str) -> int:
+    text=str(value or "").strip()
+    if re.fullmatch(r"(?:19|20)\d{2}",text):
+        return int(text)
+    match=re.fullmatch(r"(\d{2})\s*/\s*\d{2}",text)
+    if match:
+        yy=int(match.group(1))
+        return 1900+yy if yy>=90 else 2000+yy
+    match=re.search(r"(?:19|20)\d{2}",text)
+    return int(match.group(0)) if match else 0
+
+
 def collections_md(m: dict) -> str:
     t = [
         "# 02 — Inventário atual de coleções",
@@ -139,7 +151,8 @@ def collections_md(m: dict) -> str:
         ""
     ]
     for key, name in CATEGORIES:
-        rows = [r for r in m["collections"] if r["category"] == key]
+        rows = sorted((r for r in m["collections"] if r["category"] == key),
+                      key=lambda r:(-year_start(r["year"]),r["title"].casefold()))
         t.extend([f"## {name} — {len(rows)} coleções", "",
             "| Coleção | Ano | Editora | Posições | Secções | Com SHA | Link sem SHA | Sem URL | Catálogo |",
             "|---|---|---|---:|---:|---:|---:|---:|---|"])
