@@ -28,6 +28,17 @@ def main():
     active = {x["id"]: x for x in library if x["status"]=="active"}
     if not (isinstance(req.get("collections"),list) and len(req["collections"])==2):
         raise ValueError("Pedido não contém exatamente duas coleções")
+    # Enquanto a workflow transacional não concluiu, o pedido está pendente.
+    # Nunca aceitar integração parcial, e nunca dispensar a auditoria quando ativo.
+    selected=[x["id"] for x in req["collections"]]
+    missing=[slug for slug in selected if slug not in active]
+    if missing:
+        if len(missing)==len(selected) and all(
+            slug in planned and planned[slug]["imageAudit"]=="pending" for slug in selected
+        ):
+            print("PENDING: lote autorizado ainda não integrado; a auditoria será obrigatória após o commit transacional")
+            return
+        raise ValueError("Lote parcialmente integrado ou catálogo inconsistente: "+", ".join(missing))
     all_ids=set()
     seen_hashes={}
     for item in req["collections"]:

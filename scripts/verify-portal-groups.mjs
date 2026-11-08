@@ -15,13 +15,13 @@ const library=JSON.parse(readFileSync(new URL('../public/library.json',import.me
 t.library(library);
 const categories=['portugal','selecoes','champions','outros'];
 const counts=Object.fromEntries(categories.map(x=>[x,library.filter(y=>t.group(y)===x).length]));
-assert.equal(counts.portugal,6);
+assert(counts.portugal>=6,'Nenhuma edição portuguesa pode sair da categoria Portugal');
 assert.equal(Object.values(counts).reduce((a,b)=>a+b,0),library.length);
 assert.equal(t.group(library.find(x=>x.id==='euro-2004')),'selecoes');
 assert.equal(t.group(library.find(x=>x.id==='idolos-pt-2026-27')),'portugal');
 assert.equal(t.group(library.find(x=>x.id==='ucl-topps-2024-25')),'champions');
 assert.equal(t.group(library.find(x=>x.id==='match-attax-2026-27')),'champions');
-assert.equal(counts.champions,5,'Deve mostrar as cinco coleções Champions League existentes');
+assert(counts.champions>=5,'As coleções Champions League anteriores devem ser preservadas');
 assert.equal(t.year(library.find(x=>x.id==='match-attax-2026-27')),2026);
 assert.equal(t.year(library.find(x=>x.id==='world-cup-1998')),1998);
 const cards=html=>[...html.matchAll(/data-action="collection" data-collection="([^"]+)"/g)].map(x=>x[1]);
