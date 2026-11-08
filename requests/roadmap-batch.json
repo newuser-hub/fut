@@ -1,36 +1,36 @@
 {
   "version": 1,
-  "batch": "roadmap-10",
+  "batch": "roadmap-11",
   "authorizedSourceIds": [
-    20,
-    28
+    62,
+    63
   ],
   "auditPipelineVersion": 2,
   "collections": [
     {
-      "id": "euro-2008",
-      "sourceId": 20,
-      "sourceSlug": "uefa-euro-austria-switzerland-2008-panini",
-      "title": "Euro 2008 — Áustria/Suíça",
-      "subtitle": "UEFA Euro Austria–Switzerland 2008 · Panini",
-      "year": "2008",
+      "id": "liga-portugal-2018-19",
+      "sourceId": 62,
+      "sourceSlug": "futebol-2018-2019-panini",
+      "title": "Liga Portugal 2018/19",
+      "subtitle": "Futebol 2018–2019 · Panini",
+      "year": "18/19",
       "publisher": "Panini",
-      "category": "Seleções · Europeu",
-      "description": "Edição UEFA Euro Austria–Switzerland 2008 · Panini; 568 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "category": "Clubes · Liga Portugal",
+      "description": "Edição Futebol 2018–2019 · Panini; 422 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "requireAllImages": false
     },
     {
-      "id": "confederations-2013",
-      "sourceId": 28,
-      "sourceSlug": "fifa-confederations-cup-brazil-2013-panini",
-      "title": "Taça das Confederações 2013",
-      "subtitle": "FIFA Confederations Cup Brazil 2013 · Panini",
-      "year": "2013",
+      "id": "liga-portugal-2017-18",
+      "sourceId": 63,
+      "sourceSlug": "futebol-2017-2018-panini",
+      "title": "Liga Portugal 2017/18",
+      "subtitle": "Futebol 2017–2018 · Panini",
+      "year": "17/18",
       "publisher": "Panini",
-      "category": "Seleções · Confederações",
-      "description": "Edição FIFA Confederations Cup Brazil 2013 · Panini; 249 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "category": "Clubes · Liga Portugal",
+      "description": "Edição Futebol 2017–2018 · Panini; 395 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "requireAllImages": false
     }
   ],
-  "testRevision": 4
+  "testRevision": 5
 }
