@@ -1,0 +1,41 @@
+name: FUT - Auditoria 7 - gerar lockfile npm (apenas branch de auditoria)
+on:
+  push:
+    branches:
+      - audit/fut-2026-11-08
+    paths:
+      - .github/workflows/audit-fut-step7-lockfile.yml
+permissions:
+  contents: write
+jobs:
+  lockfile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/fut-2026-11-08
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Resolver dependências npm exatas
+        run: |
+          set -euo pipefail
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          npm ci --ignore-scripts --no-audit --no-fund
+          node - <<'NODE'
+          const p=require('./package.json'),l=require('./package-lock.json');
+          if(l.lockfileVersion!==3||l.packages[''].dependencies['@vercel/functions']!=='3.11.0'||p.dependencies['@vercel/functions']!=='3.11.0') process.exit(1);
+          console.log('PASS: lockfile v3 e npm ci');
+          NODE
+      - name: Commit unicamente do lockfile na branch de auditoria
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if git diff --cached --quiet; then exit 0; fi
+          test "$(git diff --cached --name-only)" = "package-lock.json"
+          git commit -m "build(audit): adicionar package-lock v3 reproduzível [skip ci]"
+          git push origin HEAD:refs/heads/audit/fut-2026-11-08
