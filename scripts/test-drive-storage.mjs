@@ -1,9 +1,15 @@
 import assert from 'node:assert/strict';
+import { randomBytes } from 'node:crypto';
 import test from 'node:test';
 import handler from '../api/storage.js';
 import { driveAuthMode, driveConfigured, getAccessToken } from '../lib/drive-store.js';
 
+// Palavra-passe sintética gerada apenas para a execução destes testes.
+const testPassword=randomBytes(24).toString('base64url');
 async function request(url) {
+  const previous=process.env.FUT_ALBUM_PASSWORD;
+  process.env.FUT_ALBUM_PASSWORD=testPassword;
+  const authorization='Basic '+Buffer.from('fut:'+testPassword).toString('base64');
   const headers={};
   let result;
   const res={
@@ -11,7 +17,12 @@ async function request(url) {
     setHeader(name,value){headers[name.toLowerCase()]=value;},
     end(payload=''){result={status:this.statusCode,headers,body:String(payload)};}
   };
-  await handler({method:'GET',url},res);
+  try {
+    await handler({method:'GET',url,headers:{authorization}},res);
+  } finally {
+    if(previous===undefined)delete process.env.FUT_ALBUM_PASSWORD;
+    else process.env.FUT_ALBUM_PASSWORD=previous;
+  }
   return result;
 }
 
