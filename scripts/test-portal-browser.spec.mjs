@@ -295,3 +295,48 @@ test('rede lenta simulada: carregamento, pesquisa e abertura mensurados',async({
   expect(readyMs).toBeLessThan(6000);
   expect(search).toBeLessThan(250);
 });
+
+
+test('touchscreen automatizado: tocar para revelar e dois toques para voltar a tapar',async({portal},info)=>{
+  const {page}=portal;
+  await openAlbum(page);
+  const card=page.locator('.flip-card').first();
+  async function touchCard(){
+    await card.scrollIntoViewIfNeeded();
+    const bb=await card.boundingBox();
+    expect(bb).not.toBeNull();
+    await page.touchscreen.tap(bb.x+bb.width/2,bb.y+bb.height/2);
+  }
+  await touchCard();
+  await expect(card).toHaveAttribute('aria-pressed','true');
+  await page.waitForTimeout(600);
+  await touchCard();
+  await touchCard();
+  await expect(card).toHaveAttribute('aria-pressed','false');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  console.log('FUT_STAGE8_TOUCH_JSON='+JSON.stringify({
+    engine:info.project.use.browserName,width:info.project.use.viewport.width,
+    method:'Playwright touchscreen.tap',genuineIOS:false,result:'PASS'
+  }));
+});
+
+test('WCAG automatizado no portal e no modal aberto',async({portal})=>{
+  const {page}=portal;
+  const tags=['wcag2a','wcag2aa','wcag21a','wcag21aa'];
+  const portalResult=await new AxeBuilder({page}).withTags(tags).analyze();
+  const portalSevere=portalResult.violations.filter(v=>
+    ['serious','critical'].includes(v.impact));
+  expect(portalSevere.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))).toEqual([]);
+  await openAlbum(page);
+  const card=page.locator('.flip-card').first();
+  await card.click();
+  await page.waitForTimeout(580);
+  await card.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('dialog')).toBeVisible();
+  const modalResult=await new AxeBuilder({page})
+    .include('#modal-root').withTags(tags).analyze();
+  const modalSevere=modalResult.violations.filter(v=>
+    ['serious','critical'].includes(v.impact));
+  expect(modalSevere.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))).toEqual([]);
+});
