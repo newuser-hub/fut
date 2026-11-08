@@ -471,5 +471,27 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/NfMp8DQJI1WdUIQ5xnkqFG5gxZPxm7OXMM5BW5UW.jpg",
     "description": "Edição Futebol 2017–2018 · Panini; 395 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral."
+  },
+  {
+    "id": "world-cup-1990",
+    "title": "Mundial Itália 1990",
+    "year": "1990",
+    "count": 448,
+    "sections": 27,
+    "category": "Seleções · Mundial",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/WSxTWdfJHFBV5LOeYVfYW4eZMVGLPvWfLYrJlUqH.jpg",
+    "description": "Edição FIFA World Cup Italia 1990 · Panini; 448 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral."
+  },
+  {
+    "id": "euro-1992",
+    "title": "Euro Suécia 1992",
+    "year": "1992",
+    "count": 261,
+    "sections": 12,
+    "category": "Seleções · Europeu",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/B5hZM1R8rMXBXvrhndUYmW83GHopeT2aJu4HnUjb.jpg",
+    "description": "Edição UEFA Euro Sweden 1992 · Panini; 261 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral."
   }
 ]

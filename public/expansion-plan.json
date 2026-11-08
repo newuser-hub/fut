@@ -711,12 +711,22 @@
       "declaredMainCount": 448,
       "description": "Edição FIFA World Cup Italia 1990 · Panini; 448 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/11/fifa-world-cup-italia-1990-panini",
-      "imageAudit": "pending",
+      "imageAudit": "verified",
       "preflight": {
         "checkedAt": "2026-11-08",
         "sourceTotal": 448,
         "sourceImagePaths": 448,
         "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      },
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 448,
+        "principal": 448,
+        "principalWithImage": 448,
+        "verifiedImages": 448,
+        "missingImages": 0,
+        "sections": 27,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42482032742"
       }
     },
     {
@@ -732,12 +742,22 @@
       "declaredMainCount": 261,
       "description": "Edição UEFA Euro Sweden 1992 · Panini; 261 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/12/uefa-euro-sweden-1992-panini",
-      "imageAudit": "pending",
+      "imageAudit": "verified",
       "preflight": {
         "checkedAt": "2026-11-08",
         "sourceTotal": 261,
         "sourceImagePaths": 257,
         "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      },
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 261,
+        "principal": 261,
+        "principalWithImage": 257,
+        "verifiedImages": 257,
+        "missingImages": 4,
+        "sections": 12,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42482032742"
       }
     },
     {
@@ -1115,6 +1135,42 @@
           "missingImages": 1,
           "sections": 22,
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/42481547388"
+        }
+      ]
+    },
+    {
+      "batch": "roadmap-12",
+      "authorized": [
+        11,
+        12
+      ],
+      "integrated": [
+        "world-cup-1990",
+        "euro-1992"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/42482032742",
+      "details": [
+        {
+          "id": "world-cup-1990",
+          "auditedAt": "2026-11-08",
+          "positions": 448,
+          "principal": 448,
+          "principalWithImage": 448,
+          "verifiedImages": 448,
+          "missingImages": 0,
+          "sections": 27,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42482032742"
+        },
+        {
+          "id": "euro-1992",
+          "auditedAt": "2026-11-08",
+          "positions": 261,
+          "principal": 261,
+          "principalWithImage": 257,
+          "verifiedImages": 257,
+          "missingImages": 4,
+          "sections": 12,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42482032742"
         }
       ]
     }
