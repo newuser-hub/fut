@@ -102,7 +102,7 @@ Inventário determinístico lido pelo script `scripts/audit_images_http.py` apó
 - **Nenhuma correção de hashes/imagens em massa:** as 24.695 imagens anteriormente com hash continuaram idênticas quando obtidas por GET. Preservar os metadados existentes evita revisões sem necessidade.
 - **Salis:** única imagem efetivamente corrigida nesta etapa, por prova combinada de GET/bytes idênticos ao cromo de Kojo e inspeção visual confirmada; posição 383 conservada, fotografia marcada indisponível.
 - **Oito variantes regionais:** 16 GET 200 e hashes idênticos aos pares e ao histórico. Mesma identidade textual do jogador em ambos os números regionais; conservar variantes. Os hashes não garantem por si conformidade com todos os elementos gráficos do checklist oficial.
-- **Topps 5×403:** quatro impossibilidades de acesso não seriam transformadas em erros de atribuição; no caso real são **cinco**, preservando os cinco URLs `official-preview-link` e a distinção entre foto sem hash e cromo sem foto.
+- **Topps 5×403:** os cinco bloqueios de acesso no runner não são prova de erro de atribuição. Preservados os cinco URLs `official-preview-link`, sem hash inventado e sem os confundir com posições sem fotografia.
 - **Checkpoint de retoma:** **não há shards pendentes** na execução 2026-11-08; se houver necessidade de nova auditoria, utilizar `--resume` com JSONL e `--retry-transient` só para resultados não conclusivos. A execução manual `workflow_dispatch` pode depender da presença do ficheiro na branch default; a retoma pelo script e artefactos é independente dessa limitação.
 
 **Etapa 4/10 concluída em auditoria, com pendência editorial Topps/Salis explicitamente registada. Etapa 5/10 não iniciada. Nenhuma coleção adicionada, nem merge nem pedido de deployment.**
