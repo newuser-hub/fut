@@ -9,6 +9,7 @@ on:
       - scripts/test-portal-baseline.spec.mjs
       - scripts/test-portal-browser.spec.mjs
       - src/index.html
+      - public/index.html
   workflow_dispatch:
     inputs:
       suite:
