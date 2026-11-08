@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "at": "2026-11-08",
+  "baseCommit": "1900e8fe93a366dd38340066f2d6f9957283c3c9",
+  "sourceOfTruth": {
+    "manifest": "public/library.json",
+    "catalogs": "public/data/",
+    "roadmap": "public/expansion-plan.json"
+  },
+  "summary": {
+    "activeCollections": 29,
+    "positions": 18873,
+    "imagesWithSHA": 16911,
+    "previewLinksUnverified": 5,
+    "missingImages": 1957,
+    "roadmapIntegrated": 8,
+    "roadmapBlocked": 3,
+    "roadmapPending": 9
+  },
+  "categories": [
+    {
+      "id": "01",
+      "name": "Gestão do projeto",
+      "path": "docs/01-gestao/README.md",
+      "originalFiles": 4
+    },
+    {
+      "id": "02",
+      "name": "Coleções de cromos",
+      "path": "docs/02-colecoes/README.md",
+      "originalFiles": 30
+    },
+    {
+      "id": "03",
+      "name": "Catálogos e bases de dados",
+      "path": "docs/03-catalogos/README.md",
+      "originalFiles": 7
+    },
+    {
+      "id": "04",
+      "name": "Imagens e recursos",
+      "path": "docs/04-imagens/README.md",
+      "originalFiles": 0
+    },
+    {
+      "id": "05",
+      "name": "Funcionalidades",
+      "path": "docs/05-funcionalidades/README.md",
+      "originalFiles": 3
+    },
+    {
+      "id": "06",
+      "name": "Desenvolvimento e arquitetura",
+      "path": "docs/06-arquitetura/README.md",
+      "originalFiles": 8
+    },
+    {
+      "id": "07",
+      "name": "Segurança e integridade",
+      "path": "docs/07-seguranca/README.md",
+      "originalFiles": 2
+    },
+    {
+      "id": "08",
+      "name": "GitHub e Vercel",
+      "path": "docs/08-github-vercel/README.md",
+      "originalFiles": 9
+    },
+    {
+      "id": "09",
+      "name": "Auditorias e controlo",
+      "path": "docs/09-auditorias/README.md",
+      "originalFiles": 0
+    },
+    {
+      "id": "10",
+      "name": "Backlog e expansões",
+      "path": "docs/10-backlog/README.md",
+      "originalFiles": 8
+    }
+  ],
+  "navigation": {
+    "history": "docs/HISTORICO.md",
+    "maintenance": "docs/MANUTENCAO.md",
+    "classification": "docs/CLASSIFICACAO.md",
+    "decisions": "docs/01-gestao/DECISOES.md",
+    "checkpoint": "docs/01-gestao/CHECKPOINT.md"
+  }
+}
