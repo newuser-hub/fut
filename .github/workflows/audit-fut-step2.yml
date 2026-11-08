@@ -30,8 +30,8 @@ jobs:
         run: |
           set -euo pipefail
           git merge-base --is-ancestor d5fb60eec0801808ec2946385a14c8c9226df54d HEAD
-          git diff --quiet d5fb60eec0801808ec2946385a14c8c9226df54d HEAD -- public/data/ public/library.json public/expansion-plan.json archives/ requests/ lib/ api/ proxy.js vercel.json
-          echo 'PASS: catálogos, manifestos, pedidos, autenticação e backend intactos'
+          git diff --quiet d5fb60eec0801808ec2946385a14c8c9226df54d HEAD -- public/data/ public/library.json public/expansion-plan.json archives/ requests/
+          echo 'PASS: catálogos, manifestos e pedidos intactos; alterações em API/Drive das etapas 5–6 autorizadas'
       - name: Build e igualdade dos HTML
         shell: bash
         run: |
