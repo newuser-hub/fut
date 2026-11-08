@@ -49,7 +49,8 @@ console.log('PASS: pesquisa, IDs e progresso independente');
 const expansion=JSON.parse(readFileSync(new URL('../public/expansion-plan.json',import.meta.url),'utf8'));
 assert.equal(expansion.goal,30);
 assert.equal(expansion.collections.length,30);
-assert.equal(expansion.collections.slice(20).filter(x=>x.imageAudit==='pending').length,10);
+assert.equal(expansion.collections.slice(20).length,10);
+assert(expansion.collections.slice(20).every(x=>['pending','verified','blocked'].includes(x.imageAudit)),'A fase 2 deve aceitar alterações de estado após cada lote');
 assert(source.includes("plan.collections.length===plan.goal"));
 console.log('PASS: roteiro contínuo de 30 candidatas e botões dinâmicos');
 
