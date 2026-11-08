@@ -20,6 +20,7 @@ Os três bloqueados são FIFA 365 2027 (340), FIFA 365 Adrenalyn XL 2027 (99) e 
 | P1 | Rever imagens das três candidatas bloqueadas | Bloqueado |
 | P2 | Monitorizar 1.957 posições sem fotografia | Pendente |
 | P2 | Atualizar índice, decisões, auditorias e snapshots em cada lote | Processo proposto |
+| P2 | Completar e validar migração privada Google Drive antes de eventual ativação | Preparação técnica, não autorizada neste pedido |
 | P3 | Avaliar direitos de imagens e robustez de URLs externos | Pendente |
 | P3 | Considerar eventual sincronização de progresso | Ideia, não aprovada |
 

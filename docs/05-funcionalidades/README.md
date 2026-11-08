@@ -4,6 +4,8 @@
 
 A autorização copiada não é executada automaticamente: deve ser enviada explicitamente ao ChatGPT. Não existe sincronização dos progressos entre dispositivos.
 
+O novo código suporta leitura opcional por API privada Google Drive, mas o modo Vercel permanece predefinido até à [migração validada](../GOOGLE_DRIVE_STORAGE.md).
+
 O frontend de origem é [`src/index.html`](../../src/index.html) e a versão construída é [`public/index.html`](../../public/index.html). Os IDs dos cartões/coleções são essenciais para a compatibilidade com o `localStorage`. A reorganização **não altera** o código ou os progressos.
 
 **Recomendação operacional:** exportar JSON de progresso antes de qualquer intervenção futura que possa alterar IDs, armazenamento ou interface.

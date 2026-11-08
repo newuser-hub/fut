@@ -11,4 +11,6 @@ Os [validadores](../../scripts/verify_catalogs.py) exigem totais coerentes com o
 
 A leitura efetuada em 2026-11-08 confirmou **zero IDs ou números de navegação duplicados dentro das 29 coleções**. Não se executou uma comparação semântica transversal entre todos os cromos.
 
+**Evolução futura:** a [especificação de armazenamento privado Google Drive](../GOOGLE_DRIVE_STORAGE.md) prepara uma origem alternativa, dependente de migração integral e aprovação.
+
 [Validar roteiro](../../scripts/verify_expansion_plan.py) · [Sincronizar roteiro](../../scripts/sync_expansion_plan.py). A fonte da verdade permanece nos ficheiros operacionais.

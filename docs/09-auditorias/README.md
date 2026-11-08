@@ -2,7 +2,7 @@
 
 | Objeto | Resultado da leitura de 2026-11-08 |
 |---|---|
-| Ficheiros de origem classificados | 71 / 71 |
+| Ficheiros de origem classificados | 76 / 76 |
 | Catálogos inspecionados | 29 / 29 |
 | Posições | 18.873 |
 | Diferenças no total ou secções face ao manifesto | 0 |
@@ -12,6 +12,8 @@
 | Links sem SHA | 5 |
 | Posições sem imagem | 1.957 |
 | Roteiro | 8 integradas, 3 bloqueadas, 9 pendentes |
+
+**Alteração paralela preservada:** cinco fontes relacionadas com Google Drive foram atribuídas à categoria 06; a migração real não foi executada neste trabalho.
 
 **Problemas/limitações:** 14 coleções têm lacunas de imagens; Premier League tem cobertura visual especialmente baixa; o README antigo misturava estados de épocas e lotes; a quota Vercel bloqueou um deploy anterior mas foi seguida por READY; a edição LaLiga ESTE tinha colisões de números impressos, preservadas em `originalNumber` e desambiguadas no número de navegação.
 

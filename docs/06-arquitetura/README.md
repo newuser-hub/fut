@@ -17,6 +17,12 @@
 | [`package.json`](../../package.json) | Build e testes |
 | [`proxy.js`](../../proxy.js) · [`vercel.json`](../../vercel.json) | Acesso e publicação |
 
+## Backend Google Drive opcional — preparado, não ativado
+
+[API privada](../../api/storage.js) · [Cliente Drive](../../lib/drive-store.js) · [Script de migração](../../scripts/migrate-drive.mjs) · [Testes](../../scripts/test-drive-storage.mjs) · [Guia operacional](../GOOGLE_DRIVE_STORAGE.md).
+
+O backend Vercel continua a predefinição; ativar Drive exige credenciais protegidas, cópia completa, auditoria e autorização específica. O progresso continua no navegador.
+
 **Fluxo:** pedido de lote autorizado → recolha e auditoria → commit transacional dos dados → testes de estrutura/sintaxe → GitHub atualizado → publicação Vercel → confirmação READY e testes anónimos de segurança.
 
 O ficheiro [`requests/roadmap-batch.json`](../../requests/roadmap-batch.json) pode acionar ingestão ao ser alterado na `main`. Não o modificar numa reorganização documental. Ver também [workflows](../../.github/workflows/).

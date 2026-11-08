@@ -11,4 +11,6 @@
 | D-07 | 2026-11-08 | Separar histórico de bloqueios Vercel do READY posteriormente confirmado | [Publicação](../08-github-vercel/README.md) | Documentado |
 | D-08 | 2026-11-08 | Reorganizar documentação numa branch distinta; preservar README integral | [Checkpoint](CHECKPOINT.md) | Proposta de PR |
 
+| D-09 | 2026-11-08 | Preparar backend privado Google Drive opcional, sem o ativar | [Guia técnico](../GOOGLE_DRIVE_STORAGE.md) | Preparado, migração pendente |
+
 Anotar decisões novas com data, fonte, motivos e estado; **não apagar nem reescrever o histórico**. O plano operativo mantém-se em [`public/expansion-plan.json`](../../public/expansion-plan.json).
