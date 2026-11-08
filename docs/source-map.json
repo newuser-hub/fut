@@ -1,8 +1,8 @@
 {
   "version": 1,
   "snapshotAt": "2026-11-08",
-  "baseCommit": "1900e8fe93a366dd38340066f2d6f9957283c3c9",
-  "note": "Ficheiros originais antes de adicionar documentos; vistas 04 e 09 por referência cruzada",
+  "baseCommit": "4fc739b7b425a62fbd3e80add57380405a86e607",
+  "note": "76 ficheiros da main, antes desta reorganização documental, com referências cruzadas para imagem/auditorias",
   "counts": {
     "10": 8,
     "01": 4,
@@ -10,7 +10,7 @@
     "03": 7,
     "04": 0,
     "05": 3,
-    "06": 8,
+    "06": 13,
     "07": 2,
     "08": 9,
     "09": 0
@@ -53,6 +53,10 @@
       "category": "01"
     },
     {
+      "path": "api/storage.js",
+      "category": "06"
+    },
+    {
       "path": "archives/club-world-cup-2025.json.gz.part00",
       "category": "03"
     },
@@ -79,6 +83,14 @@
     {
       "path": "archives/index.html.gz.part00",
       "category": "03"
+    },
+    {
+      "path": "docs/GOOGLE_DRIVE_STORAGE.md",
+      "category": "06"
+    },
+    {
+      "path": "lib/drive-store.js",
+      "category": "06"
     },
     {
       "path": "ops/roadmap-lote2-checkpoint.md",
@@ -277,7 +289,15 @@
       "category": "06"
     },
     {
+      "path": "scripts/migrate-drive.mjs",
+      "category": "06"
+    },
+    {
       "path": "scripts/sync_expansion_plan.py",
+      "category": "06"
+    },
+    {
+      "path": "scripts/test-drive-storage.mjs",
       "category": "06"
     },
     {

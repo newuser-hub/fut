@@ -1,7 +1,7 @@
 {
   "version": 1,
   "at": "2026-11-08",
-  "baseCommit": "1900e8fe93a366dd38340066f2d6f9957283c3c9",
+  "baseCommit": "4fc739b7b425a62fbd3e80add57380405a86e607",
   "sourceOfTruth": {
     "manifest": "public/library.json",
     "catalogs": "public/data/",
@@ -52,7 +52,7 @@
       "id": "06",
       "name": "Desenvolvimento e arquitetura",
       "path": "docs/06-arquitetura/README.md",
-      "originalFiles": 8
+      "originalFiles": 13
     },
     {
       "id": "07",
@@ -85,5 +85,8 @@
     "classification": "docs/CLASSIFICACAO.md",
     "decisions": "docs/01-gestao/DECISOES.md",
     "checkpoint": "docs/01-gestao/CHECKPOINT.md"
-  }
+  },
+  "relatedDocuments": [
+    "docs/GOOGLE_DRIVE_STORAGE.md"
+  ]
 }

@@ -2,13 +2,15 @@
 
 ## Estado confirmado no início
 
-- Repositório `newuser-hub/fut`, `main` `1900e8fe93a366dd38340066f2d6f9957283c3c9`.
-- 71 ficheiros originais, incluindo 29 catálogos ativos e 18.873 posições.
+- Repositório `newuser-hub/fut`, `main` `4fc739b7b425a62fbd3e80add57380405a86e607`.
+- 76 ficheiros originais, incluindo 29 catálogos ativos e 18.873 posições.
 - 16.911 registos com hash de imagem, 5 pré-visualizações sem hash, 1.957 posições sem imagem.
 - IDs e números de navegação únicos dentro de cada um dos 29 catálogos inspecionados; contagens e secções coerentes com o manifesto.
 - Plano: 8 integradas, 3 bloqueadas, 9 pendentes em 20 candidatas.
 - Na consulta inicial, não havia PRs abertos; as Actions recentes estavam concluídas.
-- Uma consulta posterior ao Vercel confirmou produção **READY** para `1900e8fe93a366dd38340066f2d6f9957283c3c9`, no deployment `https://fut-n4tlbnjod-pjr-s-projects.vercel.app`.
+- Uma consulta posterior ao Vercel confirmou produção **READY** para `4fc739b7b425a62fbd3e80add57380405a86e607`, no deployment `https://fut-47351bvkp-pjr-s-projects.vercel.app`.
+
+- A main avançou em paralelo com o backend privado Google Drive opcional, mantendo o Vercel como origem predefinida. As novas alterações de código foram preservadas no merge documental.
 
 ## Ações deste trabalho
 

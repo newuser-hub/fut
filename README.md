@@ -10,7 +10,9 @@ Os dados oficiais continuam em [`public/library.json`](public/library.json), [`p
 
 O progresso de cada coleção é guardado no navegador (`localStorage`), com importação/exportação JSON, **sem sincronização entre dispositivos**. O portal está protegido por autenticação HTTP Basic, com segredo armazenado apenas no Vercel.
 
-**Produção:** a consulta direta ao Vercel confirmou READY para o commit `1900e8fe93a366dd38340066f2d6f9957283c3c9` (29 coleções). Antes de futuras alterações, verificar novamente o deployment atual e os testes de acesso anónimo.
+**Produção:** a consulta direta ao Vercel confirmou READY para o commit `4fc739b7b425a62fbd3e80add57380405a86e607` (29 coleções). Antes de futuras alterações, verificar novamente o deployment atual e os testes de acesso anónimo.
+
+**Backend futuro:** a [migração privada Google Drive](docs/GOOGLE_DRIVE_STORAGE.md) está preparada mas não foi ativada por esta reorganização; a origem Vercel continua predefinida.
 
 **Histórico preservado:** o [README anterior completo](docs/01-gestao/README-original-2026-11-08.md) foi arquivado integralmente, e os [checkpoints operacionais](ops/) continuam no local original. As notas de quota ou publicação pendente nesses documentos descrevem o momento da execução e não prevalecem sobre uma verificação de deployment posterior.
 

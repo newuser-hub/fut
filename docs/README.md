@@ -1,6 +1,6 @@
 # FUT — Índice documental
 
-**Base de análise:** `main` em `1900e8fe93a366dd38340066f2d6f9957283c3c9`, consultado em 2026-11-08. Todas as referências de estado são fotografias temporais.
+**Base de análise:** `main` em `4fc739b7b425a62fbd3e80add57380405a86e607`, consultado em 2026-11-08. Todas as referências de estado são fotografias temporais.
 
 | # | Categoria | Acesso |
 |---|---|---|
@@ -24,7 +24,7 @@
 - **29** coleções e **18.873** posições ativas.
 - **16.911** imagens com hash SHA-256 nos dados; **5** links de pré-visualização sem hash; **1.957** posições sem fotografia.
 - **8/20** candidatas do roteiro integradas, **3** bloqueadas por imagens, **9** pendentes.
-- **71** ficheiros originais classificados, sem alterar as suas localizações.
+- **76** ficheiros originais classificados, sem alterar as suas localizações.
 - Último deployment de produção consultado: READY para `1900e8fe93a3`.
 
 Fontes únicas: [manifesto](../public/library.json), [catálogos](../public/data/), [roteiro](../public/expansion-plan.json), [Actions](../.github/workflows/) e histórico Git. As páginas documentais não devem tornar-se novos manifestos operacionais.
