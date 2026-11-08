@@ -1,34 +1,34 @@
 {
   "version": 1,
-  "batch": "roadmap-7",
+  "batch": "roadmap-8",
   "authorizedSourceIds": [
-    16,
-    29
+    13,
+    14
   ],
   "auditPipelineVersion": 2,
   "collections": [
     {
-      "id": "euro-2000",
-      "sourceId": 16,
-      "sourceSlug": "uefa-euro-belgium-netherlands-2000-panini",
-      "title": "Euro 2000 — Bélgica/Países Baixos",
-      "subtitle": "UEFA Euro Belgium–Netherlands 2000 · Panini",
-      "year": "2000",
+      "id": "world-cup-1994",
+      "sourceId": 13,
+      "sourceSlug": "fifa-world-cup-usa-1994-panini",
+      "title": "Mundial EUA 1994",
+      "subtitle": "FIFA World Cup USA 1994 · Panini",
+      "year": "1994",
       "publisher": "Panini",
-      "category": "Seleções · Europeu",
-      "description": "Edição UEFA Euro Belgium–Netherlands 2000 · Panini; 358 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "category": "Seleções · Mundial",
+      "description": "Edição FIFA World Cup USA 1994 · Panini; 444 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     },
     {
-      "id": "confederations-2017",
-      "sourceId": 29,
-      "sourceSlug": "fifa-confederations-cup-russia-2017",
-      "title": "Taça das Confederações 2017",
-      "subtitle": "FIFA Confederations Cup Russia 2017 · Panini",
-      "year": "2017",
+      "id": "euro-1996",
+      "sourceId": 14,
+      "sourceSlug": "uefa-euro-england-1996-panini",
+      "title": "Euro Inglaterra 1996",
+      "subtitle": "UEFA Euro England 1996 · Panini",
+      "year": "1996",
       "publisher": "Panini",
-      "category": "Seleções · Confederações",
-      "description": "Edição FIFA Confederations Cup Russia 2017 · Panini; 301 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "category": "Seleções · Europeu",
+      "description": "Edição UEFA Euro England 1996 · Panini; 354 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     }
   ]
