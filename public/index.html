@@ -190,7 +190,7 @@
       }
       app.innerHTML='<div class="empty">A abrir '+esc(item.title)+'…</div>';
       try{
-        const response=await fetch('/data/'+encodeURIComponent(id)+'.json',{cache:'no-cache'});
+        const response=await fetch('/api/storage?kind=catalog&id='+encodeURIComponent(id),{cache:'no-cache'});
         if(!response.ok)throw new Error('Erro ao carregar: '+response.status);
         const data=await response.json();
         if(!Array.isArray(data.cards)||data.cards.length!==item.count)throw Error('Catálogo incompleto');
@@ -379,13 +379,13 @@
     }
     async function start(){
       try{
-        const response=await fetch('/library.json',{cache:'no-cache'});
+        const response=await fetch('/api/storage?kind=library',{cache:'no-cache'});
         if(!response.ok)throw new Error('Índice de coleções indisponível');
         const items=await response.json();
         if(!Array.isArray(items) || items.length<2)throw new Error('Índice inválido');
         LIBRARY=items;
         try{
-          const planResponse=await fetch('/expansion-plan.json',{cache:'no-cache'});
+          const planResponse=await fetch('/api/storage?kind=plan',{cache:'no-cache'});
           if(planResponse.ok){
             const plan=await planResponse.json();
             if(plan.version===1 && Array.isArray(plan.collections) && plan.collections.length===20)
