@@ -1,11 +1,17 @@
-# 01 — Gestão do projeto
+# 01 — Gestão do projeto e decisões
 
-O FUT é um arquivo de coleções de futebol com incorporação por lotes auditados. O motor, a autenticação e os progressos locais devem ser preservados ao ampliar a biblioteca.
+O FUT mantém **47 coleções e 26.774 posições**, quatro categorias de navegação e progresso local independente. A integração de dados faz-se por lotes autorizados e auditados, sem alteração de IDs. A arquitetura atual inclui Basic Auth no proxy e API e uma migração opcional Drive **preparada em código mas não executada**.
 
-**Fontes e consultas:** [checkpoint consolidado](CHECKPOINT.md) · [decisões](DECISOES.md) · [cronologia](../HISTORICO.md) · [README original integral](README-original-2026-11-08.md).
+**Estado operativo:** [checkpoint principal da auditoria](../../ops/audit-2026-11-08.md), [snapshot das métricas](../metrics-current.json), [documentação do estado de produção](../08-github-vercel/README.md) e [decisões](DECISOES.md).
 
-Os [checkpoints dos lotes 2](../../ops/roadmap-lote2-checkpoint.md), [3](../../ops/roadmap-lote3-checkpoint.md) e [4](../../ops/roadmap-lote4-checkpoint.md) são históricos. Para estado atual usar [manifesto](../../public/library.json), [roteiro](../../public/expansion-plan.json) e [Vercel](../08-github-vercel/README.md).
+**Histórico de 29 coleções:** o [README original do PR #1](README-original-2026-11-08.md) foi arquivado integralmente. [Cronologia](../HISTORICO.md) e [checkpoints dos lotes](../../ops/) preservam estados temporais (incluindo quota Vercel ou coleções ainda não integradas naquele momento). **Não os interpretar como backlog atual.**
 
-A [migração privada Google Drive](../GOOGLE_DRIVE_STORAGE.md) é uma preparação técnica adicional; o backend de origem mantém-se Vercel por defeito.
+## Critérios de estado
 
-**Definição de estado:** implementado significa presente no catálogo/código; validado significa testes confirmados; publicado significa READY para SHA específico; pendente/bloqueado não implica autorização de execução.
+- **No JSON:** consta do manifesto/catálogo do commit auditado; pode ainda não estar publicado.
+- **Testado:** suite automatizada concluiu com sucesso sobre um SHA identificável.
+- **Publicado:** deployment Vercel de produção `READY` para o **SHA exato**, verificado independentemente nos domínios.
+- **Preparado/pendente:** implementação/roteiro existente, **não** autorização para importar ou ativar.
+- **Histórico:** estado válido na data indicada, preservado para rastreabilidade.
+
+A execução está segregada na branch `audit/fut-2026-11-08`. **Não integrar PR #1 nem a branch de auditoria sem revisão e autorização**, e não ativar Drive ou solicitar deployment por este documento.
