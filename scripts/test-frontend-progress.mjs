@@ -10,8 +10,8 @@ const publicHtml=readFileSync(new URL('../public/index.html',import.meta.url),'u
 assert.equal(html,publicHtml,'O build deve sincronizar public/index.html e src/index.html');
 const match=html.match(/<script>\s*([\s\S]*?)\s*<\/script>/);
 assert(match,'Script do frontend não encontrado');
-assert(/\bstart\(\);\s*$/.test(match[1]),'O ponto de entrada do frontend mudou');
-const runtime=match[1].replace(/\bstart\(\);\s*$/,[
+assert(match[1].includes('    start();'),'O ponto de entrada do frontend mudou');
+const runtime=match[1].replace('    start();',[
   'globalThis.__audit={',
   '  library:x=>{LIBRARY=x},',
   '  select:selectCollection,navigate,restoreHash,importProgress,save,',
