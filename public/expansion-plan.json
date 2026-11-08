@@ -301,7 +301,17 @@
       "declaredMainCount": 531,
       "description": "Edição UEFA Champions League 2024–2025 · Topps; 531 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/77/uefa-champions-league-2024-2025-topps",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 663,
+        "principal": 531,
+        "principalWithImage": 531,
+        "verifiedImages": 553,
+        "missingImages": 110,
+        "sections": 46,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42464829865"
+      }
     },
     {
       "priority": 13,
@@ -316,7 +326,17 @@
       "declaredMainCount": 477,
       "description": "Edição Futebol 2022–2023 · Panini; 477 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/58/futebol-2022-2023-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 477,
+        "principal": 477,
+        "principalWithImage": 476,
+        "verifiedImages": 476,
+        "missingImages": 1,
+        "sections": 41,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42464829865"
+      }
     },
     {
       "priority": 14,
@@ -424,7 +444,7 @@
       "imageAudit": "pending"
     }
   ],
-  "lastReviewedAt": "2026-11-07",
+  "lastReviewedAt": "2026-11-08",
   "executionLog": [
     {
       "batch": "roadmap-2",
@@ -494,6 +514,42 @@
           "missingImages": 2,
           "sections": 26,
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/42422831409"
+        }
+      ]
+    },
+    {
+      "batch": "roadmap-5",
+      "authorized": [
+        77,
+        58
+      ],
+      "integrated": [
+        "ucl-topps-2024-25",
+        "liga-portugal-2022-23"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/42464829865",
+      "details": [
+        {
+          "id": "ucl-topps-2024-25",
+          "auditedAt": "2026-11-08",
+          "positions": 663,
+          "principal": 531,
+          "principalWithImage": 531,
+          "verifiedImages": 553,
+          "missingImages": 110,
+          "sections": 46,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42464829865"
+        },
+        {
+          "id": "liga-portugal-2022-23",
+          "auditedAt": "2026-11-08",
+          "positions": 477,
+          "principal": 477,
+          "principalWithImage": 476,
+          "verifiedImages": 476,
+          "missingImages": 1,
+          "sections": 41,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42464829865"
         }
       ]
     }
