@@ -14,7 +14,8 @@
  */
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { URL } from 'node:url';
+import { URL, pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
 import {
   driveConfigured, folderIds, findFile, readJson, readImage, putFile, ensureFolder
 } from '../lib/drive-store.js';
@@ -179,7 +180,8 @@ async function loadLocal(){
 
 export async function runCli(argv=process.argv.slice(2)){
   const {mode,options}=argumentsFrom(argv);
-  const source=await loadLocal();
+  const source=['--plan','--prepare','--resume'].includes(mode)?
+    await loadLocal():null;
   if(mode==='--plan'){
     const active=source.library.filter(x=>x.status==='active');
     const missing=active.flatMap(x=>source.catalogs[x.id].cards)
@@ -212,7 +214,7 @@ export async function runCli(argv=process.argv.slice(2)){
 }
 
 const isMain=process.argv[1]&&
-  new URL('file://'+process.argv[1]).href===import.meta.url;
+  pathToFileURL(resolve(process.argv[1])).href===import.meta.url;
 if(isMain){
   runCli().catch(error=>{
     // Erros operacionais genéricos; não incluir dados de credenciais.
