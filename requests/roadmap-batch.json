@@ -1,47 +1,34 @@
 {
   "version": 1,
-  "batch": "roadmap-6-fallback",
+  "batch": "roadmap-7",
   "authorizedSourceIds": [
-    320,
-    17
+    16,
+    29
   ],
   "auditPipelineVersion": 2,
-  "originallyAuthorized": [
-    "fifa-365-2025",
-    "world-cup-2002"
-  ],
-  "substitutions": [
-    {
-      "replaces": "fifa-365-2025",
-      "replacesSourceId": 320,
-      "sourceId": 15,
-      "with": "world-cup-1998",
-      "reason": "Cromos.pt ID 320: zero caminhos de imagem em 533 entradas, incluindo zero em 458 principais; Mundial França 1998 é a próxima candidata elegível do plano."
-    }
-  ],
   "collections": [
     {
-      "id": "world-cup-2002",
-      "sourceId": 17,
-      "sourceSlug": "fifa-world-cup-korea-japan-2002-panini",
-      "title": "Mundial Coreia/Japão 2002",
-      "subtitle": "FIFA World Cup Korea/Japan 2002 · Panini",
-      "year": "2002",
+      "id": "euro-2000",
+      "sourceId": 16,
+      "sourceSlug": "uefa-euro-belgium-netherlands-2000-panini",
+      "title": "Euro 2000 — Bélgica/Países Baixos",
+      "subtitle": "UEFA Euro Belgium–Netherlands 2000 · Panini",
+      "year": "2000",
       "publisher": "Panini",
-      "category": "Seleções · Mundial",
-      "description": "Edição FIFA World Cup Korea/Japan 2002 · Panini; 581 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "category": "Seleções · Europeu",
+      "description": "Edição UEFA Euro Belgium–Netherlands 2000 · Panini; 358 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     },
     {
-      "id": "world-cup-1998",
-      "sourceId": 15,
-      "sourceSlug": "fifa-world-cup-france-1998-panini",
-      "title": "Mundial França 1998",
-      "subtitle": "FIFA World Cup France 1998 · Panini",
-      "year": "1998",
+      "id": "confederations-2017",
+      "sourceId": 29,
+      "sourceSlug": "fifa-confederations-cup-russia-2017",
+      "title": "Taça das Confederações 2017",
+      "subtitle": "FIFA Confederations Cup Russia 2017 · Panini",
+      "year": "2017",
       "publisher": "Panini",
-      "category": "Seleções · Mundial",
-      "description": "Edição FIFA World Cup France 1998 · Panini; 561 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "category": "Seleções · Confederações",
+      "description": "Edição FIFA Confederations Cup Russia 2017 · Panini; 301 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     }
   ]
