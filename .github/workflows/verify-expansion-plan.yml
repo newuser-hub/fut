@@ -10,6 +10,8 @@ on:
       - "public/data/liga-portugal-2023-24.json"
       - "public/data/ucl-topps-2024-25.json"
       - "public/data/liga-portugal-2022-23.json"
+      - "public/data/world-cup-2002.json"
+      - "public/data/world-cup-1998.json"
       - "scripts/verify_audited_batch.py"
       - "src/index.html"
       - "scripts/verify_expansion_plan.py"

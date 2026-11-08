@@ -351,7 +351,16 @@
       "declaredMainCount": 458,
       "description": "Edição FIFA 365 2025 · Panini; 458 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/320/fifa-365-2025-panini",
-      "imageAudit": "pending"
+      "imageAudit": "blocked",
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 533,
+        "principal": 458,
+        "principalWithImage": 0,
+        "verifiedImages": 0,
+        "reason": "Cromos.pt ID 320 inclui 458 cromos principais e 75 extras (533 posições), mas todos os 533 registos têm img_path vazio; não existem imagens individuais verificáveis. Fonte auditada antes da integração. Não publicar esta edição até existir uma origem válida.",
+        "evidence": "https://github.com/newuser-hub/fut/blob/main/ops/roadmap-lote6-source-audit.md"
+      }
     },
     {
       "priority": 15,
@@ -607,7 +616,17 @@
           "sections": 34,
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/42465661499"
         }
-      ]
+      ],
+      "substitutions": [
+        {
+          "deferredId": "fifa-365-2025",
+          "deferredSourceId": 320,
+          "substituteId": "world-cup-1998",
+          "substituteSourceId": 15,
+          "rationale": "Origem FIFA 365 2025 não disponibiliza fotografias (0/458 principais, 0/533 totais). Mundial França 1998 é a candidata elegível seguinte."
+        }
+      ],
+      "sourceAudit": "https://github.com/newuser-hub/fut/blob/main/ops/roadmap-lote6-source-audit.md"
     }
   ]
 }
