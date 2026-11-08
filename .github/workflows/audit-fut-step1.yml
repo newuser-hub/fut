@@ -1,0 +1,67 @@
+name: FUT - Auditoria 2026-11-08 etapa 1 (sem publicacao)
+on:
+  push:
+    branches:
+      - audit/fut-2026-11-08
+    paths:
+      - .github/workflows/audit-fut-step1.yml
+permissions:
+  contents: read
+jobs:
+  baseline-tests:
+    name: Auditoria imutavel de main e verificacoes
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Confirmar SHA de origem e ficheiros modificados
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cat-file -e d5fb60eec0801808ec2946385a14c8c9226df54d^{commit}
+          echo "BASE_MAIN=d5fb60eec0801808ec2946385a14c8c9226df54d"
+          git diff --name-only d5fb60eec0801808ec2946385a14c8c9226df54d HEAD
+          test "$(git diff --name-only d5fb60eec0801808ec2946385a14c8c9226df54d HEAD)" = ".github/workflows/audit-fut-step1.yml"
+      - name: Build - npm run build
+        run: npm run build
+      - name: Verificar catalogos
+        run: python3 scripts/verify_catalogs.py
+      - name: Verificar plano de expansao
+        run: python3 scripts/verify_expansion_plan.py
+      - name: Verificar ultimo lote auditado
+        run: python3 scripts/verify_audited_batch.py requests/roadmap-batch.json
+      - name: Verificar grupos do portal e progresso
+        run: node scripts/verify-portal-groups.mjs
+      - name: Testar Drive storage com mocks
+        run: node --test scripts/test-drive-storage.mjs
+      - name: Verificar invariantes e hashes SHA-256 dos catalogos
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          lib=json.loads(Path('public/library.json').read_text(encoding='utf-8'))
+          active=[x for x in lib if x['status']=='active']
+          count=sum(x['count'] for x in active)
+          files={p.stem for p in Path('public/data').glob('*.json')}
+          assert len(active)==47,(len(active),'colecoes ativas')
+          assert count==26774,(count,'posicoes')
+          assert len({x['id'] for x in lib})==len(lib),'IDs de colecao duplicados'
+          assert {x['id'] for x in active}==files,('catalogos divergentes',sorted({x['id'] for x in active}^files))
+          assert all(x['count']>0 and x['sections']>0 for x in active)
+          print(f'PASS INVARIANTES: {len(active)} colecoes ativas; {count} cromos; {len(files)} catalogos; IDs unicos')
+          PY
+          echo 'BEGIN_CATALOG_SHA256'
+          sha256sum public/library.json public/expansion-plan.json public/data/*.json
+          echo 'END_CATALOG_SHA256'
+          echo 'PASS: verificacao estatica; nenhum acesso externo HTTP/MIME/SHA-256 de imagens nesta execucao'
