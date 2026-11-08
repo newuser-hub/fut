@@ -135,13 +135,44 @@
     const toastNode = document.getElementById("toast");
     let catalog = {cards:[], sections:[]}; let sections = []; let pages = []; let currentPage = 0; let view = "portal"; let query = ""; let modalCard = null;
     let state = {revealed:{}, favorites:{}};
+    let selectionEpoch = 0; // Invalida pedidos pendentes ao selecionar ou navegar.
     // Estado independente por coleção: é carregado ao selecionar a caderneta.
     const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c]);
     const percent = (n,d) => d?Math.round(n*100/d):0;
     const keyCard = c => c.id;
     const isRevealed = c => !!state.revealed[keyCard(c)];
     const isFavorite = c => !!state.favorites[keyCard(c)];
-    const save = () => {try{localStorage.setItem(stateKey(activeCollectionId),JSON.stringify(state))}catch(e){notify("Sem espaço para guardar o progresso neste dispositivo.")}};
+    // Mantemos a chave histórica e os mapas {id:true}; não migramos nem reescrevemos
+    // automaticamente o progresso existente no navegador.
+    function progressFlags(raw, validIds){
+      const result=Object.create(null);
+      if(!raw||typeof raw!=='object'||Array.isArray(raw))return result;
+      for(const [id,value] of Object.entries(raw)){
+        if(validIds.has(id)&&value)result[id]=true;
+      }
+      return result;
+    }
+    function emptyProgress(){return {revealed:Object.create(null),favorites:Object.create(null)}}
+    function readProgress(id,cards){
+      const validIds=new Set(cards.map(c=>c.id));
+      try{
+        const saved=JSON.parse(localStorage.getItem(stateKey(id))||'{}');
+        if(!saved||typeof saved!=='object'||Array.isArray(saved))return emptyProgress();
+        return {revealed:progressFlags(saved.revealed,validIds),
+          favorites:progressFlags(saved.favorites,validIds)};
+      }catch(e){return emptyProgress()}
+    }
+    function save(nextState=state){
+      if(!activeCollectionId){notify('Não existe uma coleção aberta para guardar.');return false}
+      try{
+        localStorage.setItem(stateKey(activeCollectionId),JSON.stringify(nextState));
+        return true;
+      }catch(e){
+        notify('Não foi possível guardar o progresso neste dispositivo. Verifica o espaço e as permissões.');
+        return false;
+      }
+    }
+
     function notify(message){toastNode.textContent=message;toastNode.classList.add("show");clearTimeout(notify.timer);notify.timer=setTimeout(()=>toastNode.classList.remove("show"),2600)}
     function pageFor(cardId){return pages.findIndex(p=>p.cards.some(c=>c.id===cardId))}
     function sectionStats(section){let n=section.cards.filter(isRevealed).length;return {n,total:section.cards.length,pct:percent(n,section.cards.length)}}
@@ -252,19 +283,25 @@
       return html;
     }
     async function selectCollection(id,replaceRoute=true){
+      const token=++selectionEpoch;
       const item=LIBRARY.find(x=>x.id===id&&x.status==='active');
-      if(!item)return;
+      if(!item){
+        if(replaceRoute)navigate('portal');
+        return false;
+      }
       cancelPendingCardTap();
       closeModal();
       if(activeCollectionId===id&&catalog.cards.length){
-        navigate('index');
-        return;
+        if(replaceRoute)navigate('index');
+        return true;
       }
       app.innerHTML='<div class="empty">A abrir '+esc(item.title)+'…</div>';
       try{
         const response=await fetch('/api/storage?kind=catalog&id='+encodeURIComponent(id),{cache:'no-cache'});
+        if(token!==selectionEpoch)return false;
         if(!response.ok)throw new Error('Erro ao carregar: '+response.status);
         const data=await response.json();
+        if(token!==selectionEpoch)return false;
         if(!Array.isArray(data.cards)||data.cards.length!==item.count)throw Error('Catálogo incompleto');
         const all=new Set();
         // Nomes distintos podem criar slugs iguais (pontuação e hífens).
@@ -283,12 +320,10 @@
           }
           c.sectionSlug=sectionNames.get(c.section);
         });
+        if(token!==selectionEpoch)return false;
         activeCollectionId=id;
         catalog=data;
-        try{
-          const saved=JSON.parse(localStorage.getItem(stateKey(id))||'{}');
-          state={revealed:saved.revealed||{},favorites:saved.favorites||{}};
-        }catch(e){state={revealed:{},favorites:{}}}
+        state=readProgress(id,data.cards);
         currentPage=0;
         query='';
         computePages();
@@ -296,12 +331,17 @@
         if(replaceRoute)history.replaceState(null,'',routeHash());
         render();
         window.scrollTo({top:0,behavior:'smooth'});
+        return true;
       }catch(e){
+        if(token!==selectionEpoch)return false;
         activeCollectionId=null;
         catalog={cards:[],sections:[]};
+        state=emptyProgress();
         view='portal';
+        if(replaceRoute)history.replaceState(null,'',routeHash());
         render();
         notify('Não foi possível abrir a coleção: '+e.message);
+        return false;
       }
     }
     function sectionSlug(s){return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')}
@@ -320,14 +360,42 @@
       html+='<div class="page-nav"><button class="tool" data-action="prev"'+(currentPage===0?' disabled':'')+'>← Anterior</button><span class="page-indicator">'+(currentPage+1)+' / '+pages.length+'</span><button class="tool" data-action="next"'+(currentPage===pages.length-1?' disabled':'')+'>Seguinte →</button></div><div class="toolbar"><span class="small-muted">'+esc(p.section.name)+' · '+p.pageInSection+' / '+p.sectionPages+' nesta secção</span><div class="tools"><button class="tool" data-action="index">⌂ Índice</button><button class="tool" data-action="export">↓ Exportar progresso</button></div></div>';return html}
     function favoritesView(){const fav=catalog.cards.filter(isFavorite);return '<div class="section-heading"><div><span class="section-label">A tua seleção</span><h2>Favoritos</h2><p>Marca com ☆ os cromos que queres encontrar rapidamente.</p></div><button class="tool" data-action="index">⌂ Índice</button></div>'+(fav.length?'<div class="result-list">'+fav.map(c=>'<button class="result" data-action="jump" data-id="'+esc(c.id)+'"><span><strong>'+esc(c.number||"—")+' · '+esc(c.name||"Cromo")+'</strong><small>'+esc(sectionLabel(c))+'</small></span><span>↗</span></button>').join('')+'</div>':'<div class="empty">Ainda não adicionaste nenhum cromo aos favoritos.</div>')}
     function routeHash(){if(view==='portal'||!activeCollectionId)return '#/colecoes';const base='#/c/'+encodeURIComponent(activeCollectionId);if(view==='index')return base+'/indice';if(view==='favorites')return base+'/favoritos';const p=pages[currentPage];return p?base+'/secao/'+encodeURIComponent(p.section.slug)+'/'+p.pageInSection:base+'/indice'}
-    function navigate(nextView,page){cancelPendingCardTap();if(nextView!=='portal'&&!activeCollectionId)return;view=nextView;if(typeof page==='number')currentPage=Math.max(0,Math.min(page,pages.length-1));history.replaceState(null,'',routeHash());render();window.scrollTo({top:0,behavior:'smooth'})}
+    function navigate(nextView,page){++selectionEpoch;cancelPendingCardTap();if(nextView!=='portal'&&!activeCollectionId)return;view=nextView;if(typeof page==='number')currentPage=Math.max(0,Math.min(page,pages.length-1));history.replaceState(null,'',routeHash());render();window.scrollTo({top:0,behavior:'smooth'})}
     function render(){cancelPendingCardTap();updateTop();app.innerHTML=view==='portal'?portalView():view==='index'?indexView():view==='favorites'?favoritesView():pageView();updateTop()}
     function cardById(id){return catalog.cards.find(c=>c.id===id)}
     function reveal(ids,value){ids.forEach(id=>{if(value)state.revealed[id]=true;else delete state.revealed[id]});save();render()}
     function zoom(c){if(!c)return;modalCard=c.id;const root=document.getElementById('modal-root');root.innerHTML='<div class="modal-backdrop" data-action="close-modal"><div class="modal" role="dialog" aria-modal="true" aria-label="Detalhes do cromo"><div class="modal-header"><div><h3>'+esc(c.number+' · '+c.name)+'</h3><p style="margin:0">'+esc(c.section)+'</p></div><button data-action="close-modal" aria-label="Fechar">✕</button></div>'+(c.available!==false&&c.image?'<img src="'+esc(c.image)+'" alt="'+esc(c.name)+'" onerror="if(this.dataset.fallback){this.src=this.dataset.fallback;this.dataset.fallback=\'\'}" data-fallback="'+esc(c.source||'')+'">':'<div class="empty">Sem imagem disponível</div>')+'<div class="modal-controls"><button data-action="favorite" data-id="'+esc(c.id)+'">'+(isFavorite(c)?'★ Favorito':'☆ Favorito')+'</button><button data-action="close-modal">Fechar</button></div></div></div>';document.body.style.overflow='hidden'}
     function closeModal(){document.getElementById('modal-root').innerHTML='';document.body.style.overflow='';modalCard=null}
     function exportProgress(){const payload={app:'fut',collection:activeCollectionId,version:1,exportedAt:new Date().toISOString(),revealed:Object.keys(state.revealed),favorites:Object.keys(state.favorites)};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const href=URL.createObjectURL(blob),a=document.createElement('a');a.href=href;a.download='fut-'+activeCollectionId+'-progresso.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),500);notify('Progresso exportado.')}
-    async function importProgress(file){if(!file||!activeCollectionId)return;try{const obj=JSON.parse(await file.text());if(obj.app!=='fut'||obj.collection!==activeCollectionId||!Array.isArray(obj.revealed)||!Array.isArray(obj.favorites))throw Error('O ficheiro pertence a outra coleção ou está inválido');if(!confirm('Substituir o progresso atual desta coleção pelo ficheiro importado?'))return;const valid=new Set(catalog.cards.map(c=>c.id));state.revealed={};state.favorites={};obj.revealed.filter(id=>valid.has(id)).forEach(id=>state.revealed[id]=true);obj.favorites.filter(id=>valid.has(id)).forEach(id=>state.favorites[id]=true);save();render();notify('Progresso importado com sucesso.')}catch(e){notify('Ficheiro não reconhecido: '+e.message)}}
+    async function importProgress(file){
+      if(!file||!activeCollectionId)return false;
+      const targetId=activeCollectionId, token=selectionEpoch;
+      try{
+        const obj=JSON.parse(await file.text());
+        if(targetId!==activeCollectionId||token!==selectionEpoch||view==='portal')return false;
+        if(!obj||typeof obj!=='object'||Array.isArray(obj)||
+          obj.app!=='fut'||obj.collection!==targetId||
+          obj.version!==1||!Array.isArray(obj.revealed)||!Array.isArray(obj.favorites)){
+          throw Error('Formato, versão ou coleção incompatível');
+        }
+        if(!confirm('Substituir o progresso atual desta coleção pelo ficheiro importado?'))return false;
+        if(targetId!==activeCollectionId||token!==selectionEpoch||view==='portal')return false;
+        const valid=new Set(catalog.cards.map(c=>c.id));
+        const sanitized=arr=>progressFlags(
+          Object.fromEntries(arr.filter(id=>typeof id==='string'&&valid.has(id)).map(id=>[id,true])),valid);
+        const nextState={revealed:sanitized(obj.revealed),favorites:sanitized(obj.favorites)};
+        // Só aplicar em memória após persistência bem-sucedida: nunca anunciar
+        // sucesso quando localStorage está bloqueado ou sem espaço.
+        if(!save(nextState))return false;
+        state=nextState;
+        render();
+        notify('Progresso importado com sucesso.');
+        return true;
+      }catch(e){
+        notify('Ficheiro não reconhecido: '+e.message);
+        return false;
+      }
+    }
     // Esperamos brevemente para distinguir toque único de duplo nos cromos já revelados.
     // A mesma lógica funciona com rato e com toques no Safari/iPhone.
     let pendingCardTap = null;
@@ -435,18 +503,35 @@
     document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();return}if(view==='album'&&!modalCard&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){if(e.key==='ArrowRight'){e.preventDefault();navigate('album',Math.min(pages.length-1,currentPage+1))}else if(e.key==='ArrowLeft'){e.preventDefault();navigate('album',Math.max(0,currentPage-1))}}});
     window.addEventListener('hashchange',restoreHash);
     async function restoreHash(){
-      const parts=decodeURIComponent(location.hash||'').split('/');
-      if(parts[1]!=='c'||!parts[2]){view='portal';render();return}
-      const id=parts[2];
-      if(id!==activeCollectionId){await selectCollection(id,false)}
-      if(!activeCollectionId)return;
+      // Cada hashchange invalida seleções anteriores, mesmo para uma coleção
+      // que já esteja em memória. Nunca permitir reabertura tardia do portal.
+      ++selectionEpoch;
+      const requestedHash=location.hash||'';
+      let parts;
+      try{parts=decodeURIComponent(requestedHash).split('/')}
+      catch(e){navigate('portal');return}
+      if(parts[0]!=='#'||parts[1]!=='c'||!parts[2]||
+        !LIBRARY.some(x=>x.id===parts[2]&&x.status==='active')){
+        navigate('portal');
+        return;
+      }
       const kind=parts[3];
-      if(kind==='favoritos'){view='favorites'}
+      const validRoute=parts.length===3||
+        (parts.length===4&&(kind==='indice'||kind==='favoritos'))||
+        (parts.length===6&&kind==='secao'&&Boolean(parts[4])&&/^[1-9]\d*$/.test(parts[5]));
+      if(!validRoute){navigate('portal');return}
+      const id=parts[2];
+      if(id!==activeCollectionId||!catalog.cards.length){
+        if(!await selectCollection(id,false))return;
+      }
+      if(location.hash!==requestedHash)return;
+      if(kind==='favoritos')view='favorites';
       else if(kind==='secao'){
-        const idx=pages.findIndex(p=>p.section.slug===parts[4]&&p.pageInSection===Number(parts[5]||'1'));
-        currentPage=idx>=0?idx:0;
+        const idx=pages.findIndex(p=>p.section.slug===parts[4]&&p.pageInSection===Number(parts[5]));
+        if(idx<0){navigate('portal');return}
+        currentPage=idx;
         view='album';
-      }else{view='index'}
+      }else view='index';
       render();
     }
     async function start(){
