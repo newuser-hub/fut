@@ -2,7 +2,7 @@
   "version": 1,
   "snapshotAt": "2026-11-08",
   "baseCommit": "4fc739b7b425a62fbd3e80add57380405a86e607",
-  "note": "76 ficheiros da main, antes desta reorganização documental, com referências cruzadas para imagem/auditorias",
+  "note": "MAPA HISTÓRICO PR #1: 76 ficheiros, base 4fc739..., 29 coleções; não utilizar como inventário atual. 76 ficheiros da main, antes desta reorganização documental, com referências cruzadas para imagem/auditorias",
   "counts": {
     "10": 8,
     "01": 4,
@@ -320,5 +320,7 @@
       "path": "vercel.json",
       "category": "08"
     }
-  ]
+  ],
+  "snapshotType": "historical",
+  "supersededBy": "docs/metrics-current.json"
 }
