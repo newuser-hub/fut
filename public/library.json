@@ -493,5 +493,27 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/B5hZM1R8rMXBXvrhndUYmW83GHopeT2aJu4HnUjb.jpg",
     "description": "Edição UEFA Euro Sweden 1992 · Panini; 261 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral."
+  },
+  {
+    "id": "liga-portugal-2016-17",
+    "title": "Liga Portugal 2016/17",
+    "year": "16/17",
+    "count": 442,
+    "sections": 20,
+    "category": "Clubes · Liga Portugal",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/mVA9c08F7BzSvLcHWwI5jr62oCNYOBS9sq823YT6.jpg",
+    "description": "Edição Futebol 2016–2017 · Panini; 402 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral."
+  },
+  {
+    "id": "liga-portugal-2014-15",
+    "title": "Liga Portugal 2014/15",
+    "year": "14/15",
+    "count": 496,
+    "sections": 25,
+    "category": "Clubes · Liga Portugal",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/a6nC1TyuWOJ7nDL3dmwlLU89qzBxCGkFGvpqvUYM.jpg",
+    "description": "Edição Futebol 2014–2015 · Panini; 406 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral."
   }
 ]
