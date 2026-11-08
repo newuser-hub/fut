@@ -1,0 +1,41 @@
+name: FUT - Auditoria etapa 8 - dependencias de browser (sem deploy)
+on:
+  push:
+    branches: [audit/fut-2026-11-08]
+    paths: ['.github/workflows/audit-fut-step8-deps.yml']
+permissions:
+  contents: write
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/fut-2026-11-08
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Fixar Playwright e axe em devDependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --save-dev --save-exact --package-lock-only --ignore-scripts --no-audit --no-fund @playwright/test@1.56.1 @axe-core/playwright@4.10.2
+          npm ci --ignore-scripts --no-audit --no-fund
+          node - <<'NODE'
+          const p=require('./package.json'),l=require('./package-lock.json');
+          if(l.lockfileVersion!==3 || p.dependencies['@vercel/functions']!=='3.11.0' || p.devDependencies['@playwright/test']!=='1.56.1' || p.devDependencies['@axe-core/playwright']!=='4.10.2')process.exit(1);
+          console.log('PASS: npm ci reproducible; browser tooling dev only');
+          NODE
+      - name: Commit apenas package.json e package-lock.json
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package.json package-lock.json
+          if git diff --cached --quiet; then exit 0; fi
+          git diff --cached --name-only | grep -Ev '^(package.json|package-lock.json)$' && exit 1 || true
+          git commit -m 'test(audit): fixar Playwright e axe no lockfile [skip ci]'
+          git push origin HEAD:refs/heads/audit/fut-2026-11-08
