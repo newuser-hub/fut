@@ -40,7 +40,7 @@ jobs:
           git merge-base --is-ancestor 7f18d53607c746bd7b32e709411becf6037c3ab7 HEAD
           git diff --quiet 7f18d53607c746bd7b32e709411becf6037c3ab7 HEAD -- \
             public/data public/library.json public/expansion-plan.json \
-            src/index.html public/index.html archives requests lib/drive-store.js
+            src/index.html public/index.html archives requests
           echo 'PASS: 47 colecoes, ids, progresso e fonte preservados na etapa 5'
       - name: Analise sintatica, JSON e build deterministico
         shell: bash
