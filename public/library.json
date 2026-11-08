@@ -405,5 +405,27 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/VFwfTJld4GYKjYo1cunOTYEX0eFNruwMY0PUPrMh.jpg",
     "description": "Edição UEFA Euro England 1996 · Panini; 354 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "liga-portugal-2020-21",
+    "title": "Liga Portugal 2020/21",
+    "year": "20/21",
+    "count": 445,
+    "sections": 19,
+    "category": "Clubes · Liga Portugal",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/VYNk9o6Y0vLkRiVy4AtLWj41R3nfflLXRvqGz1ud.jpg",
+    "description": "Edição Futebol 2020–2021 · Panini; 418 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral."
+  },
+  {
+    "id": "liga-portugal-2019-20",
+    "title": "Liga Portugal 2019/20",
+    "year": "19/20",
+    "count": 423,
+    "sections": 22,
+    "category": "Clubes · Liga Portugal",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/56cQ8kCxzZVgex7rbHpoCsS7Pw8KYmAqVfJpc7pO.png",
+    "description": "Edição Futebol 2019–2020 · Panini; 397 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral."
   }
 ]

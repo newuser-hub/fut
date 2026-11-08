@@ -525,12 +525,22 @@
       "declaredMainCount": 418,
       "description": "Edição Futebol 2020–2021 · Panini; 418 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/60/futebol-2020-2021-panini",
-      "imageAudit": "pending",
+      "imageAudit": "verified",
       "preflight": {
         "checkedAt": "2026-11-08",
         "sourceTotal": 445,
         "sourceImagePaths": 445,
         "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      },
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 445,
+        "principal": 418,
+        "principalWithImage": 418,
+        "verifiedImages": 445,
+        "missingImages": 0,
+        "sections": 19,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42478834337"
       }
     },
     {
@@ -546,12 +556,22 @@
       "declaredMainCount": 397,
       "description": "Edição Futebol 2019–2020 · Panini; 397 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/61/futebol-2019-2020-panini",
-      "imageAudit": "pending",
+      "imageAudit": "verified",
       "preflight": {
         "checkedAt": "2026-11-08",
         "sourceTotal": 423,
         "sourceImagePaths": 423,
         "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      },
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 423,
+        "principal": 397,
+        "principalWithImage": 397,
+        "verifiedImages": 423,
+        "missingImages": 0,
+        "sections": 22,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42478834337"
       }
     },
     {
@@ -947,6 +967,42 @@
           "missingImages": 0,
           "sections": 18,
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/42473969216"
+        }
+      ]
+    },
+    {
+      "batch": "roadmap-9",
+      "authorized": [
+        60,
+        61
+      ],
+      "integrated": [
+        "liga-portugal-2020-21",
+        "liga-portugal-2019-20"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/42478834337",
+      "details": [
+        {
+          "id": "liga-portugal-2020-21",
+          "auditedAt": "2026-11-08",
+          "positions": 445,
+          "principal": 418,
+          "principalWithImage": 418,
+          "verifiedImages": 445,
+          "missingImages": 0,
+          "sections": 19,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42478834337"
+        },
+        {
+          "id": "liga-portugal-2019-20",
+          "auditedAt": "2026-11-08",
+          "positions": 423,
+          "principal": 397,
+          "principalWithImage": 397,
+          "verifiedImages": 423,
+          "missingImages": 0,
+          "sections": 22,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42478834337"
         }
       ]
     }
