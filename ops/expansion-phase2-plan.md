@@ -44,3 +44,13 @@ Após cada lote, atualizar checkpoint e validar o SHA efetivamente em READY no V
 - Biblioteca: **39 coleções ativas e 23.480 cromos**. Plano: **18 integradas, quatro bloqueadas e oito pendentes** das 30 candidatas.
 - Publicação no Vercel do commit de integração confirmada `READY`; as alterações posteriores de documentação requerem nova confirmação do SHA em produção.
 - Próximo lote 10: **Euro 2008 (ID 20)** e **Taça das Confederações Brasil 2013 (ID 28)**, sujeito a autorização.
+
+
+## Lote 10 concluído — Euro 2008 e Taça das Confederações 2013
+
+- Autorização registada no [commit 55dbf1e](https://github.com/newuser-hub/fut/commit/55dbf1e4460bdfeaed9a7047de305b2dc63b390a); [auditoria e testes transacionais 42481102972](https://github.com/newuser-hub/fut/actions/runs/42481102972) concluídos com **SUCCESS**.
+- [Commit de integração c2b6c008](https://github.com/newuser-hub/fut/commit/c2b6c008dac7fba437cfabfa5c361454c916f430), sem modificar os 39 catálogos anteriores: **Euro 2008** (ID Cromos.pt 20) com **568/568** imagens, 20 secções, zero faltas; **Confederações Brasil 2013** (ID 28) com **249/249** imagens, 11 secções, zero faltas.
+- GET HTTP 200, MIME de imagem, tamanho mínimo e SHA-256 verificados para todas as **817 imagens**; **817 SHA-256 distintos** no lote, nenhum ID ou número de navegação duplicado, sem nomes ou secções vazios. Não foi necessária substituição de fonte.
+- Biblioteca atual: **41 coleções e 24.297 cromos**. Roteiro: **20 integradas, 4 bloqueadas e 6 pendentes**, das 30 candidatas. Categoria Champions League, progresso independente, OAuth e autenticação preservados.
+- Vercel: commit de integração `c2b6c008dac7fba437cfabfa5c361454c916f430` confirmado **READY** em produção (deployment `dpl_5TWfBafbXUZPgfmxtP8xo3LGYmcJ`). O commit de documentação e verificações posterior deve ser confirmado separadamente.
+- Próximo lote **11**, apenas após autorização: Liga Portugal 2018/19 (ID 62) e Liga Portugal 2017/18 (ID 63). Os bloqueios e exclusões anteriores permanecem.
