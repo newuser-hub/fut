@@ -35,3 +35,12 @@ Total das dez candidatas: **3.966 posições principais** previstas; extras pode
 - Liga Portugal 2015/16 (Cromos.pt 54): 376/406 imagens principais declaradas; guardada para reavaliação, não acrescentada à fase corrente.
 
 Após cada lote, atualizar checkpoint e validar o SHA efetivamente em READY no Vercel e HTTP 401 anónimo nos dados e na página inicial.
+
+
+## Primeiro lote concluído — 9
+
+- Auditoria integral: [GitHub Actions 42478834337](https://github.com/newuser-hub/fut/actions/runs/42478834337), **SUCCESS**.
+- [Commit 7f2df3ee30c06ce16b448b131b9391ecff85d426](https://github.com/newuser-hub/fut/commit/7f2df3ee30c06ce16b448b131b9391ecff85d426): **Liga Portugal 2020/21**, 445/445 imagens em 19 secções; **Liga Portugal 2019/20**, 423/423 imagens em 22 secções. HTTP/MIME/bytes/SHA-256, 868 hashes distintos, IDs e numeração sem duplicações.
+- Biblioteca: **39 coleções ativas e 23.480 cromos**. Plano: **18 integradas, quatro bloqueadas e oito pendentes** das 30 candidatas.
+- Publicação no Vercel do commit de integração confirmada `READY`; as alterações posteriores de documentação requerem nova confirmação do SHA em produção.
+- Próximo lote 10: **Euro 2008 (ID 20)** e **Taça das Confederações Brasil 2013 (ID 28)**, sujeito a autorização.

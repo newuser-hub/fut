@@ -1,4 +1,4 @@
-name: FUT - Validar plano de 20 coleções e botões
+name: FUT - Validar roteiro contínuo de expansão e botões
 
 on:
   push:
@@ -16,6 +16,8 @@ on:
       - "public/data/confederations-2017.json"
       - "public/data/world-cup-1994.json"
       - "public/data/euro-1996.json"
+      - "public/data/liga-portugal-2020-21.json"
+      - "public/data/liga-portugal-2019-20.json"
       - "scripts/verify_audited_batch.py"
       - "src/index.html"
       - "scripts/verify-portal-groups.mjs"
