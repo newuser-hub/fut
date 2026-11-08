@@ -50,6 +50,6 @@ const expansion=JSON.parse(readFileSync(new URL('../public/expansion-plan.json',
 assert.equal(expansion.goal,30);
 assert.equal(expansion.collections.length,30);
 assert.equal(expansion.collections.slice(20).filter(x=>x.imageAudit==='pending').length,10);
-assert(source.includes("EXPANSION_PLAN.length===plan.goal"));
+assert(source.includes("plan.collections.length===plan.goal"));
 console.log('PASS: roteiro contínuo de 30 candidatas e botões dinâmicos');
 
