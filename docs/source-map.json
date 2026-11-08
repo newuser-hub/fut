@@ -1,0 +1,324 @@
+{
+  "version": 1,
+  "snapshotAt": "2026-11-08",
+  "baseCommit": "4fc739b7b425a62fbd3e80add57380405a86e607",
+  "note": "76 ficheiros da main, antes desta reorganização documental, com referências cruzadas para imagem/auditorias",
+  "counts": {
+    "10": 8,
+    "01": 4,
+    "02": 30,
+    "03": 7,
+    "04": 0,
+    "05": 3,
+    "06": 13,
+    "07": 2,
+    "08": 9,
+    "09": 0
+  },
+  "files": [
+    {
+      "path": ".github/workflows/audit-italia-franca.yml",
+      "category": "08"
+    },
+    {
+      "path": ".github/workflows/discover-expansion.yml",
+      "category": "08"
+    },
+    {
+      "path": ".github/workflows/ingest-next-batch.yml",
+      "category": "08"
+    },
+    {
+      "path": ".github/workflows/ingest-premier-league.yml",
+      "category": "08"
+    },
+    {
+      "path": ".github/workflows/ingest-roadmap-batch.yml",
+      "category": "08"
+    },
+    {
+      "path": ".github/workflows/inspect-roadmap-lote2.yml",
+      "category": "08"
+    },
+    {
+      "path": ".github/workflows/verify-expansion-plan.yml",
+      "category": "08"
+    },
+    {
+      "path": ".github/workflows/verify-fut-access.yml",
+      "category": "08"
+    },
+    {
+      "path": "README.md",
+      "category": "01"
+    },
+    {
+      "path": "api/storage.js",
+      "category": "06"
+    },
+    {
+      "path": "archives/club-world-cup-2025.json.gz.part00",
+      "category": "03"
+    },
+    {
+      "path": "archives/club-world-cup-2025.json.gz.part01",
+      "category": "03"
+    },
+    {
+      "path": "archives/club-world-cup-2025.json.gz.part02",
+      "category": "03"
+    },
+    {
+      "path": "archives/club-world-cup-2025.json.gz.part03",
+      "category": "03"
+    },
+    {
+      "path": "archives/euro-2004.json.gz.part00",
+      "category": "03"
+    },
+    {
+      "path": "archives/euro-2004.json.gz.part01",
+      "category": "03"
+    },
+    {
+      "path": "archives/index.html.gz.part00",
+      "category": "03"
+    },
+    {
+      "path": "docs/GOOGLE_DRIVE_STORAGE.md",
+      "category": "06"
+    },
+    {
+      "path": "lib/drive-store.js",
+      "category": "06"
+    },
+    {
+      "path": "ops/roadmap-lote2-checkpoint.md",
+      "category": "01"
+    },
+    {
+      "path": "ops/roadmap-lote3-checkpoint.md",
+      "category": "01"
+    },
+    {
+      "path": "ops/roadmap-lote4-checkpoint.md",
+      "category": "01"
+    },
+    {
+      "path": "package.json",
+      "category": "06"
+    },
+    {
+      "path": "proxy.js",
+      "category": "07"
+    },
+    {
+      "path": "public/data/club-world-cup-2025.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/copa-america-2024.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/euro-2004.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/euro-2020-tournament.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/euro-2024.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/euro-france-2016.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/euro-poland-ukraine-2012.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/fifa-365-2026.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/idolos-pt-2026-27.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/laliga-este-2026-27.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/laliga-megacracks-2026-27.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/liga-2021-22.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/liga-2024-25.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/liga-portugal-2023-24.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/liga-portugal-2025-26.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/ligue-1-foot-2025-26.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/match-attax-2025-26.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/match-attax-2026-27.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/match-attax-extra-2025-26.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/premier-league-flagship-2026-27.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/qatar-2022.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/serie-a-calciatori-2026-27.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/ucl-topps-2025-26.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/world-cup-2026.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/world-cup-adrenalyn-2026.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/world-cup-brazil-2014.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/world-cup-germany-2006.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/world-cup-russia-2018.json",
+      "category": "02"
+    },
+    {
+      "path": "public/data/world-cup-south-africa-2010.json",
+      "category": "02"
+    },
+    {
+      "path": "public/expansion-plan.json",
+      "category": "10"
+    },
+    {
+      "path": "public/favicon.svg",
+      "category": "05"
+    },
+    {
+      "path": "public/index.html",
+      "category": "05"
+    },
+    {
+      "path": "public/library.json",
+      "category": "02"
+    },
+    {
+      "path": "public/robots.txt",
+      "category": "07"
+    },
+    {
+      "path": "requests/history/euro-france-2016-world-cup-russia-2018.json",
+      "category": "10"
+    },
+    {
+      "path": "requests/history/laliga-2026-27-este-megacracks.json",
+      "category": "10"
+    },
+    {
+      "path": "requests/history/match-attax-2025-26-2026-27.json",
+      "category": "10"
+    },
+    {
+      "path": "requests/history/world-cup-2026-liga-portugal-2025-26.json",
+      "category": "10"
+    },
+    {
+      "path": "requests/history/world-cup-brazil-2014-copa-america-2024.json",
+      "category": "10"
+    },
+    {
+      "path": "requests/next-batch.json",
+      "category": "10"
+    },
+    {
+      "path": "requests/roadmap-batch.json",
+      "category": "10"
+    },
+    {
+      "path": "scripts/ingest_batch.py",
+      "category": "06"
+    },
+    {
+      "path": "scripts/ingest_italia_franca.py",
+      "category": "06"
+    },
+    {
+      "path": "scripts/ingest_premier_league.py",
+      "category": "06"
+    },
+    {
+      "path": "scripts/migrate-drive.mjs",
+      "category": "06"
+    },
+    {
+      "path": "scripts/sync_expansion_plan.py",
+      "category": "06"
+    },
+    {
+      "path": "scripts/test-drive-storage.mjs",
+      "category": "06"
+    },
+    {
+      "path": "scripts/unpack-data.mjs",
+      "category": "06"
+    },
+    {
+      "path": "scripts/verify_catalogs.py",
+      "category": "06"
+    },
+    {
+      "path": "scripts/verify_expansion_plan.py",
+      "category": "06"
+    },
+    {
+      "path": "src/index.html",
+      "category": "05"
+    },
+    {
+      "path": "vercel.json",
+      "category": "08"
+    }
+  ]
+}
