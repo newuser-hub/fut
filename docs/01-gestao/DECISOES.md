@@ -14,3 +14,13 @@
 | D-09 | 2026-11-08 | Preparar backend privado Google Drive opcional, sem o ativar | [Guia técnico](../GOOGLE_DRIVE_STORAGE.md) | Preparado, migração pendente |
 
 Anotar decisões novas com data, fonte, motivos e estado; **não apagar nem reescrever o histórico**. O plano operativo mantém-se em [`public/expansion-plan.json`](../../public/expansion-plan.json).
+
+| D-10 | 2026-11-08 | Remover a ligação de imagem incorreta de Salis sem alterar o cromo; preservar 8 pares legítimos | [Auditoria imagens](../../ops/audit-2026-11-08-step4-images.md) | **Resolvido em branch** |
+| D-11 | 2026-11-08 | Tratar 5 previews Topps como URLs sem hash (HTTP 403 no runner), não como imagens comprovadas nem posições sem URL | [Cobertura](../04-imagens/README.md) | **Limitação aceite, revalidação pendente** |
+| D-12 | 2026-11-08 | Exigir Basic Auth independente na API, 401 sem credenciais e falha fechada sem password | [Etapa 5](../../ops/audit-2026-11-08-step5-security.md) | **Resolvido em branch** |
+| D-13 | 2026-11-08 | Drive apenas por geração preparada, validada e promovida com apontador; nunca reutilizar driveFileId sem validação | [Etapa 6](../../ops/audit-2026-11-08-step6-drive.md) | **Preparado com mocks; real pendente** |
+| D-14 | 2026-11-08 | CI `FUT / validate` em PRs; serializar escritores por lock Git para não perder pedidos | [Etapa 7](../../ops/audit-2026-11-08-step7-ci.md) | **Implementado em branch** |
+| D-15 | 2026-11-08 | Corrigir gestão de foco do modal, alvos de 44 px e reduced-motion sem alterar visual e IDs | [Etapa 8](../../ops/audit-2026-11-08-step8-ui.md) | **78/78 regressões automatizadas** |
+| D-16 | 2026-11-08 | Reutilizar dez categorias do PR #1, preservar o README original/metadata histórico e gerar métricas só dos JSON | [Etapa 9](../../ops/audit-2026-11-08-step9-docs.md) | **Consolidado em auditoria, sem merge** |
+
+**Interpretação:** a tabela D-01 a D-09 descreve decisões anteriores e deve ser lida como histórico quando refere estados ou propostas entretanto ultrapassados. As decisões D-10+ refletem alterações da branch de auditoria **ainda não publicadas**.
