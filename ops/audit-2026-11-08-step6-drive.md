@@ -2,7 +2,7 @@
 
 **Data:** 08/11/2026. **Repositório:** `newuser-hub/fut`. **Branch de trabalho:** `audit/fut-2026-11-08`. **Base de produção imutável:** `d5fb60eec0801808ec2946385a14c8c9226df54d`.
 
-**Resultado:** problemas demonstrados no código antigo corrigidos **apenas na branch de auditoria**, com novas operações preparadas para uma migração futura, sem executar qualquer migração real ou ativar Drive. Testes com armazenamento em memória e credenciais sintéticas: [Actions #42498434452](https://github.com/newuser-hub/fut/actions/runs/42498434452) **SUCCESS**, **53/53 testes Node** e **12/12 testes Python**.
+**Resultado:** problemas demonstrados no código antigo corrigidos **apenas na branch de auditoria**, com novas operações preparadas para uma migração futura, sem executar qualquer migração real ou ativar Drive. Testes com armazenamento em memória e credenciais sintéticas: [Actions #42498722431](https://github.com/newuser-hub/fut/actions/runs/42498722431) **SUCCESS**, **54/54 testes Node** e **12/12 testes Python**.
 
 ## 1. Achados e severidade
 
@@ -45,9 +45,9 @@ Em modo Vercel normal, permanece o comportamento da etapa 5 (redirecionamentos i
 
 ## 4. Validação reprodutível realizada
 
-**Execução final da etapa:** [FUT — etapa 6, run 42498434452](https://github.com/newuser-hub/fut/actions/runs/42498434452), **COMPLETED/SUCCESS**.
+**Execução final da etapa:** [FUT — etapa 6, run 42498722431](https://github.com/newuser-hub/fut/actions/runs/42498722431), **COMPLETED/SUCCESS**.
 
-- **53/53 testes Node PASS:** `scripts/test-drive-migration.mjs`, `scripts/test-drive-store-safety.mjs`, `scripts/test-drive-storage.mjs`, `scripts/test-access-security.mjs` e `scripts/test-frontend-progress.mjs`. Incluem credenciais OAuth artificiais, conta de serviço com chave RSA efémera assinada e verificada em mock; sem pedidos reais a OAuth ou ao Drive.
+- **54/54 testes Node PASS:** `scripts/test-drive-migration.mjs`, `scripts/test-drive-store-safety.mjs`, `scripts/test-drive-storage.mjs`, `scripts/test-access-security.mjs` e `scripts/test-frontend-progress.mjs`. Incluem credenciais OAuth artificiais, conta de serviço com chave RSA efémera assinada e verificada em mock; sem pedidos reais a OAuth ou ao Drive.
 - Testes específicos de preparação, validação e promoção com 2 coleções sintéticas, 4 posições e 2 capas: apontador só surge após validação; dados antigos da raiz preservados; promoção repetida é idempotente.
 - Testes de interrupção/retoma, checkpoint parcial, ficheiro Drive removido, ficheiro com SHA diferente, fonte de imagem sem hash inicial alterada entre corridas, capa alterada, SHA original incorreto, catálogo incompleto, opção `--slug` parcial e alteração dos dados locais invalidando o checkpoint.
 - Testes de URL Blogger: o URL exato é aceite para a capa correta; outras coleções, imagens da mesma origem, paths/query diferentes e HTTP/hosts não autorizados são recusados.
@@ -63,7 +63,7 @@ Em modo Vercel normal, permanece o comportamento da etapa 5 (redirecionamentos i
 - **Drive real não testado nem migrado:** requer contas/permissões adequadas, operação fora desta auditoria, autorização expressa, confirmação de direitos sobre imagens e capacidade/quotas. O novo CLI é uma implementação preparada, **não uma garantia de operação real**.
 - **Não ativar `FUT_STORAGE_BACKEND=drive`** antes de gerar e validar uma geração real completa e de autorizar separadamente a promoção e o deploy. A opção de ativação não está implementada no CLI de migração.
 - Os cinco previews oficiais Topps devolvem 403 no ambiente anteriormente testado; com hash inicialmente ausente, a preparação integral não poderá ser selada sem recuperar os bytes legítimos. **Não converter 403 em imagem errada ou disponível.**
-- Os 2.074 cromos sem URL permanecem sem imagem. O staging não inventa fotografias ou `driveFileId`, mas preserva essas posições e os respetivos IDs.
+- Foi também testado o caso em que o marcador `fut-ready.json` é apagado depois da promoção: a geração ativa continua imutável e nenhuma re-preparação a pode sobrescrever. Os 2.074 cromos sem URL permanecem sem imagem. O staging não inventa fotografias ou `driveFileId`, mas preserva essas posições e os respetivos IDs.
 - Em produção continua ativo `main=d5fb60eec0801808ec2946385a14c8c9226df54d`, proteção por palavra-passe e configurações anteriores. O código novo está só na branch de auditoria. **Sem merge, sem deploy, sem alteração de credenciais, permissões, visibilidade do GitHub, IDs ou progresso.**
 - Para retoma da auditoria, consultar primeiro `ops/audit-2026-11-08.md` e este relatório, revalidar `main`, PRs, Actions e Vercel; só depois iniciar a etapa seguinte se autorizada.
 
