@@ -1,0 +1,104 @@
+name: FUT - Auditoria etapa 6 (Drive mocks, sem migracao)
+on:
+  push:
+    branches:
+      - audit/fut-2026-11-08
+    paths:
+      - .github/workflows/audit-fut-step6-drive.yml
+      - lib/drive-store.js
+      - lib/drive-migration.js
+      - api/storage.js
+      - scripts/migrate-drive.mjs
+      - scripts/test-drive-migration.mjs
+      - scripts/test-drive-store-safety.mjs
+      - scripts/test-access-security.mjs
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  drive-staging:
+    name: Geracoes Drive, retoma, OAuth e verificadores
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    env:
+      FUT_STORAGE_BACKEND: ''
+      FUT_DRIVE_SERVICE_ACCOUNT_JSON: ''
+      FUT_DRIVE_OAUTH_CLIENT_ID: ''
+      FUT_DRIVE_OAUTH_CLIENT_SECRET: ''
+      FUT_DRIVE_OAUTH_REFRESH_TOKEN: ''
+      FUT_DRIVE_CATALOGS_FOLDER_ID: ''
+      FUT_DRIVE_IMAGES_FOLDER_ID: ''
+      FUT_DRIVE_SHARED_DRIVE_ID: ''
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Confirmar origem e isolamento da etapa 6
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor d5fb60eec0801808ec2946385a14c8c9226df54d HEAD
+          git merge-base --is-ancestor 53a55182304509e45338e33e7108e5127018f662 HEAD
+          git diff --quiet 53a55182304509e45338e33e7108e5127018f662 HEAD -- \
+            public/data public/library.json public/expansion-plan.json \
+            src/index.html public/index.html archives requests proxy.js vercel.json
+          test -z "$FUT_STORAGE_BACKEND"
+          test -z "$FUT_DRIVE_OAUTH_CLIENT_ID"
+          test -z "$FUT_DRIVE_SERVICE_ACCOUNT_JSON"
+          echo 'PASS: base da etapa 5; coleções protegidas, backend Drive desligado'
+      - name: Sintaxe, build e dry-run local SEM rede
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check lib/drive-store.js
+          node --check lib/drive-migration.js
+          node --check api/storage.js
+          node --check scripts/migrate-drive.mjs
+          node --check scripts/test-drive-migration.mjs
+          node --check scripts/test-drive-store-safety.mjs
+          node scripts/migrate-drive.mjs --plan
+          npm run build
+          cmp src/index.html public/index.html
+          git diff --exit-code -- public/index.html
+      - name: Testes com mocks e credenciais artificiais
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            scripts/test-drive-migration.mjs \
+            scripts/test-drive-store-safety.mjs \
+            scripts/test-drive-storage.mjs \
+            scripts/test-access-security.mjs \
+            scripts/test-frontend-progress.mjs
+          node scripts/verify-portal-groups.mjs
+      - name: Verificar catálogos, roteiro, imagens e preservação de progresso
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B scripts/verify_catalogs.py
+          python3 -B scripts/verify_expansion_plan.py
+          python3 -B scripts/verify_audited_batch.py requests/roadmap-batch.json
+          python3 -B -m unittest scripts.test_audit_catalogues scripts.test_audit_images -v
+          python3 -B scripts/audit_images_http.py --inventory-only
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          lib=json.loads(Path('public/library.json').read_text())
+          assert len(lib)==47 and sum(x['count'] for x in lib)==26774
+          salis=json.loads(Path('public/data/ligue-1-foot-2025-26.json').read_text())
+          card=next(c for c in salis['cards'] if c['id']=='ligue-1-foot-2025-26-1355840')
+          assert card['image'] is None and card['available'] is False
+          assert card['number']=='383'
+          print('PASS: 47 coleções; 26774 posições; cromo Salis preservado')
+          PY
+          git diff --exit-code -- .
+          test -z "$(git status --porcelain --untracked-files=no)"
