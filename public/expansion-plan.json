@@ -649,12 +649,22 @@
       "declaredMainCount": 422,
       "description": "Edição Futebol 2018–2019 · Panini; 422 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/62/futebol-2018-2019-panini",
-      "imageAudit": "pending",
+      "imageAudit": "verified",
       "preflight": {
         "checkedAt": "2026-11-08",
         "sourceTotal": 432,
         "sourceImagePaths": 432,
         "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      },
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 432,
+        "principal": 422,
+        "principalWithImage": 422,
+        "verifiedImages": 432,
+        "missingImages": 0,
+        "sections": 23,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42481547388"
       }
     },
     {
@@ -670,12 +680,22 @@
       "declaredMainCount": 395,
       "description": "Edição Futebol 2017–2018 · Panini; 395 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/63/futebol-2017-2018-panini",
-      "imageAudit": "pending",
+      "imageAudit": "verified",
       "preflight": {
         "checkedAt": "2026-11-08",
         "sourceTotal": 398,
         "sourceImagePaths": 397,
         "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      },
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 398,
+        "principal": 395,
+        "principalWithImage": 395,
+        "verifiedImages": 397,
+        "missingImages": 1,
+        "sections": 22,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42481547388"
       }
     },
     {
@@ -1059,6 +1079,42 @@
           "missingImages": 0,
           "sections": 11,
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/42481102972"
+        }
+      ]
+    },
+    {
+      "batch": "roadmap-11",
+      "authorized": [
+        62,
+        63
+      ],
+      "integrated": [
+        "liga-portugal-2018-19",
+        "liga-portugal-2017-18"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/42481547388",
+      "details": [
+        {
+          "id": "liga-portugal-2018-19",
+          "auditedAt": "2026-11-08",
+          "positions": 432,
+          "principal": 422,
+          "principalWithImage": 422,
+          "verifiedImages": 432,
+          "missingImages": 0,
+          "sections": 23,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42481547388"
+        },
+        {
+          "id": "liga-portugal-2017-18",
+          "auditedAt": "2026-11-08",
+          "positions": 398,
+          "principal": 395,
+          "principalWithImage": 395,
+          "verifiedImages": 397,
+          "missingImages": 1,
+          "sections": 22,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42481547388"
         }
       ]
     }
