@@ -30,7 +30,7 @@ class CatalogTransactionTests(unittest.TestCase):
         self.old = [
             {"id": "legacy", "status": "active", "count": 1, "sections": 1},
         ]
-        self.published = self.old + [
+        self.published = [dict(x) for x in self.old] + [
             {"id": slug, "status": "active", "count": 2, "sections": 1}
             for slug in ("album-a", "album-b")
         ]
