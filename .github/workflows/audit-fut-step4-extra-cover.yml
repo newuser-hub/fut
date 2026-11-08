@@ -1,0 +1,47 @@
+name: FUT - Etapa 4 - capa externa do manifesto
+on:
+  push:
+    branches: [audit/fut-2026-11-08]
+    paths:
+      - .github/workflows/audit-fut-step4-extra-cover.yml
+permissions:
+  contents: read
+jobs:
+  cover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validar dominio autorizado e GET completo da capa
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/fut-extra-cover"
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          from scripts.audit_images_http import build_inventory,run_scan,is_valid_host
+          targets,_=build_inventory(Path("."))
+          selected=[t for t in targets if t["key"]=="cover:premier-league-flagship-2026-27"]
+          assert len(selected)==1
+          assert is_valid_host(selected[0]["url"])
+          output=Path(os.environ["RUNNER_TEMP"])/"fut-extra-cover"/"results.jsonl"
+          s=run_scan(selected,output,workers=1,timeout=9,retries=2,max_seconds=55)
+          print("EXTRA_COVER_RESULT_JSON="+output.read_text(encoding="utf8").strip())
+          assert s["completed"]==1 and s["remaining"]==0
+          PY
+      - name: Guardar checkpoint da capa
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fut-etapa4-extra-cover
+          path: |
+            ${{ runner.temp }}/fut-extra-cover/results.jsonl
+            ${{ runner.temp }}/fut-extra-cover/summary.json
+          if-no-files-found: warn
+          retention-days: 30
