@@ -57,7 +57,7 @@ Inventário determinístico lido pelo script `scripts/audit_images_http.py` apó
 - Cada linha de `results.jsonl` regista `key`, coleção, URL original, GET status, URL final, MIME, tamanho, hash SHA-256 da descarga, timestamp UTC, tempos e tentativas, divergências face aos metadados. `summary.json` regista estados e contagem concluída/pendente. Os ficheiros são publicados como `fut-etapa4-shard-0` … `-9`, retenção de 30 dias.
 - **A existência de metadados SHA-256 do catálogo não é contada como novo GET.** 403/404/timeout não significam identidade incorreta; divergência binária necessita confirmação da origem.
 - **Retoma:** descarregar o artefacto JSONL de um shard e correr `python3 scripts/audit_images_http.py --offset <N*2500> --limit 2500 --resume /caminho/results.jsonl --retry-transient --output /caminho/novo/results.jsonl`. O workflow define também `workflow_dispatch` com argumentos `shard` e `resume_run_id`, embora a disponibilidade do botão manual no GitHub dependa de o workflow existir na branch default. Nesta branch de auditoria isolada, o mecanismo CLI de retoma é o caminho garantido.
-- **Estado do varrimento integral:** em execução no momento do primeiro registo. A execução e respetivos totais efetivos são verificados no ponto de retoma/adição do fecho; não confundir trabalho iniciado com trabalho concluído.
+- **Estado do varrimento integral:** concluído em dez shards com sucesso; reconciliação com o GET complementar da capa externa. Totais oficiais da execução e divergências na secção 6.
 
 ## 5. Verificadores e fronteiras
 
@@ -65,4 +65,44 @@ Inventário determinístico lido pelo script `scripts/audit_images_http.py` apó
 - **PASS 12 testes Python** incluindo 6 do scanner HTTP (GET, redirecionamentos, URLs permitidas, 404/HTML, retoma e inventário) e 6 de duplicados.
 - Não foram publicadas imagens de terceiros no repositório, não foram alteradas capas nem variantes, nem executadas migrações de estado. Nenhum merge, nova coleção ou pedido de deployment. Produção permanece na referência `main`.
 
-**Pendências:** completar e agregar shards com resultados HTTP atuais; rever divergências genuínas com dados de origem; possível reposição de imagem de Salis somente se comprovada; Topps 403 continua sem hash. Etapa 5 **não iniciada**.
+**Pendências residuais:** obter fotografia verdadeira de Salis por fonte comprovada, revalidar os cinco links Topps por meio autorizado (403 no runner) e eventuais reauditorias futuras. Os 24.747 URLs foram processados, sem divergências binárias confirmadas. Etapa 5 **não iniciada**.
+
+
+## 6. Fecho do varrimento integral — cobertura efetivamente executada
+
+**Execução principal:** [#42491632711](https://github.com/newuser-hub/fut/actions/runs/42491632711) — **COMPLETED / SUCCESS**, commit `572c49334c815708c9ddb10853c341011aeffb23`. Job `validate`, `priority` e os dez shards `0..9` **SUCCESS**. **Execução complementar da capa externa:** [#42491973748](https://github.com/newuser-hub/fut/actions/runs/42491973748), **SUCCESS**.
+
+**Conciliação:** o scanner original registou 24.741 GET 200 de imagem, cinco 403 da Topps e uma capa externa não tentada por política de host. A capa foi verificada por um segundo GET, HTTP 200, com MIME, bytes e SHA completos. O registo final dessa capa **substitui** o `invalid_url` da primeira tentativa (não duplica a contagem).
+
+| Métrica final (valores observados, não estimativas) | Resultado |
+|---|---:|
+| Coleções / posições preservadas | **47 / 26.774** |
+| URLs inventariados, todos distintos | **24.747** |
+| URLs efetivamente tratados na auditoria, após conciliação | **24.747 / 24.747 (100%)** |
+| GET 200 + MIME imagem + bytes + SHA-256 comprovados | **24.742** |
+| Dos quais imagens de cromos com hash antigo igual ao novo | **24.695** |
+| Dos quais capas com GET válido | **47 / 47** |
+| URLs Topps respondendo 403, sem novo hash | **5** |
+| URLs de cromos em falta (não há imagem para descarregar) | **2.074** |
+| Divergências entre bytes/SHA-256 novos e persistidos | **0** |
+| Redirecionamentos finais dos GET 200 | **0** |
+| Tentativas adicionais decorrentes de retries nos shards | **42** |
+| Percentagem de URLs com bytes de imagem verificados | **99,9798%** |
+| Percentagem de posições com URL de imagem (incluindo cinco 403) | **92,2537%** |
+
+**Cobertura por origem (GET 200):** `www.cromos.pt` 23.552; `www.stickersone.com` 549; `stickersone.com` 640; `blogger.googleusercontent.com` 1. `images.topps.com`: cinco HTTP 403, sem bytes de imagem recuperados pelo runner.
+
+**Registos per-URL:** cada artefacto `fut-etapa4-shard-0` a `fut-etapa4-shard-9` contém resultados JSONL e sumário do lote. A consolidação independente abrange **24.747 chaves únicas**, sem repetição, e corrigiu por reconciliação o único URL de capa não autorizado na primeira execução. Evidência adicional: `fut-etapa4-priority` (incluindo o URL antigo de Salis) e artefacto da capa externa no run complementar.
+
+**SHA-256 do consolidado JSONL (18.789.968 bytes):** `cbcf3c95fe946803de1e5274109e1f0e21c77566950bfe4818b5298169bdcb25`. Foi gerado também um ZIP com JSONL, CSV e resumo, anexado à conversa de auditoria, sem incorporar imagens binárias no repositório.
+
+**Período registado nos dados reconciliados:** 08/11/2026, entre 14:49:02 UTC e 15:07:17 UTC. Registos de GET são evidências temporais e não garantias de disponibilidade futura.
+
+### Interpretação e decisão final
+- **Nenhuma correção de hashes/imagens em massa:** as 24.695 imagens anteriormente com hash continuaram idênticas quando obtidas por GET. Preservar os metadados existentes evita revisões sem necessidade.
+- **Salis:** única imagem efetivamente corrigida nesta etapa, por prova combinada de GET/bytes idênticos ao cromo de Kojo e inspeção visual confirmada; posição 383 conservada, fotografia marcada indisponível.
+- **Oito variantes regionais:** 16 GET 200 e hashes idênticos aos pares e ao histórico. Mesma identidade textual do jogador em ambos os números regionais; conservar variantes. Os hashes não garantem por si conformidade com todos os elementos gráficos do checklist oficial.
+- **Topps 5×403:** quatro impossibilidades de acesso não seriam transformadas em erros de atribuição; no caso real são **cinco**, preservando os cinco URLs `official-preview-link` e a distinção entre foto sem hash e cromo sem foto.
+- **Checkpoint de retoma:** **não há shards pendentes** na execução 2026-11-08; se houver necessidade de nova auditoria, utilizar `--resume` com JSONL e `--retry-transient` só para resultados não conclusivos. A execução manual `workflow_dispatch` pode depender da presença do ficheiro na branch default; a retoma pelo script e artefactos é independente dessa limitação.
+
+**Etapa 4/10 concluída em auditoria, com pendência editorial Topps/Salis explicitamente registada. Etapa 5/10 não iniciada. Nenhuma coleção adicionada, nem merge nem pedido de deployment.**
