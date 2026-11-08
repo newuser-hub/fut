@@ -10,60 +10,25 @@ on:
 permissions:
   contents: write
 
-# A mesma fila dos lotes principais: nunca modifica os catálogos em simultâneo.
-concurrency:
-  group: fut-ingest-collections
-  cancel-in-progress: false
-
+# Não definir concurrency partilhado: os pending anteriores seriam substituídos.
+# Exclusão entre as quatro workflows: lock Git ref exclusivo no passo de importação.
 jobs:
   import:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 120
     steps:
-      # main é obtida no início da execução, depois de outros lotes acabarem.
       - uses: actions/checkout@v4
         with:
-          ref: main
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
-      - name: Validar situação e reconstruir ficheiros legados
-        run: |
-          git log -1 --format='HEAD %H %s'
-          node scripts/unpack-data.mjs
-          python3 scripts/verify_expansion_plan.py
-      - name: Importar as duas coleções autorizadas
-        run: python3 -u scripts/ingest_batch.py requests/roadmap-batch.json
-      - name: Sincronizar auditorias do lote no roteiro
-        run: python3 scripts/sync_expansion_plan.py requests/roadmap-batch.json
-      - name: Validar TODAS as coleções e frontend
-        run: |
-          node scripts/unpack-data.mjs
-          python3 scripts/verify_catalogs.py
-          python3 scripts/verify_expansion_plan.py
-          python3 - <<'PY'
-          import re
-          from pathlib import Path
-          html=Path("public/index.html").read_text(encoding="utf-8")
-          scripts=re.findall(r"<script[^>]*>(.*?)</script>",html,re.S)
-          assert len(scripts)==1
-          assert "roadmap-grid" in html and "roadmap-copy" in html
-          Path("/tmp/fut-roadmap-batch.js").write_text(scripts[0],encoding="utf-8")
-          PY
-          node --check /tmp/fut-roadmap-batch.js
-          node scripts/verify-portal-groups.mjs
-      - name: Commit e publicação sem reescrever pedidos em paralelo
+          node-version: '22'
+      - name: Adquirir lock, refazer sobre main e validar lote exato antes do commit
+        shell: bash
         run: |
           set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/index.html public/index.html public/library.json public/expansion-plan.json public/data
-          if git diff --cached --quiet; then
-            echo "Lote já presente; sem alterações"
-            exit 0
-          fi
-          git commit -m "Integrar lote autorizado do roteiro FUT [skip actions]"
-          git push origin HEAD:main
+          bash scripts/catalog-write-lock.sh -- \
+            bash scripts/catalog-publish-batch.sh roadmap
