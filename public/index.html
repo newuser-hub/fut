@@ -94,7 +94,7 @@
     .collection-year-head span{color:#adc3d0;font-size:12px}
     .collection-year .library-grid{margin-top:16px}
     .collection-empty{padding:28px;border:1px dashed #49657b;border-radius:12px;color:#b9ceda;font-size:13px}
-    @media(max-width:700px){.collection-toolbar{display:block}.portal-search{width:100%}.category-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.category-shortcut{padding:11px 7px;font-size:12px}.category-shortcut small{margin-left:4px}.collection-group>summary{padding:15px 13px;gap:10px}.collection-group-mark{height:37px;width:37px}.collection-group-title strong{font-size:18px}.collection-group-title small{font-size:11px}.collection-group-body{padding:0 13px 17px}}
+    @media(max-width:700px){.collection-toolbar{display:block}.portal-search{width:100%}.category-shortcuts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.category-shortcut{padding:11px 7px;font-size:12px}.category-shortcut small{margin-left:4px}.collection-group>summary{padding:15px 13px;gap:10px}.collection-group-mark{height:37px;width:37px}.collection-group-title strong{font-size:18px}.collection-group-title small{font-size:11px}.collection-group-body{padding:0 13px 17px}}
     @media(prefers-reduced-motion:reduce){.collection-chevron{transition:none}}
     .next-batch{border:1px solid rgba(223,181,107,.4);border-radius:17px;background:linear-gradient(120deg,#132e4a,#0b213a);padding:24px;margin:28px 0 6px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
     .next-batch h3{font-size:20px;margin:7px 0}.next-batch p{font-size:12px;color:#a8bfd1;margin:0;line-height:1.65;max-width:630px}
@@ -171,8 +171,8 @@
       const completed=EXPANSION_PLAN.filter(x=>active.has(x.id)).length;
       const blocked=EXPANSION_PLAN.filter(x=>!active.has(x.id)&&x.imageAudit==='blocked').length;
       const next=pending.slice(0,2);
-      let html='<section class="next-batch" aria-label="Plano de expansão FUT"><div><span class="section-label">Roteiro de expansão</span><h3>20 coleções · 10 lotes de duas</h3><p>Próximo lote: '+(next.length?next.map(x=>esc(x.title)).join(' + '):'Plano concluído')+'. Cada coleção é auditada antes da integração; as imagens e os extras podem não estar disponíveis.</p><div class="roadmap-summary">'+completed+' de 20 integradas no FUT · '+blocked+' em espera por imagens · '+pending.length+' elegíveis por auditar</div></div><div class="roadmap-tools"><button class="pill gold" data-action="next-batch"'+(next.length?'':' disabled')+'>✦ Copiar próximo pedido</button><button class="pill" data-action="roadmap-toggle" aria-controls="roadmap-grid" aria-expanded="false">Ver 10 lotes</button></div></section>';
-      html+='<div id="roadmap-grid" class="roadmap-grid hidden" aria-label="Os dez lotes previstos">';
+      let html='<section class="next-batch" aria-label="Plano de expansão FUT"><div><span class="section-label">Roteiro de expansão</span><h3>'+EXPANSION_PLAN.length+' coleções · '+(EXPANSION_PLAN.length/2)+' lotes de duas</h3><p>Próximo lote: '+(next.length?next.map(x=>esc(x.title)).join(' + '):'Plano concluído')+'. Cada coleção é auditada antes da integração; as imagens e os extras podem não estar disponíveis.</p><div class="roadmap-summary">'+completed+' de '+EXPANSION_PLAN.length+' integradas no FUT · '+blocked+' em espera por imagens · '+pending.length+' elegíveis por auditar</div></div><div class="roadmap-tools"><button class="pill gold" data-action="next-batch"'+(next.length?'':' disabled')+'>✦ Copiar próximo pedido</button><button class="pill" data-action="roadmap-toggle" aria-controls="roadmap-grid" aria-expanded="false">Ver '+(EXPANSION_PLAN.length/2)+' lotes</button></div></section>';
+      html+='<div id="roadmap-grid" class="roadmap-grid hidden" aria-label="Todos os lotes previstos">';
       for(let i=0;i<EXPANSION_PLAN.length;i+=2){
         const pair=EXPANSION_PLAN.slice(i,i+2);
         const n=pair.filter(x=>active.has(x.id)).length;
@@ -204,13 +204,14 @@
     const PORTAL_CATEGORIES=[
       {id:'portugal',title:'Portugal',mark:'PT',description:'Liga Portugal e coleções de futebol português'},
       {id:'selecoes',title:'Seleções',mark:'SE',description:'Campeonatos do Mundo, Europeus e outras seleções'},
-      {id:'outros',title:'Outros',mark:'CL',description:'Champions League, outras ligas e clubes'}
+      {id:'champions',title:'Champions League',mark:'CL',description:'Cadernetas UEFA Champions League e Match Attax'},
+      {id:'outros',title:'Outros',mark:'OT',description:'Ligas estrangeiras e outras competições de clubes'}
     ];
     const ptCollator=new Intl.Collator('pt-PT',{numeric:true,sensitivity:'base'});
     const normalText=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-PT');
     function collectionGroup(item){
       const category=normalText(item.category);
-      return category.includes('selecoes')?'selecoes':category.includes('portugal')?'portugal':'outros';
+      return category.includes('selecoes')?'selecoes':category.includes('portugal')?'portugal':category.includes('champions league')?'champions':'outros';
     }
     function collectionYear(item){
       const year=String(item.year||'').trim();
@@ -416,7 +417,7 @@
       if(!panel)return;
       const hidden=panel.classList.toggle('hidden');
       btn.setAttribute('aria-expanded',String(!hidden));
-      btn.textContent=hidden?'Ver 10 lotes':'Ocultar plano';
+      btn.textContent=hidden?'Ver '+(EXPANSION_PLAN.length/2)+' lotes':'Ocultar plano';
     }else if(action==='next-batch'||action==='roadmap-copy'){
       if(EXPANSION_PLAN.length)copyRoadmapAuthorization(action==='roadmap-copy'?Number(btn.dataset.batch):null);
       else {
@@ -459,7 +460,7 @@
           const planResponse=await fetch('/api/storage?kind=plan',{cache:'no-cache'});
           if(planResponse.ok){
             const plan=await planResponse.json();
-            if(plan.version===1 && Array.isArray(plan.collections) && plan.collections.length===20)
+            if(plan.version===1 && plan.batchSize===2 && Array.isArray(plan.collections) && plan.collections.length>=20 && plan.collections.length===plan.goal && plan.collections.length%2===0)
               EXPANSION_PLAN=plan.collections;
           }
         }catch(e){/* O arquivo principal funciona mesmo sem o plano. */}

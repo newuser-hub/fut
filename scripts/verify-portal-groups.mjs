@@ -13,20 +13,22 @@ context.globalThis=context;vm.createContext(context);vm.runInContext(script,cont
 const t=context.__test;
 const library=JSON.parse(readFileSync(new URL('../public/library.json',import.meta.url),'utf8'));
 t.library(library);
-const categories=['portugal','selecoes','outros'];
+const categories=['portugal','selecoes','champions','outros'];
 const counts=Object.fromEntries(categories.map(x=>[x,library.filter(y=>t.group(y)===x).length]));
 assert.equal(counts.portugal,6);
 assert.equal(Object.values(counts).reduce((a,b)=>a+b,0),library.length);
 assert.equal(t.group(library.find(x=>x.id==='euro-2004')),'selecoes');
 assert.equal(t.group(library.find(x=>x.id==='idolos-pt-2026-27')),'portugal');
-assert.equal(t.group(library.find(x=>x.id==='ucl-topps-2024-25')),'outros');
+assert.equal(t.group(library.find(x=>x.id==='ucl-topps-2024-25')),'champions');
+assert.equal(t.group(library.find(x=>x.id==='match-attax-2026-27')),'champions');
+assert.equal(counts.champions,5,'Deve mostrar as cinco coleções Champions League existentes');
 assert.equal(t.year(library.find(x=>x.id==='match-attax-2026-27')),2026);
 assert.equal(t.year(library.find(x=>x.id==='world-cup-1998')),1998);
 const cards=html=>[...html.matchAll(/data-action="collection" data-collection="([^"]+)"/g)].map(x=>x[1]);
 const full=t.html(),all=cards(full);
 assert.equal(all.length,library.filter(x=>x.status==='active').length);
 assert.equal(new Set(all).size,all.length);
-assert.equal((full.match(/class="collection-group"/g)||[]).length,3);
+assert.equal((full.match(/class="collection-group"/g)||[]).length,4);
 assert(full.includes('id="group-portugal" data-group="portugal" open'));
 for(const category of categories){
  const panel=full.split('id="group-'+category+'"')[1].split('</details>')[0];
@@ -44,3 +46,10 @@ assert(t.html().includes('collection-empty'));
 assert(source.includes('const stateKey = id => "fut.album."+id+".progress.v1"'));
 console.log('PASS: agrupamento e anos de '+library.length+' coleções; '+JSON.stringify(counts));
 console.log('PASS: pesquisa, IDs e progresso independente');
+const expansion=JSON.parse(readFileSync(new URL('../public/expansion-plan.json',import.meta.url),'utf8'));
+assert.equal(expansion.goal,30);
+assert.equal(expansion.collections.length,30);
+assert.equal(expansion.collections.slice(20).filter(x=>x.imageAudit==='pending').length,10);
+assert(source.includes("EXPANSION_PLAN.length===plan.goal"));
+console.log('PASS: roteiro contínuo de 30 candidatas e botões dinâmicos');
+

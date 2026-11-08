@@ -1,7 +1,7 @@
 {
   "version": 1,
   "createdAt": "2026-11-07",
-  "goal": 20,
+  "goal": 30,
   "batchSize": 2,
   "origin": "https://www.cromos.pt/collections",
   "policy": {
@@ -511,6 +511,216 @@
         "sections": 18,
         "evidence": "https://github.com/newuser-hub/fut/actions/runs/42473969216"
       }
+    },
+    {
+      "priority": 21,
+      "id": "liga-portugal-2020-21",
+      "sourceId": 60,
+      "sourceSlug": "futebol-2020-2021-panini",
+      "title": "Liga Portugal 2020/21",
+      "subtitle": "Futebol 2020–2021 · Panini",
+      "year": "20/21",
+      "publisher": "Panini",
+      "category": "Clubes · Liga Portugal",
+      "declaredMainCount": 418,
+      "description": "Edição Futebol 2020–2021 · Panini; 418 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "sourceUrl": "https://www.cromos.pt/collection/60/futebol-2020-2021-panini",
+      "imageAudit": "pending",
+      "preflight": {
+        "checkedAt": "2026-11-08",
+        "sourceTotal": 445,
+        "sourceImagePaths": 445,
+        "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      }
+    },
+    {
+      "priority": 22,
+      "id": "liga-portugal-2019-20",
+      "sourceId": 61,
+      "sourceSlug": "futebol-2019-2020-panini",
+      "title": "Liga Portugal 2019/20",
+      "subtitle": "Futebol 2019–2020 · Panini",
+      "year": "19/20",
+      "publisher": "Panini",
+      "category": "Clubes · Liga Portugal",
+      "declaredMainCount": 397,
+      "description": "Edição Futebol 2019–2020 · Panini; 397 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "sourceUrl": "https://www.cromos.pt/collection/61/futebol-2019-2020-panini",
+      "imageAudit": "pending",
+      "preflight": {
+        "checkedAt": "2026-11-08",
+        "sourceTotal": 423,
+        "sourceImagePaths": 423,
+        "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      }
+    },
+    {
+      "priority": 23,
+      "id": "euro-2008",
+      "sourceId": 20,
+      "sourceSlug": "uefa-euro-austria-switzerland-2008-panini",
+      "title": "Euro 2008 — Áustria/Suíça",
+      "subtitle": "UEFA Euro Austria–Switzerland 2008 · Panini",
+      "year": "2008",
+      "publisher": "Panini",
+      "category": "Seleções · Europeu",
+      "declaredMainCount": 568,
+      "description": "Edição UEFA Euro Austria–Switzerland 2008 · Panini; 568 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "sourceUrl": "https://www.cromos.pt/collection/20/uefa-euro-austria-switzerland-2008-panini",
+      "imageAudit": "pending",
+      "preflight": {
+        "checkedAt": "2026-11-08",
+        "sourceTotal": 568,
+        "sourceImagePaths": 568,
+        "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      }
+    },
+    {
+      "priority": 24,
+      "id": "confederations-2013",
+      "sourceId": 28,
+      "sourceSlug": "fifa-confederations-cup-brazil-2013-panini",
+      "title": "Taça das Confederações 2013",
+      "subtitle": "FIFA Confederations Cup Brazil 2013 · Panini",
+      "year": "2013",
+      "publisher": "Panini",
+      "category": "Seleções · Confederações",
+      "declaredMainCount": 249,
+      "description": "Edição FIFA Confederations Cup Brazil 2013 · Panini; 249 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "sourceUrl": "https://www.cromos.pt/collection/28/fifa-confederations-cup-brazil-2013-panini",
+      "imageAudit": "pending",
+      "preflight": {
+        "checkedAt": "2026-11-08",
+        "sourceTotal": 249,
+        "sourceImagePaths": 249,
+        "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      }
+    },
+    {
+      "priority": 25,
+      "id": "liga-portugal-2018-19",
+      "sourceId": 62,
+      "sourceSlug": "futebol-2018-2019-panini",
+      "title": "Liga Portugal 2018/19",
+      "subtitle": "Futebol 2018–2019 · Panini",
+      "year": "18/19",
+      "publisher": "Panini",
+      "category": "Clubes · Liga Portugal",
+      "declaredMainCount": 422,
+      "description": "Edição Futebol 2018–2019 · Panini; 422 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "sourceUrl": "https://www.cromos.pt/collection/62/futebol-2018-2019-panini",
+      "imageAudit": "pending",
+      "preflight": {
+        "checkedAt": "2026-11-08",
+        "sourceTotal": 432,
+        "sourceImagePaths": 432,
+        "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      }
+    },
+    {
+      "priority": 26,
+      "id": "liga-portugal-2017-18",
+      "sourceId": 63,
+      "sourceSlug": "futebol-2017-2018-panini",
+      "title": "Liga Portugal 2017/18",
+      "subtitle": "Futebol 2017–2018 · Panini",
+      "year": "17/18",
+      "publisher": "Panini",
+      "category": "Clubes · Liga Portugal",
+      "declaredMainCount": 395,
+      "description": "Edição Futebol 2017–2018 · Panini; 395 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "sourceUrl": "https://www.cromos.pt/collection/63/futebol-2017-2018-panini",
+      "imageAudit": "pending",
+      "preflight": {
+        "checkedAt": "2026-11-08",
+        "sourceTotal": 398,
+        "sourceImagePaths": 397,
+        "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      }
+    },
+    {
+      "priority": 27,
+      "id": "world-cup-1990",
+      "sourceId": 11,
+      "sourceSlug": "fifa-world-cup-italia-1990-panini",
+      "title": "Mundial Itália 1990",
+      "subtitle": "FIFA World Cup Italia 1990 · Panini",
+      "year": "1990",
+      "publisher": "Panini",
+      "category": "Seleções · Mundial",
+      "declaredMainCount": 448,
+      "description": "Edição FIFA World Cup Italia 1990 · Panini; 448 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "sourceUrl": "https://www.cromos.pt/collection/11/fifa-world-cup-italia-1990-panini",
+      "imageAudit": "pending",
+      "preflight": {
+        "checkedAt": "2026-11-08",
+        "sourceTotal": 448,
+        "sourceImagePaths": 448,
+        "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      }
+    },
+    {
+      "priority": 28,
+      "id": "euro-1992",
+      "sourceId": 12,
+      "sourceSlug": "uefa-euro-sweden-1992-panini",
+      "title": "Euro Suécia 1992",
+      "subtitle": "UEFA Euro Sweden 1992 · Panini",
+      "year": "1992",
+      "publisher": "Panini",
+      "category": "Seleções · Europeu",
+      "declaredMainCount": 261,
+      "description": "Edição UEFA Euro Sweden 1992 · Panini; 261 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "sourceUrl": "https://www.cromos.pt/collection/12/uefa-euro-sweden-1992-panini",
+      "imageAudit": "pending",
+      "preflight": {
+        "checkedAt": "2026-11-08",
+        "sourceTotal": 261,
+        "sourceImagePaths": 257,
+        "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      }
+    },
+    {
+      "priority": 29,
+      "id": "liga-portugal-2016-17",
+      "sourceId": 64,
+      "sourceSlug": "futebol-2016-2017-panini",
+      "title": "Liga Portugal 2016/17",
+      "subtitle": "Futebol 2016–2017 · Panini",
+      "year": "16/17",
+      "publisher": "Panini",
+      "category": "Clubes · Liga Portugal",
+      "declaredMainCount": 402,
+      "description": "Edição Futebol 2016–2017 · Panini; 402 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "sourceUrl": "https://www.cromos.pt/collection/64/futebol-2016-2017-panini",
+      "imageAudit": "pending",
+      "preflight": {
+        "checkedAt": "2026-11-08",
+        "sourceTotal": 442,
+        "sourceImagePaths": 442,
+        "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      }
+    },
+    {
+      "priority": 30,
+      "id": "liga-portugal-2014-15",
+      "sourceId": 55,
+      "sourceSlug": "futebol-2014-2015-panini",
+      "title": "Liga Portugal 2014/15",
+      "subtitle": "Futebol 2014–2015 · Panini",
+      "year": "14/15",
+      "publisher": "Panini",
+      "category": "Clubes · Liga Portugal",
+      "declaredMainCount": 406,
+      "description": "Edição Futebol 2014–2015 · Panini; 406 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "sourceUrl": "https://www.cromos.pt/collection/55/futebol-2014-2015-panini",
+      "imageAudit": "pending",
+      "preflight": {
+        "checkedAt": "2026-11-08",
+        "sourceTotal": 496,
+        "sourceImagePaths": 496,
+        "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      }
     }
   ],
   "lastReviewedAt": "2026-11-08",
@@ -739,6 +949,21 @@
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/42473969216"
         }
       ]
+    }
+  ],
+  "phases": [
+    {
+      "name": "Expansão inicial",
+      "from": 1,
+      "to": 20,
+      "batches": 10
+    },
+    {
+      "name": "Expansão histórica",
+      "from": 21,
+      "to": 30,
+      "batches": 5,
+      "startedAt": "2026-11-08"
     }
   ]
 }

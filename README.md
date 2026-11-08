@@ -209,3 +209,20 @@ A execução de auditoria [GitHub Actions 42473969216](https://github.com/newuse
 O commit [29e5d92](https://github.com/newuser-hub/fut/commit/29e5d922b988f67e1a95ad2b62a9c4fdcc49c412) acrescentou apenas `public/data/world-cup-1994.json` e `public/data/euro-1996.json`, sincronizando `public/library.json` e `public/expansion-plan.json` na mesma transação. As 35 edições anteriores, os IDs, o progresso local por coleção, o OAuth, a autenticação e a organização da entrada por Portugal/Seleções/Outros e anos foram preservados.
 
 **O roteiro inicial de 20 candidatas está integralmente auditado:** 16 edições integradas, **4 suspensas** por inexistência de fotografias nas fontes (FIFA 365 2027, FIFA 365 Adrenalyn XL 2027, FIFA 365 2024 e FIFA 365 2025), e 0 por auditar. A biblioteca global disponibiliza **37 coleções e 22.612 cromos**. Não estão autorizadas nem definidas neste roteiro novas importações; para continuar, selecionar e auditar novas duas candidatas ainda não existentes ou reavaliar as quatro suspensas. Ambas as opções requerem nova autorização e devem preservar os registos históricos e o âmbito de cada lote.
+
+
+### Nova fase de expansão — lotes 9 a 13 (8 de novembro de 2026)
+
+O roteiro histórico de 20 coleções foi preservado (16 integradas e quatro bloqueadas por ausência de fotografias) e prolongado para **30 candidatas**, distribuídas por 15 lotes de duas. A nova fase contém **dez novas candidatas** auditadas preliminarmente na fonte Cromos.pt; a existência de caminhos de imagem e um teste JPEG de amostra não equivalem à verificação integral. A política mantém a autorização lote a lote, auditoria individual de HTTP/MIME/dimensão/SHA-256, IDs únicos, preservação do progresso e sem imagens inventadas.
+
+| Lote | Coleção 1 | Coleção 2 | Estado |
+|---|---|---|---|
+| 9 | Liga Portugal 2020/21 (ID 60) | Liga Portugal 2019/20 (ID 61) | Primeiro par autorizado nesta fase; a auditar |
+| 10 | Euro 2008 Áustria/Suíça (ID 20) | Taça das Confederações Brasil 2013 (ID 28) | Pendente de autorização |
+| 11 | Liga Portugal 2018/19 (ID 62) | Liga Portugal 2017/18 (ID 63) | Pendente de autorização |
+| 12 | Mundial Itália 1990 (ID 11) | Euro Suécia 1992 (ID 12) | Pendente de autorização |
+| 13 | Liga Portugal 2016/17 (ID 64) | Liga Portugal 2014/15 (ID 55) | Pendente de autorização |
+
+A edição FIFA 365 2023 (Cromos.pt 322) foi excluída do roteiro por ter **0/436 fotografias principais**, apesar de manter 448 entradas na fonte. A edição Liga Portugal 2015/16 (ID 54) mostrou 376/406 caminhos principais, pelo que foi deixada para avaliação futura sem alterar o âmbito desta fase. Os próximos lotes só serão importados com autorização explícita.
+
+Na entrada, a categoria **Champions League** agrupa as cadernetas UEFA e Match Attax anteriormente incluídas em Outros, sem reescrever os seus IDs ou progresso. As restantes categorias são Portugal, Seleções e Outros. Os atalhos, pesquisa, ordenação por anos e botões do roteiro continuam disponíveis.

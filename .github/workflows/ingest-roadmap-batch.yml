@@ -54,6 +54,7 @@ jobs:
           Path("/tmp/fut-roadmap-batch.js").write_text(scripts[0],encoding="utf-8")
           PY
           node --check /tmp/fut-roadmap-batch.js
+          node scripts/verify-portal-groups.mjs
       - name: Commit e publicação sem reescrever pedidos em paralelo
         run: |
           set -euo pipefail
