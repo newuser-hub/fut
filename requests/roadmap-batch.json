@@ -1,36 +1,36 @@
 {
   "version": 1,
-  "batch": "roadmap-12",
+  "batch": "roadmap-13",
   "authorizedSourceIds": [
-    11,
-    12
+    64,
+    55
   ],
   "auditPipelineVersion": 2,
   "collections": [
     {
-      "id": "world-cup-1990",
-      "sourceId": 11,
-      "sourceSlug": "fifa-world-cup-italia-1990-panini",
-      "title": "Mundial Itália 1990",
-      "subtitle": "FIFA World Cup Italia 1990 · Panini",
-      "year": "1990",
+      "id": "liga-portugal-2016-17",
+      "sourceId": 64,
+      "sourceSlug": "futebol-2016-2017-panini",
+      "title": "Liga Portugal 2016/17",
+      "subtitle": "Futebol 2016–2017 · Panini",
+      "year": "16/17",
       "publisher": "Panini",
-      "category": "Seleções · Mundial",
-      "description": "Edição FIFA World Cup Italia 1990 · Panini; 448 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "category": "Clubes · Liga Portugal",
+      "description": "Edição Futebol 2016–2017 · Panini; 402 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "requireAllImages": false
     },
     {
-      "id": "euro-1992",
-      "sourceId": 12,
-      "sourceSlug": "uefa-euro-sweden-1992-panini",
-      "title": "Euro Suécia 1992",
-      "subtitle": "UEFA Euro Sweden 1992 · Panini",
-      "year": "1992",
+      "id": "liga-portugal-2014-15",
+      "sourceId": 55,
+      "sourceSlug": "futebol-2014-2015-panini",
+      "title": "Liga Portugal 2014/15",
+      "subtitle": "Futebol 2014–2015 · Panini",
+      "year": "14/15",
       "publisher": "Panini",
-      "category": "Seleções · Europeu",
-      "description": "Edição UEFA Euro Sweden 1992 · Panini; 261 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
+      "category": "Clubes · Liga Portugal",
+      "description": "Edição Futebol 2014–2015 · Panini; 406 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "requireAllImages": false
     }
   ],
-  "testRevision": 6
+  "testRevision": 7
 }
