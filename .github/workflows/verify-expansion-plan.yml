@@ -12,6 +12,8 @@ on:
       - "public/data/liga-portugal-2022-23.json"
       - "public/data/world-cup-2002.json"
       - "public/data/world-cup-1998.json"
+      - "public/data/euro-2000.json"
+      - "public/data/confederations-2017.json"
       - "scripts/verify_audited_batch.py"
       - "src/index.html"
       - "scripts/verify-portal-groups.mjs"
