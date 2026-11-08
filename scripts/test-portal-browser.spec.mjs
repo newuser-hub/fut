@@ -256,16 +256,15 @@ test('alvos táteis >= 44×44, foco visível e contraste WCAG por axe',async({po
 test('reduced-motion desativa scroll suave explícito',async({portal})=>{
   const {page}=portal;
   await page.emulateMedia({reducedMotion:'reduce'});
-  const behavior=await page.evaluate(()=>{
-    const calls=[];
-    const old=window.scrollTo;
-    window.scrollTo=v=>calls.push(v?.behavior);
-    document.querySelector('#group-portugal .library-tile').click();
-    window.scrollTo=old;
-    return calls;
+  await page.evaluate(()=>{
+    window.__futScrollCalls=[];
+    window.scrollTo=options=>window.__futScrollCalls.push(options?.behavior);
   });
-  expect(behavior.every(x=>x!=='smooth')).toBe(true);
+  await page.locator('#group-portugal .library-tile').first().click();
   await expect(page.locator('.index-grid')).toBeVisible();
+  const behavior=await page.evaluate(()=>window.__futScrollCalls);
+  expect(behavior).toContain('auto');
+  expect(behavior).not.toContain('smooth');
   const reduce=await page.locator('.flip-inner').count();
   expect(reduce).toBe(0);
   await page.locator('.hero-actions [data-action="album"]').click();
