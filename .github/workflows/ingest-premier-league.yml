@@ -11,47 +11,25 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: fut-ingest-premier-league
-  cancel-in-progress: false
-
+# Não definir concurrency partilhado: os pending anteriores seriam substituídos.
+# Exclusão entre as quatro workflows: lock Git ref exclusivo no passo de importação.
 jobs:
   import:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
-      - name: Install PDF parser
-        run: python3 -m pip install --quiet pymupdf
-      - name: Importar checklist oficial e validar apenas imagens autênticas
-        run: python3 -u scripts/ingest_premier_league.py
-      - name: Construir e verificar todas as coleções
+          node-version: '22'
+      - name: Adquirir lock, refazer sobre main e validar lote exato antes do commit
+        shell: bash
         run: |
-          node scripts/unpack-data.mjs
-          python3 scripts/verify_catalogs.py
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-          source=Path('public/index.html').read_text()
-          scripts=re.findall(r'<script[^>]*>(.*?)</script>',source,re.S)
-          assert len(scripts)==1
-          Path('/tmp/fut-premier.js').write_text(scripts[0])
-          PY
-          node --check /tmp/fut-premier.js
-      - name: Commit dos catálogos auditados
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/library.json public/data/premier-league-flagship-2026-27.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Integrar Premier League Flagship 2026-27 com checklist oficial [skip actions]"
-            git push origin HEAD:main
-          else
-            echo "No catalog change"
-          fi
+          set -euo pipefail
+          bash scripts/catalog-write-lock.sh -- \
+            bash scripts/catalog-publish-batch.sh premier
