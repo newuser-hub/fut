@@ -427,5 +427,27 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/56cQ8kCxzZVgex7rbHpoCsS7Pw8KYmAqVfJpc7pO.png",
     "description": "Edição Futebol 2019–2020 · Panini; 397 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral."
+  },
+  {
+    "id": "euro-2008",
+    "title": "Euro 2008 — Áustria/Suíça",
+    "year": "2008",
+    "count": 568,
+    "sections": 20,
+    "category": "Seleções · Europeu",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/k956sA1x9iMeFGVALmelaW0rEiHjTdXZidWGXfL1.jpg",
+    "description": "Edição UEFA Euro Austria–Switzerland 2008 · Panini; 568 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral."
+  },
+  {
+    "id": "confederations-2013",
+    "title": "Taça das Confederações 2013",
+    "year": "2013",
+    "count": 249,
+    "sections": 11,
+    "category": "Seleções · Confederações",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/BLmLs1L2NCEO5vacV77388yYokhEChep5EmDDwOe.jpg",
+    "description": "Edição FIFA Confederations Cup Brazil 2013 · Panini; 249 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral."
   }
 ]

@@ -587,12 +587,22 @@
       "declaredMainCount": 568,
       "description": "Edição UEFA Euro Austria–Switzerland 2008 · Panini; 568 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/20/uefa-euro-austria-switzerland-2008-panini",
-      "imageAudit": "pending",
+      "imageAudit": "verified",
       "preflight": {
         "checkedAt": "2026-11-08",
         "sourceTotal": 568,
         "sourceImagePaths": 568,
         "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      },
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 568,
+        "principal": 568,
+        "principalWithImage": 568,
+        "verifiedImages": 568,
+        "missingImages": 0,
+        "sections": 20,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42481102972"
       }
     },
     {
@@ -608,12 +618,22 @@
       "declaredMainCount": 249,
       "description": "Edição FIFA Confederations Cup Brazil 2013 · Panini; 249 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/28/fifa-confederations-cup-brazil-2013-panini",
-      "imageAudit": "pending",
+      "imageAudit": "verified",
       "preflight": {
         "checkedAt": "2026-11-08",
         "sourceTotal": 249,
         "sourceImagePaths": 249,
         "scope": "Contagem de caminhos de imagem; auditoria HTTP/MIME/tamanho/SHA-256 integral pendente."
+      },
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 249,
+        "principal": 249,
+        "principalWithImage": 249,
+        "verifiedImages": 249,
+        "missingImages": 0,
+        "sections": 11,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42481102972"
       }
     },
     {
@@ -1003,6 +1023,42 @@
           "missingImages": 0,
           "sections": 22,
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/42478834337"
+        }
+      ]
+    },
+    {
+      "batch": "roadmap-10",
+      "authorized": [
+        20,
+        28
+      ],
+      "integrated": [
+        "euro-2008",
+        "confederations-2013"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/42481102972",
+      "details": [
+        {
+          "id": "euro-2008",
+          "auditedAt": "2026-11-08",
+          "positions": 568,
+          "principal": 568,
+          "principalWithImage": 568,
+          "verifiedImages": 568,
+          "missingImages": 0,
+          "sections": 20,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42481102972"
+        },
+        {
+          "id": "confederations-2013",
+          "auditedAt": "2026-11-08",
+          "positions": 249,
+          "principal": 249,
+          "principalWithImage": 249,
+          "verifiedImages": 249,
+          "missingImages": 0,
+          "sections": 11,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42481102972"
         }
       ]
     }
