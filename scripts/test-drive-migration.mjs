@@ -372,3 +372,46 @@ test('não existe migração de dados nem ativação do backend no processo de t
   assert.equal(typeof ACTIVE_POINTER,'string');
   assert.equal(typeof READY_MARKER,'string');
 });
+
+test('preview sem hash inicial: a retoma deteta conteúdo alterado na origem',async()=>{
+  const store=new MemoryDrive(),src=source();
+  store.failOnce={name:'_cover.jpg',error:Error('interrupted after cards')};
+  await assert.rejects(()=>prepareGeneration({
+    store,source:src,generation:'stage-preview-changed',checkpointEvery:2
+  }),/interrupted/);
+  const newPhoto=Buffer.alloc(2050,0x64);
+  store.network.set('https://www.cromos.pt/cards/alpha-2.jpg',newPhoto);
+  const result=await recoverGeneration({
+    store,source:src,generation:'stage-preview-changed'
+  });
+  assert.equal(result.state,'prepared');
+  const stage=await store.findFile(store.folder.catalog,
+    'fut-stage-stage-preview-changed');
+  const cat=await store.readJson(stage.id,'album-alpha.json');
+  assert.equal(cat.cards[1].sha256,h(newPhoto));
+  assert.equal(cat.cards[1].bytes,newPhoto.length);
+  assert.equal((await validateGeneration({
+    store,generation:'stage-preview-changed'})).imagesValidated,5);
+  assert.equal(await readActivePointer(store),null);
+});
+
+test('capa sem hash inicial: URL novo não reutiliza bytes antigos de staging',async()=>{
+  const store=new MemoryDrive(),src=source();
+  store.failOnce={name:'premier-league-flagship-2026-27-4.jpg',
+    error:Error('interrupted after first cover')};
+  await assert.rejects(()=>prepareGeneration({
+    store,source:src,generation:'stage-cover-changed',checkpointEvery:1
+  }),/interrupted/);
+  const newCover=Buffer.alloc(2050,0x72);
+  store.network.set('https://www.cromos.pt/covers/album-a.jpg',newCover);
+  const result=await recoverGeneration({
+    store,source:src,generation:'stage-cover-changed'
+  });
+  assert.equal(result.state,'prepared');
+  const stage=await store.findFile(store.folder.catalog,
+    'fut-stage-stage-cover-changed');
+  const lib=await store.readJson(stage.id,'library.json');
+  assert.equal(lib[0].coverSha256,h(newCover));
+  assert.equal((await validateGeneration({
+    store,generation:'stage-cover-changed'})).imagesValidated,5);
+});
