@@ -54,3 +54,14 @@ Após cada lote, atualizar checkpoint e validar o SHA efetivamente em READY no V
 - Biblioteca atual: **41 coleções e 24.297 cromos**. Roteiro: **20 integradas, 4 bloqueadas e 6 pendentes**, das 30 candidatas. Categoria Champions League, progresso independente, OAuth e autenticação preservados.
 - Vercel: commit de integração `c2b6c008dac7fba437cfabfa5c361454c916f430` confirmado **READY** em produção (deployment `dpl_5TWfBafbXUZPgfmxtP8xo3LGYmcJ`). O commit de documentação e verificações posterior deve ser confirmado separadamente.
 - Próximo lote **11**, apenas após autorização: Liga Portugal 2018/19 (ID 62) e Liga Portugal 2017/18 (ID 63). Os bloqueios e exclusões anteriores permanecem.
+
+
+## Lote 11 concluído — Liga Portugal 2018/19 e 2017/18
+
+- Pedido autorizado no [commit c4fbbd4](https://github.com/newuser-hub/fut/commit/c4fbbd4ba23609ef958e5d6c99c75cd9352edfa2); [GitHub Actions 42481547388](https://github.com/newuser-hub/fut/actions/runs/42481547388) completou a auditoria integral dos catálogos, sincronização do roteiro e testes estruturais com **SUCCESS**.
+- [Commit transacional dc8b1011](https://github.com/newuser-hub/fut/commit/dc8b1011d51fa222743f76bdabfa96b7cc5dffb8): **Liga Portugal 2018/19** (ID 62), 432 posições (422 principais + 10 extras), **432/432** imagens auditadas, 23 secções; **Liga Portugal 2017/18** (ID 63), 398 posições (395 principais + 3 extras), **397/398** imagens auditadas, 22 secções.
+- Todas as **817 posições principais** possuem imagem. A fotografia não publicada da posição opcional **Lucas Cavalcante, 126bis, Estoril** (source sticker ID 27812), na edição 2017/18, permanece explicitamente indisponível, sem URL inventado e sem substituição de fonte, porque a cobertura dos principais é 100%.
+- Total do lote: **830 posições**, **829** imagens validadas individualmente por GET, MIME, bytes e SHA-256; **829 hashes distintos**, zero duplicados de IDs e números de navegação, e zero nomes ou secções vazios.
+- Biblioteca: **43 coleções ativas e 25.127 cromos**. Roteiro: **22 candidatas integradas, quatro bloqueadas, quatro pendentes**, de 30. Comparação da `public/library.json` com a versão anterior confirmou as **41 entradas pré-existentes imutáveis**. O diff não altera os dados de catálogos anteriores, autenticação, OAuth, progresso nem categoria Champions League.
+- Vercel: commit `dc8b1011d51fa222743f76bdabfa96b7cc5dffb8` verificado em `production` com estado **READY** (deployment `dpl_9en2jNr8abMJH6HgvNYXybpNbY5C`); confirmar novo SHA e testes de proteção após os commits de documentação.
+- **Lote 12 não autorizado** nesta execução: Mundial Itália 1990 (ID 11) + Euro Suécia 1992 (ID 12). Não executar sem novo pedido explícito.
