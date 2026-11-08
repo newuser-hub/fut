@@ -6,6 +6,7 @@ import vm from 'node:vm';
 
 import storage from '../api/storage.js';
 import { accessStatus, BASIC_CHALLENGE } from '../lib/access-control.js';
+import { ACTIVE_POINTER, digest } from '../lib/drive-migration.js';
 
 const password = randomBytes(24).toString('base64url');
 const incorrect = randomBytes(24).toString('base64url');
@@ -261,43 +262,61 @@ test('API real usa redirecionamentos internos 307 sem cache, nunca hosts externo
 
 // Carrega o corpo original da função com o backend Drive substituído apenas por
 // mocks: não existe acesso a serviços externos e nenhum segredo é utilizado.
-function driveHarness({ configured=true, throwOnRead=false }={}) {
+function driveHarness({configured=true,throwOnRead=false,missingPointer=false,
+  missingHash=false,incomplete=false,corruptImage=false}={}) {
   const errors=[];
   const bytes=Buffer.alloc(1200,0x63);
+  const sha256=digest(bytes);
   const library=[{
     id:'euro-2004',status:'active',count:2,sections:1,
     cover:'https://external.example/cover.jpg',
-    coverDriveFileId:'mock-cover', coverSha256:null
+    coverDriveFileId:'mock-cover',coverSha256:sha256
   }];
+  const plan={goal:30,collections:[]};
   const catalogue={
     id:'euro-2004',sections:['Portugal'],cards:[
       {id:'euro-2004-1',number:'1',name:'Player',available:true,
        image:'https://external.example/player.jpg',source:'external',
-       driveFileId:'mock-image',sha256:null},
+       driveFileId:'mock-image',sha256:missingHash?null:sha256,
+       bytes:bytes.length},
       {id:'euro-2004-2',number:'2',name:'Missing',available:false,
        image:null,source:'external',sha256:null}
     ]
   };
+  if(incomplete)catalogue.cards.pop();
+  const pointer={
+    version:1,generation:'mock-generation',folderId:'mock-stage-folder-id',
+    manifestSha256:digest(library),planSha256:digest(plan),
+    catalogSha256:{'euro-2004':digest(catalogue)},catalogCount:1,totalCards:2
+  };
   const clone=x=>structuredClone(x);
   const context={
-    URL, Buffer, accessStatus, BASIC_CHALLENGE,
+    URL,Buffer,accessStatus,BASIC_CHALLENGE,ACTIVE_POINTER,digest,
     process:{env:{FUT_ALBUM_PASSWORD:password}},
     console:{error(...args){errors.push(args.join(' '));}},
     driveEnabled:()=>true,
     driveConfigured:()=>configured,
     folderIds:()=>({catalog:'mock-catalogue-folder',images:'mock-image-folder'}),
     readJson:async(_folder,file)=>{
-      if(throwOnRead) throw new Error('PRIVATE_CANARY_SHOULD_NEVER_APPEAR');
+      if(throwOnRead)throw Error('PRIVATE_CANARY_SHOULD_NEVER_APPEAR');
+      if(file===ACTIVE_POINTER){
+        if(missingPointer)throw Error('Ficheiro ausente');
+        return clone(pointer);
+      }
       if(file==='library.json')return clone(library);
-      if(file==='expansion-plan.json')return {goal:30,collections:[]};
+      if(file==='expansion-plan.json')return clone(plan);
       if(file==='euro-2004.json')return clone(catalogue);
-      throw new Error('PRIVATE_CANARY_SHOULD_NEVER_APPEAR');
+      throw Error('PRIVATE_CANARY_SHOULD_NEVER_APPEAR');
     },
-    readImage:async()=>({mime:'image/jpeg',bytes})
+    readImage:async(_id,hash)=>{
+      if(!hash||hash!==sha256)throw Error('hash inválido');
+      if(corruptImage)throw Error('SHA-256 divergente');
+      return {mime:'image/jpeg',bytes};
+    }
   };
   const code=apiSource.replace(/import\s*\{[\s\S]*?\}\s*from\s*['"][^'"]+['"];?/g,'')
     .replace('export default async function handler','async function handler');
-  assert(!code.includes('import {'), 'Alteraram-se os imports da API, atualizar o mock');
+  assert(!code.includes('import {'),'Alteraram-se os imports da API, atualizar o mock');
   const {handler}=vm.runInNewContext(code+'\n({handler})',context);
   return {handler,errors,bytes,context};
 }
@@ -404,4 +423,41 @@ test('chave de progresso e dados de cromos não são tocados pelo gate de segura
   const manifest=JSON.parse(readFileSync(new URL('../public/library.json',import.meta.url),'utf8'));
   assert.equal(manifest.length,47);
   assert.equal(manifest.reduce((a,x)=>a+x.count,0),26774);
+});
+
+test('Drive não serve catálogo ou imagens sem pointer promovido',async()=>{
+  const h=driveHarness({missingPointer:true});
+  const info=await invoke(h.handler,{url:'/api/storage?kind=status'});
+  assert.equal(info.status,200);
+  assert.equal(JSON.parse(info.body).ready,false);
+  for(const url of [
+    '/api/storage?kind=library',
+    '/api/storage?kind=catalog&id=euro-2004',
+    '/api/storage?kind=image&id=euro-2004&card=euro-2004-1'
+  ]){
+    const reply=await invoke(h.handler,{url});
+    assert.equal(reply.status,502,url);
+    assert.equal(reply.headers.location,undefined);
+  }
+});
+
+test('Drive falha fechado para imagem sem hash ou catálogo incompleto',async()=>{
+  for(const opt of [{missingHash:true},{incomplete:true}]){
+    const h=driveHarness(opt);
+    const reply=await invoke(h.handler,{
+      url:'/api/storage?kind=catalog&id=euro-2004'
+    });
+    assert.equal(reply.status,502);
+    assert.equal(reply.headers.location,undefined);
+  }
+});
+
+test('Drive com bytes divergentes responde erro 502 sem fallback externo',async()=>{
+  const h=driveHarness({corruptImage:true});
+  const reply=await invoke(h.handler,{
+    url:'/api/storage?kind=image&id=euro-2004&card=euro-2004-1'
+  });
+  assert.equal(reply.status,502);
+  assert.equal(reply.headers.location,undefined);
+  assertPrivate(reply);
 });
