@@ -27,14 +27,17 @@
 | Build | Node 22, Python 3.12, `npm ci`, `npm run build`, sem alterações inesperadas | **PASS** no preflight |
 | Catálogos e roteiro | `verify_catalogs.py`, `verify_expansion_plan.py`, lote exato e `verify-portal-groups.mjs` | **PASS** no preflight |
 | Imagens | `audit_images_http.py --inventory-only` + testes Python; 24.747 URLs, 24.695 hashes de cromos, 5 Topps sem hash, 2.074 sem URL | **PASS** de inventário e mocks; **não** se fez novo GET de 24.747 imagens |
-| Progresso, segurança, API, Drive | `node --test` das seis suites, com credenciais sintéticas/mocks OAuth e SA; `migrate-drive.mjs --plan` sem rede | **PASS** no preflight |
-| Escritores, lock e documentação | Testes Python de transações, imagens, lock, workflows, índice e arquivo histórico | **PASS** no preflight |
-| Interface | Playwright Chromium/WebKit Linux nas larguras 320, 390 e 768; foco, teclado, toques simulados, swipe, favoritos, exportação/importação, modal, reduced-motion | **Rever conclusão final da execução #42515847075 antes de qualquer publicação** |
-| Produção antiga — acesso anónimo | GET read-only sem Authorization para página/manif./API/catálogos em ambos os aliases, detetor de Basic vs proteção da plataforma | **Rever conclusão da execução #42515847075; resultados referem-se apenas ao SHA antigo de produção** |
+| Progresso, segurança, API, Drive | `node --test` das seis suites, com credenciais sintéticas/mocks OAuth e SA; `migrate-drive.mjs --plan` sem rede | **PASS: 60/60 testes Node e 38/38 testes Python** no preflight |
+| Escritores, lock e documentação | Testes Python de transações, imagens, lock, workflows, índice e arquivo histórico | **PASS: 38/38 testes Python** no preflight |
+| Interface | Playwright Chromium/WebKit Linux nas larguras 320, 390 e 768; foco, teclado, toques simulados, swipe, favoritos, exportação/importação, modal, reduced-motion | **PASS: 78/78 testes**, Chromium/WebKit Linux, 320/390/768 px, no SHA exato do preflight |
+| Produção antiga — acesso anónimo | GET read-only sem Authorization para página/manif./API/catálogos em ambos os aliases, detetor de Basic vs proteção da plataforma | **PASS: 20/20 GET HTTP 401 Basic/no-store**, dez rotas × dois aliases, no SHA de produção **antigo** |
 | Produção pretendida — leitura autenticada em ambos os aliases | Após deployment `READY` do SHA **novo**, GET com Basic autorizado em ambos os domínios, sem imprimir credenciais ou bodies privados | **NÃO EXECUTADO / BLOQUEANTE** |
 | Produção pretendida — 401 anónimo em ambos os aliases | Exige confirmar primeiro que ambos os aliases apontam para deployment `READY` do **SHA novo** | **NÃO EXECUTADO**: ainda não publicado, não aceitar 401 do SHA anterior |
 
-**Evidência anterior:** [etapa 4](audit-2026-11-08-step4-images.md) examinou 24.747 URLs em 08/11/2026: 24.742 GET 200 e cinco Topps HTTP 403; **sem 0 hash mismatches confirmados**. [Etapa 8](audit-2026-11-08-step8-ui.md) tinha 78/78 testes Playwright automatizados; a etapa 10 repetiu sobre o SHA do seu próprio preflight. [CI de PR](https://github.com/newuser-hub/fut/actions) executou `FUT / validate` com sucesso no HEAD após o checkpoint 9; os mocks não substituem autenticação real.
+**Evidência anterior:** [etapa 4](audit-2026-11-08-step4-images.md) examinou 24.747 URLs em 08/11/2026: 24.742 GET 200 e cinco Topps HTTP 403; **zero divergências de hash confirmadas**. [Etapa 8](audit-2026-11-08-step8-ui.md) tinha 78/78 testes Playwright automatizados; a etapa 10 repetiu sobre o SHA do seu próprio preflight. [CI de PR](https://github.com/newuser-hub/fut/actions) executou `FUT / validate` com sucesso no HEAD após o checkpoint 9; os mocks não substituem autenticação real.
+
+
+**Conclusão efetiva do run #42515847075:** job `FUT / final-preflight` `completed/success`. **60/60 testes Node**, **38/38 testes Python**, **78/78 testes de browser** e **20/20 GET anónimos 401 Basic** nos dois domínios da **produção antiga**; `npm ci`, build, comparação exata de Salis, inventário 24.747 URL, manifesto/roteiro e documentação também `PASS`. A exceção material é a **ausência de qualquer GET autenticado com credenciais reais**, por isso o gate de publicação continua bloqueado. Nenhuma prova deste run declara que o SHA novo esteja em produção.
 
 ## C. Razão explícita do BLOQUEIO de publicação
 
