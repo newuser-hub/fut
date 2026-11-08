@@ -1,34 +1,47 @@
 {
   "version": 1,
-  "batch": "roadmap-5",
+  "batch": "roadmap-6-fallback",
   "authorizedSourceIds": [
-    77,
-    58
+    320,
+    17
   ],
   "auditPipelineVersion": 2,
+  "originallyAuthorized": [
+    "fifa-365-2025",
+    "world-cup-2002"
+  ],
+  "substitutions": [
+    {
+      "replaces": "fifa-365-2025",
+      "replacesSourceId": 320,
+      "sourceId": 15,
+      "with": "world-cup-1998",
+      "reason": "Cromos.pt ID 320: zero caminhos de imagem em 533 entradas, incluindo zero em 458 principais; Mundial França 1998 é a próxima candidata elegível do plano."
+    }
+  ],
   "collections": [
     {
-      "id": "ucl-topps-2024-25",
-      "sourceId": 77,
-      "sourceSlug": "uefa-champions-league-2024-2025-topps",
-      "title": "Champions League 2024/25 — Topps",
-      "subtitle": "UEFA Champions League 2024–2025 · Topps",
-      "year": "24/25",
-      "publisher": "Topps",
-      "category": "Clubes · Champions League",
-      "description": "Edição UEFA Champions League 2024–2025 · Topps; 531 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "id": "world-cup-2002",
+      "sourceId": 17,
+      "sourceSlug": "fifa-world-cup-korea-japan-2002-panini",
+      "title": "Mundial Coreia/Japão 2002",
+      "subtitle": "FIFA World Cup Korea/Japan 2002 · Panini",
+      "year": "2002",
+      "publisher": "Panini",
+      "category": "Seleções · Mundial",
+      "description": "Edição FIFA World Cup Korea/Japan 2002 · Panini; 581 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     },
     {
-      "id": "liga-portugal-2022-23",
-      "sourceId": 58,
-      "sourceSlug": "futebol-2022-2023-panini",
-      "title": "Liga Portugal 2022/23",
-      "subtitle": "Futebol 2022–2023 · Panini",
-      "year": "22/23",
+      "id": "world-cup-1998",
+      "sourceId": 15,
+      "sourceSlug": "fifa-world-cup-france-1998-panini",
+      "title": "Mundial França 1998",
+      "subtitle": "FIFA World Cup France 1998 · Panini",
+      "year": "1998",
       "publisher": "Panini",
-      "category": "Clubes · Liga Portugal",
-      "description": "Edição Futebol 2022–2023 · Panini; 477 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "category": "Seleções · Mundial",
+      "description": "Edição FIFA World Cup France 1998 · Panini; 561 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "requireAllImages": false
     }
   ]
