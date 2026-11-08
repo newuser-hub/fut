@@ -104,6 +104,10 @@ def verify(mode: str, request: dict | None) -> None:
                 raise ValueError("Origem divergente do lote exato: " + slug)
 
     changed = set(git("diff", "--cached", "--name-only", "origin/main", "--").splitlines())
+    unstaged = set(git("diff", "--name-only", "--").splitlines())
+    if unstaged:
+        raise ValueError("Alterações locais não incluídas no lote: " +
+                         ", ".join(sorted(unstaged)))
     allowed = {f"public/data/{x}.json" for x in selected}
     allowed.update({"public/library.json", "public/index.html", "src/index.html"})
     if mode == "roadmap":
