@@ -81,7 +81,8 @@ jobs:
           python3 -B -m unittest \
             scripts.test_audit_catalogues \
             scripts.test_audit_images \
-            scripts.test_catalog_transaction -v
+            scripts.test_catalog_transaction \
+            scripts.test_workflow_writers -v
           python3 -B scripts/audit_images_http.py --inventory-only
           node scripts/migrate-drive.mjs --plan
       - name: Dados e progresso preservados
