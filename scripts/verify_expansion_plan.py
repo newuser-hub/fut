@@ -42,6 +42,6 @@ for x in items:
     assert x["sourceUrl"]==f"https://www.cromos.pt/collection/{x['sourceId']}/{x['sourceSlug']}"
     assert len(x["title"])<=100 and len(x["description"])<=220
 assert len(known)==len([x for x in library if x["status"]=="active"])
-print(f"PASS: {plan['goal']} candidatas, {plan['goal']//2} lotes, {sum(x['id'] in known for x in items)} integradas, 
+print(f"PASS: {plan['goal']} candidatas, {plan['goal']//2} lotes, {sum(x['id'] in known for x in items)} integradas, "
       f"{sum(x['imageAudit']=='blocked' for x in items)} sem imagens, "
       f"{sum(x['declaredMainCount'] for x in items)} posições principais previstas (não auditadas)")
