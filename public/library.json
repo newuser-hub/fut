@@ -339,5 +339,27 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/FW4uoRVx5mvpWaMRvYAbJGk93n7zaCkaOthyLMbQ.png",
     "description": "Edição Futebol 2022–2023 · Panini; 477 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "world-cup-2002",
+    "title": "Mundial Coreia/Japão 2002",
+    "year": "2002",
+    "count": 581,
+    "sections": 34,
+    "category": "Seleções · Mundial",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/K7SCSMg9VfrFajdSy0ZzVArm7jQ2k5jmtDYhqnlK.jpg",
+    "description": "Edição FIFA World Cup Korea/Japan 2002 · Panini; 581 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "world-cup-1998",
+    "title": "Mundial França 1998",
+    "year": "1998",
+    "count": 561,
+    "sections": 34,
+    "category": "Seleções · Mundial",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/1DNvFjx8GYoUEcntwD3aO913TdeInvAZuk9a860M.jpg",
+    "description": "Edição FIFA World Cup France 1998 · Panini; 561 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
   }
 ]

@@ -366,7 +366,17 @@
       "declaredMainCount": 581,
       "description": "Edição FIFA World Cup Korea/Japan 2002 · Panini; 581 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/17/fifa-world-cup-korea-japan-2002-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 581,
+        "principal": 581,
+        "principalWithImage": 581,
+        "verifiedImages": 581,
+        "missingImages": 0,
+        "sections": 34,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42465661499"
+      }
     },
     {
       "priority": 16,
@@ -381,7 +391,17 @@
       "declaredMainCount": 561,
       "description": "Edição FIFA World Cup France 1998 · Panini; 561 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/15/fifa-world-cup-france-1998-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 561,
+        "principal": 561,
+        "principalWithImage": 561,
+        "verifiedImages": 561,
+        "missingImages": 0,
+        "sections": 34,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42465661499"
+      }
     },
     {
       "priority": 17,
@@ -550,6 +570,42 @@
           "missingImages": 1,
           "sections": 41,
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/42464829865"
+        }
+      ]
+    },
+    {
+      "batch": "roadmap-6-fallback",
+      "authorized": [
+        320,
+        17
+      ],
+      "integrated": [
+        "world-cup-2002",
+        "world-cup-1998"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/42465661499",
+      "details": [
+        {
+          "id": "world-cup-2002",
+          "auditedAt": "2026-11-08",
+          "positions": 581,
+          "principal": 581,
+          "principalWithImage": 581,
+          "verifiedImages": 581,
+          "missingImages": 0,
+          "sections": 34,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42465661499"
+        },
+        {
+          "id": "world-cup-1998",
+          "auditedAt": "2026-11-08",
+          "positions": 561,
+          "principal": 561,
+          "principalWithImage": 561,
+          "verifiedImages": 561,
+          "missingImages": 0,
+          "sections": 34,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42465661499"
         }
       ]
     }
