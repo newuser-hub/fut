@@ -1,27 +1,37 @@
-# 10 — Backlog e expansões
+# 10 — Backlog, bloqueios e autorização
 
-A **única fonte de verdade** do roteiro é [`public/expansion-plan.json`](../../public/expansion-plan.json). O objetivo inicial de 20 candidatas está organizado em lotes de duas, sem impor limite absoluto ao número futuro de coleções.
+**Roteiro atual:** [`public/expansion-plan.json`](../../public/expansion-plan.json), **30 candidatas**, 26 integradas no manifesto, **quatro bloqueadas por cobertura/qualidade de imagens** e **zero outras pendentes** no roteiro. Não existe limite técnico fixo de coleções para o FUT, mas nenhuma expansão é autorizada por esta documentação.
 
-**Estado de 2026-11-08:** 8 integradas / 3 bloqueadas por falta de imagens / 9 pendentes.
+## Candidatas bloqueadas — não importar
 
-## Próximo par elegível — não autorizado neste pedido
-
-1. **Champions League 2024/25 Topps** — ID Cromos.pt **77**, `ucl-topps-2024-25`.
-2. **Liga Portugal 2022/23 Panini** — ID Cromos.pt **58**, `liga-portugal-2022-23`.
-
-Os três bloqueados são FIFA 365 2027 (340), FIFA 365 Adrenalyn XL 2027 (99) e FIFA 365 2024 (321). A sua integração exige imagens reais verificáveis e nova decisão editorial.
-
-**Seguintes no plano:** FIFA 365 2025, Mundial 2002, Mundial 1998, Euro 2000, Taça das Confederações 2017, Mundial 1994 e Euro 1996. A ordem pode depender de novas auditorias e autorização explícita.
-
-| Prioridade | Pendente | Estado |
+| Candidata | ID no roteiro | Situação |
 |---|---|---|
-| P0 | Proteger IDs, progresso, autenticação e dados atuais | Regra ativa |
-| P1 | Auditar e autorizar par 77+58 | Pendente |
-| P1 | Rever imagens das três candidatas bloqueadas | Bloqueado |
-| P2 | Monitorizar 1.957 posições sem fotografia | Pendente |
-| P2 | Atualizar índice, decisões, auditorias e snapshots em cada lote | Processo proposto |
-| P2 | Completar e validar migração privada Google Drive antes de eventual ativação | Preparação técnica, não autorizada neste pedido |
-| P3 | Avaliar direitos de imagens e robustez de URLs externos | Pendente |
-| P3 | Considerar eventual sincronização de progresso | Ideia, não aprovada |
+| FIFA 365 2027 | `fifa-365-2027` | Fonte sem imagens suficientes verificáveis |
+| FIFA 365 Adrenalyn XL 2027 | `fifa-365-adrenalyn-2027` | Fonte sem imagens suficientes verificáveis |
+| FIFA 365 2024 | `fifa-365-2024` | Fotografia não disponível em volume adequado |
+| FIFA 365 2025 | `fifa-365-2025` | Validação editorial/visual bloqueada |
 
-Nenhuma linha deste backlog é autorização para importar, publicar ou reconfigurar o Vercel.
+**O par 77+58 indicado no PR #1 já foi integrado**: Champions League 2024/25 e Liga Portugal 2022/23 estão no manifesto de 47. Os lotes 6–13 e as entradas posteriores também foram processados; não reutilizar pedidos históricos para criar novas importações.
+
+## Prioridades pós-auditoria — sem autorização implícita
+
+| Classe | Ação | Estado |
+|---|---|---|
+| P0 | Preservar 47 coleções, IDs, backups, Basic Auth e progresso por browser | Obrigação permanente |
+| P0 | Rever PR da auditoria com CI e aceitar ou rejeitar mudanças de forma controlada | **Pendente de revisão humana; sem merge** |
+| P1 | Resolver imagem incorreta de Salis com fotografia verdadeira verificável | **Ligação errada resolvida; imagem correta pendente** |
+| P1 | Investigar 5 ligações Topps HTTP 403 e direitos de imagem | **Não verificadas; não equivalem a fotos descarregadas** |
+| P1 | Manter/documentar 2.074 posições sem URL, em 18 coleções | **Lacunas aceites; continuar observação editorial** |
+| P1 | Adaptar writers a branches/PRs antes de eventual regra de PR obrigatório | **Proposta, sem alteração de settings** |
+| P2 | Confirmar acesso real em Safari/iPhone e VoiceOver | **Não testado; WebKit Linux 78/78 é evidência distinta** |
+| P2 | Verificar permissões, quotas e consentimento para migração Google Drive real | **Não autorizada / não executada** |
+| P2 | Avaliar custos de servir fotos pela Drive API e serialização de promoções | **Pendente de decisão técnica** |
+| P3 | Considerar sincronização de progresso entre dispositivos | **Ideia, não aprovada** |
+
+O roteiro visual e os botões de autorização **apenas copiam textos**, não executam importações automaticamente. Para novas coleções, criar pedido explícito, auditar catálogos e imagens, validar CI, publicar por SHA certo apenas após aprovação. O progresso permanece no `localStorage`; fazer backup individual por coleção.
+
+### Estado histórico do PR #1 — não operacional
+
+O snapshot documental inicial tinha **8/20 integradas, 3 bloqueadas e 9 pendentes**, e recomendava as entradas 77+58. Foi correto **naquela data**, mas deixou de descrever o inventário real. [Cronologia](../HISTORICO.md), [arquivo original](../01-gestao/README-original-2026-11-08.md) e [checkpoints](../../ops/) preservam a sucessão sem reescrever o passado.
+
+**Nada nesta lista autoriza novas importações, merges, alterações de GitHub/Vercel ou deploy.**
