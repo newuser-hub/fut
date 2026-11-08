@@ -10044,7 +10044,9 @@
   "imageAudit": {
     "available": 547,
     "missing": 9,
-    "checkedAt": "2026-11-08",
-    "source": "StickersOne GET, MIME, bytes, SHA256; placeholders excluded. 2026-11-08: Salis Abdul Samed 1355840 image matches Kojo Peprah Oppong 1355839 by GET/visual inspection; false positive removed pending verified replacement."
+    "checkedAt": "2026-11-07",
+    "source": "StickersOne GET, MIME, bytes, SHA256; placeholders excluded. 2026-11-08: Salis Abdul Samed 1355840 image matches Kojo Peprah Oppong 1355839 by GET/visual inspection; false positive removed pending verified replacement.",
+    "correctionAt": "2026-11-08",
+    "correctionId": "ligue-1-foot-2025-26-1355840"
   }
 }
