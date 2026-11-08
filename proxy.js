@@ -6,7 +6,20 @@ export default function proxy(request) {
   const state = accessStatus(request.headers.get('authorization'),
     process.env.FUT_ALBUM_PASSWORD);
 
-  if (state === 'authorized') return next();
+  if (state === 'authorized') {
+    if (request.method === 'GET' || request.method === 'HEAD') return next();
+    return new Response('Método não permitido.', {
+      status: 405,
+      headers: {
+        'Allow': 'GET, HEAD',
+        'Cache-Control': 'private, no-store',
+        'Pragma': 'no-cache',
+        'Vary': 'Authorization',
+        'Content-Type': 'text/plain; charset=utf-8',
+        'X-Content-Type-Options': 'nosniff'
+      }
+    });
+  }
 
   const headers = {
     'Cache-Control': 'private, no-store',
