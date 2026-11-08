@@ -1,110 +1,83 @@
-# FUT — Armazenamento Google Drive (migração segura)
+# FUT — Migração privada para Google Drive
 
-## Estado e objetivo
+## Estado atual (8 de novembro de 2026)
 
-O FUT foi originalmente publicado com **catálogos JSON estáticos no Vercel**
-(\`/library.json\` e \`/data/<coleção>.json\`), imagens referenciadas por URLs
-externos e progresso individual guardado no \`localStorage\` do navegador.
+**Ainda não está ativo.** O FUT continua a ler os catálogos JSON estáticos do Vercel e as fotografias das origens externas. O progresso e os favoritos permanecem no `localStorage` do navegador, por coleção. O backend privado Google Drive já está integrado em `/api/storage`, mas só será ativado após autenticação e migração integral.
 
-A pasta privada **FUT — Coleções** no Google Drive foi criada para alojar o
-arquivo. A pasta de Ídolos 2026/27 já existente é um arquivo separado:
-não equivale a ter todas as coleções do FUT no Drive.
+- `FUT_STORAGE_BACKEND` ausente ou `vercel`: o novo endpoint usa os ficheiros estáticos que já existiam.
+- `FUT_STORAGE_BACKEND=drive`: catálogos, manifesto, roteiro, capas e imagens são servidos pelo Vercel, após leitura autenticada do Drive, sem expor o token, os IDs Drive ou os URLs externos ao visitante.
+- Sem credenciais ou com conteúdo incompleto: o modo Drive falha explicitamente; **não** faz uma substituição silenciosa pelos URLs de origem.
 
-Os novos endpoints \`/api/storage\` permitem alternar entre duas origens:
-- **vercel** (por defeito): encaminha para os JSONs existentes, sem alterar o
-  comportamento, a autenticação ou o progresso das cadernetas.
-- **drive** (só depois da migração completa): lê catálogos, índice, roteiro,
-  capas e imagens individuais diretamente do **Drive privado**, através do
-  servidor Vercel e de uma conta de serviço Google. O navegador nunca recebe
-  tokens, chaves nem IDs de ficheiros internos.
+## Arquivo privado criado no Google Drive
 
-Se o modo Drive for ativado sem credenciais ou faltar uma imagem que deveria
-existir no Drive, o serviço **falha de forma explícita**; não passa silenciosamente
-a usar URLs externos ou cópias estáticas.
-
-## Pastas privadas criadas
-
-| Pasta | ID Google Drive |
+| Pasta | ID |
 |---|---|
-| FUT — Coleções | \`1j9SVNmg8KMtCEsxM4-3MjWKvkF75IlgC\` |
-| catalogos | \`1YSBTawUnSfk76QM2fxJ6I7O2MYr3nf-f\` |
-| imagens | \`17qFZjaYOf_ALoQSIA9mI3zjc5_ZmxZg3\` |
-| manifestos | \`1sLahZsrqoDDi7otKMbq9_uKo_RELR_Bu\` |
-| auditorias | \`10Mi4EEckBY1V4jpK-pOhIPisQy2Meni7\` |
+| FUT — Coleções | `1j9SVNmg8KMtCEsxM4-3MjWKvkF75IlgC` |
+| catalogos | `1YSBTawUnSfk76QM2fxJ6I7O2MYr3nf-f` |
+| imagens | `17qFZjaYOf_ALoQSIA9mI3zjc5_ZmxZg3` |
+| manifestos | `1sLahZsrqoDDi7otKMbq9_uKo_RELR_Bu` |
+| auditorias | `10Mi4EEckBY1V4jpK-pOhIPisQy2Meni7` |
 
-**Não tornar as pastas públicas.** O site mantém a proteção HTTP Basic;
-o acesso à Drive API é exclusivo do servidor.
+Estas pastas estão no **Meu disco / My Drive pessoal**, não numa unidade partilhada do Google Workspace. Contêm atualmente os relatórios de auditoria e uma cópia privada do ZIP original de Ídolos 2026/27. **Ainda não contêm todos os JSONs nem as fotografias das 29 coleções.** Não tornar as pastas públicas.
 
-## Autenticação obrigatória para concluir
+## Autenticação da Google Drive API (obrigatória)
 
-A ligação da conta Google Drive à conversa ChatGPT **não disponibiliza tokens
-permanentes ao site Vercel**. Para a migração e leitura do Drive em produção:
+A ligação Drive existente no ChatGPT **não fornece credenciais reutilizáveis a aplicações externas**. São necessárias credenciais próprias de uma aplicação Google Cloud (com Drive API ativada). Existem duas opções:
 
-1. Criar numa conta Google Cloud uma **conta de serviço** (com Google Drive API
-   ativada); obter o JSON de credenciais e o respetivo \`client_email\`.
-2. Partilhar **catalogos** e **imagens** com o \`client_email\` como **Editor**.
-3. Guardar o JSON na variável Vercel \`FUT_DRIVE_SERVICE_ACCOUNT_JSON\`,
-   tipo **Sensitive**, para Production (e ambientes de teste necessários).
-   Nunca introduzir o ficheiro no GitHub, no código ou em logs.
-4. Configurar no Vercel:
-   \`\`\`text
-   FUT_DRIVE_CATALOGS_FOLDER_ID=1YSBTawUnSfk76QM2fxJ6I7O2MYr3nf-f
-   FUT_DRIVE_IMAGES_FOLDER_ID=17qFZjaYOf_ALoQSIA9mI3zjc5_ZmxZg3
-   FUT_STORAGE_BACKEND=vercel
-   \`\`\`
-5. No ambiente de migração privado, configurar as mesmas credenciais,
-   reconstruir todos os catálogos e executar:
-   \`\`\`bash
+### Opção A — Meu disco pessoal (situação atual; recomendada)
+
+Utilizar **OAuth 2.0 com consentimento do proprietário do Drive** e scope `https://www.googleapis.com/auth/drive`. Obter legitimamente um **refresh token** com consentimento explícito do utilizador, por meio do fluxo OAuth da aplicação Google Cloud.
+
+Guardar diretamente nas variáveis **Sensitive** do projeto Vercel, nunca na conversa, no GitHub ou nos logs:
+
+```text
+FUT_DRIVE_OAUTH_CLIENT_ID=<ID do cliente OAuth>
+FUT_DRIVE_OAUTH_CLIENT_SECRET=<segredo do cliente OAuth>
+FUT_DRIVE_OAUTH_REFRESH_TOKEN=<refresh token autorizado>
+```
+
+O Vercel usa o refresh token exclusivamente no servidor para pedir access tokens de curta duração e aceder às pastas privadas com os direitos do proprietário. Deve manter-se o consentimento e gerir a validade/rotação/revogação das credenciais.
+
+### Opção B — Google Workspace Shared Drive
+
+Para uma unidade verdadeiramente **partilhada** (não uma pasta partilhada dentro do Meu disco), pode usar-se uma **conta de serviço** com permissões adequadas na unidade. Configurar o JSON na variável **Sensitive** `FUT_DRIVE_SERVICE_ACCOUNT_JSON` e a identificação da unidade em `FUT_DRIVE_SHARED_DRIVE_ID`. Criar ou mover primeiro o arquivo para uma Shared Drive e atualizar os IDs de pastas correspondentes.
+
+**Atenção:** uma conta de serviço tem quota zero e **não pode ser proprietária de ficheiros no My Drive pessoal**. Partilhar as pastas atuais apenas como Editor **não é suficiente** para fazer uploads. A Google indica expressamente que devem ser utilizadas Shared Drives ou OAuth 2.0 em nome de um utilizador humano:
+https://developers.google.com/workspace/drive/api/guides/handle-errors#storageQuotaExceeded
+
+## Identificadores do projeto Vercel
+
+Já foram configuradas (não são segredos):
+
+```text
+FUT_DRIVE_CATALOGS_FOLDER_ID=1YSBTawUnSfk76QM2fxJ6I7O2MYr3nf-f
+FUT_DRIVE_IMAGES_FOLDER_ID=17qFZjaYOf_ALoQSIA9mI3zjc5_ZmxZg3
+```
+
+**Não configurar `FUT_STORAGE_BACKEND=drive` ainda.** O sítio continua disponível com `FUT_STORAGE_BACKEND=vercel` implícito.
+
+## Procedimento de migração depois de configurar OAuth / Shared Drive
+
+1. Em ambiente de execução seguro com acesso às credenciais, recuperar o repositório `newuser-hub/fut`, reconstruir os ficheiros e validar:
+
+   ```bash
    npm run build
-   node scripts/migrate-drive.mjs --images
-   \`\`\`
-   O script copia **apenas** imagens disponíveis na origem, exige SHA-256
-   quando há hash registado, conserva os IDs dos cromos e permite retoma de
-   coleções já copiadas. Guarda catálogos por coleção e publica \`library.json\`
-   **só depois** de toda a migração concluir.
+   python3 scripts/verify_catalogs.py
+   node --test scripts/test-drive-storage.mjs
+   ```
 
-   Para arquivar apenas os JSONs, sem ativar a leitura:
-   \`\`\`bash
-   node scripts/migrate-drive.mjs
-   \`\`\`
+2. Configurar as variáveis de autenticação no ambiente privado, e executar `node scripts/migrate-drive.mjs --images`. Este programa copia os ficheiros individuais e só publica `library.json` depois da migração completa, preservando IDs, números e secções. Existe `--slug <slug>` para retoma por coleção.
 
-6. Validar a existência no Drive dos catálogos de **todas as coleções ativas**,
-   \`library.json\`, \`expansion-plan.json\`, capas e todas as imagens disponíveis.
-   Só depois configurar \`FUT_STORAGE_BACKEND=drive\` no Vercel e publicar.
-7. Testar com autenticação no endereço de produção: \`/api/storage?kind=status\`
-   deverá mostrar \`{"backend":"drive","ready":true,"imageBackend":"drive"}\`.
-   Todas as leituras e imagens deverão passar por \`/api/storage\`.
+3. Antes de ativar, confirmar as imagens de **todas** as coleções no Drive, comparar contagens, MIME, tamanhos e SHA-256, testar a leitura privada da Drive API e confirmar a ausência de imagens em falta. **Há cinco URLs de pré-visualização Topps anteriormente não verificáveis por HTTP; precisam de resolução editorial antes da migração completa.** Nunca inventar imagens nem assinalar como verificadas aquelas que falharam.
 
-Para lotes futuros: executar novamente a migração de forma idempotente **antes**
-de publicar o manifesto atualizado no Drive. Não ativar o backend privado se
-algum catálogo estiver por migrar.
+4. Ativar a variável Vercel `FUT_STORAGE_BACKEND=drive` somente após sucesso da verificação integral; publicar e testar `/api/storage?kind=status`. Deve devolver `{"backend":"drive","ready":true,"imageBackend":"drive"}` com autenticação HTTP Basic.
 
-## Integridade, disponibilidade e progressos
+5. Testar cada uma das coleções, cromos ampliados, navegação, favoritos e progressos existentes. Conservar as cópias originais durante a transição, e verificar que os novos cartões usam exclusivamente a rota autenticada `/api/storage?kind=image`.
 
-- Cada cromo conserva o mesmo \`id\`, \`number\`, \`section\` e os restantes
-  metadados. Os ficheiros de imagem recebem apenas um novo
-  \`driveFileId\` no catálogo **do Drive**.
-- A imagem apresentada passa a ser servida por
-  \`/api/storage?kind=image&id=<coleção>&card=<id>\`,
-  mantendo a autorização do portal; não são emitidas ligações públicas ao Drive.
-- A migração pode exigir tempo e quota significativos para milhares de imagens.
-  As imagens sem autorização de utilização devem ser excluídas; a acessibilidade
-  HTTP por si só não constitui uma licença de reprodução.
-- O **progresso do utilizador** (\`revealed\`, \`favorites\`) permanece no
-  \`localStorage\` do mesmo navegador, por coleção. Mover os catálogos para o
-  Drive **não sincroniza automaticamente** o progresso entre dispositivos.
-  Uma futura sincronização individual exigiria identidade e controlo de acesso
-  separados.
-- As cópias estáticas atuais só devem ser removidas após migração integral,
-  validação de equivalência e aprovação explícita.
+6. Para cada lote FUT futuro, migrar as novas imagens e catálogos para o Drive **antes** de atualizar o manifesto no Drive, evitando coleções incompletas.
 
-## Testes técnicos
+## Progresso e direitos
 
-\`\`\`bash
-node --test scripts/test-drive-storage.mjs
-python3 scripts/verify_catalogs.py
-\`\`\`
+A migração de catálogos/imagens para o Drive **não transfere o progresso pessoal**. `revealed` e `favorites` são dados de `localStorage` e continuam associados ao navegador e à coleção; sincronizar entre iPhone/computador exigirá autenticação de utilizador e proteção de dados adicional.
 
-O teste verifica que a origem antiga continua a funcionar enquanto o Drive
-não é ativado, e que o modo Drive sem credenciais falha fechado.
-O teste real de leitura do Drive exige uma conta de serviço configurada.
+As imagens pertencem aos respetivos titulares e podem ter restrições de reprodução. Disponibilidade pública por HTTP não equivale a licença para replicar; confirmar os direitos aplicáveis antes de copiar imagens de terceiros.
