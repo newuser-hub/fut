@@ -107,30 +107,34 @@ test('swipe horizontal avança página sem virar cromos acidentalmente',async({p
   await expect(p).toHaveText(/1 \//);
   await page.evaluate(()=>{
     const el=document.querySelector('.paper-shell');
-    function t(x,y){
-      return new Touch({identifier:17,target:el,clientX:x,clientY:y,screenX:x,screenY:y,pageX:x,pageY:y});
+    // Touch constructor é bloqueado pelo WebKit Linux automatizado.
+    // Emulamos apenas as propriedades lidas pelo handler, sem afirmar
+    // que isto é um gesto físico em Safari/iPhone.
+    function fire(type,touches,changed){
+      const e=new Event(type,{bubbles:true,cancelable:true});
+      Object.defineProperty(e,'touches',{value:touches});
+      Object.defineProperty(e,'changedTouches',{value:changed});
+      el.dispatchEvent(e);
     }
-    const start=t(260,300),end=t(65,310);
-    el.dispatchEvent(new TouchEvent('touchstart',{
-      bubbles:true,cancelable:true,touches:[start],
-      targetTouches:[start],changedTouches:[start]}));
-    el.dispatchEvent(new TouchEvent('touchend',{
-      bubbles:true,cancelable:true,touches:[],
-      targetTouches:[],changedTouches:[end]}));
+    const start={identifier:17,clientX:260,clientY:300};
+    const end={identifier:17,clientX:65,clientY:310};
+    fire('touchstart',[start],[start]);
+    fire('touchend',[],[end]);
   });
   await expect(p).toHaveText(/2 \//);
   await expect(page.locator('.flip-card[aria-pressed="true"]')).toHaveCount(0);
   await page.evaluate(()=>{
     const el=document.querySelector('.paper-shell');
-    const t=(x,y)=>new Touch({identifier:18,target:el,clientX:x,clientY:y,
-      screenX:x,screenY:y,pageX:x,pageY:y});
-    const start=t(60,300),end=t(262,310);
-    el.dispatchEvent(new TouchEvent('touchstart',{
-      bubbles:true,cancelable:true,touches:[start],
-      targetTouches:[start],changedTouches:[start]}));
-    el.dispatchEvent(new TouchEvent('touchend',{
-      bubbles:true,cancelable:true,touches:[],
-      targetTouches:[],changedTouches:[end]}));
+    const fire=(type,touches,changed)=>{
+      const e=new Event(type,{bubbles:true,cancelable:true});
+      Object.defineProperty(e,'touches',{value:touches});
+      Object.defineProperty(e,'changedTouches',{value:changed});
+      el.dispatchEvent(e);
+    };
+    const start={identifier:18,clientX:60,clientY:300};
+    const end={identifier:18,clientX:262,clientY:310};
+    fire('touchstart',[start],[start]);
+    fire('touchend',[],[end]);
   });
   await expect(p).toHaveText(/1 \//);
 });
@@ -172,9 +176,8 @@ test('exportação e importação restituem progresso apenas à mesma coleção'
   expect(json.revealed).toContain(id);
   expect(json.favorites).toContain(id);
   await page.getByRole('button',{name:'▦ Índice'}).first().click();
-  await page.locator('[data-action=hide-all]').last().click();
-  page.once('dialog',d=>d.accept());
-  // Limpar via localStorage apenas neste contexto sintético; provar import real.
+  // Limpar somente o armazenamento do navegador de teste; uma única
+  // confirmação é autorizada na importação, sem dois handlers concorrentes.
   await page.evaluate(k=>localStorage.removeItem(k),'fut.album.'+collection+'.progress.v1');
   page.on('dialog',d=>d.accept());
   await page.locator('#import-file').setInputFiles({
@@ -237,9 +240,12 @@ test('alvos táteis >= 44×44, foco visível e contraste WCAG por axe',async({po
     expect(bb.width,css+' width').toBeGreaterThanOrEqual(43.9);
     expect(bb.height,css+' height').toBeGreaterThanOrEqual(43.9);
   }
-  const star=page.locator('.star').first();
-  await star.focus();
-  const outline=await star.evaluate(el=>getComputedStyle(el).outlineStyle);
+  // :focus-visible distingue TAB físico de .focus() programático.
+  await page.locator('.flip-card').first().focus();
+  await page.keyboard.press('Tab');
+  const focused=page.locator(':focus');
+  await expect(focused).toHaveClass(/star/);
+  const outline=await focused.evaluate(el=>getComputedStyle(el).outlineStyle);
   expect(outline).not.toBe('none');
   const axe=await new AxeBuilder({page}).withTags(
     ['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();
