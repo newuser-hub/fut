@@ -8,6 +8,9 @@ on:
       - "public/library.json"
       - "public/data/fifa-365-2026.json"
       - "public/data/liga-portugal-2023-24.json"
+      - "public/data/ucl-topps-2024-25.json"
+      - "public/data/liga-portugal-2022-23.json"
+      - "scripts/verify_audited_batch.py"
       - "src/index.html"
       - "scripts/verify_expansion_plan.py"
       - ".github/workflows/verify-expansion-plan.yml"
@@ -31,6 +34,7 @@ jobs:
       - name: Validar roteiro, catalogos e fonte HTML
         run: |
           python3 scripts/verify_expansion_plan.py
+          python3 scripts/verify_audited_batch.py requests/roadmap-batch.json
           node scripts/unpack-data.mjs
           python3 scripts/verify_catalogs.py
           python3 - <<'PY'
