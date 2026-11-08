@@ -1,0 +1,85 @@
+name: FUT - Auditoria 2026-11-08 etapa 3 (somente leitura)
+on:
+  push:
+    branches:
+      - audit/fut-2026-11-08
+    paths:
+      - .github/workflows/audit-fut-step3.yml
+      - scripts/audit_catalogues_deep.py
+      - scripts/test_audit_catalogues.py
+permissions:
+  contents: read
+jobs:
+  deep-catalogue-audit:
+    name: Validação estrutural e duplicados sem alterar dados
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Confirmar origem e garantir zero alteracoes de dados
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor d5fb60eec0801808ec2946385a14c8c9226df54d HEAD
+          git diff --quiet d5fb60eec0801808ec2946385a14c8c9226df54d HEAD -- public/data/ public/library.json public/expansion-plan.json archives/ requests/ api/ lib/ proxy.js vercel.json
+          echo 'PASS: catálogos, manifesto, roteiros, arquivos, pedidos, backend e autenticação inalterados'
+      - name: Build
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run build
+          cmp src/index.html public/index.html
+          git diff --exit-code -- public/index.html
+      - name: Testes sintéticos da auditoria
+        run: python3 -m unittest scripts.test_audit_catalogues -v
+      - name: Auditoria profunda de 47 catalogos sem alterar catalogos
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/audit_catalogues_deep.py --strict --output /tmp/fut-deep-catalogue-report.json
+          test -s /tmp/fut-deep-catalogue-report.json
+      - name: Suite original de integridade
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_catalogs.py
+          python3 scripts/verify_expansion_plan.py
+          python3 scripts/verify_audited_batch.py requests/roadmap-batch.json
+      - name: Testes frontend, progresso e agrupamentos
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test scripts/test-frontend-progress.mjs
+          node scripts/verify-portal-groups.mjs
+      - name: Testes de Drive com mocks
+        run: node --test scripts/test-drive-storage.mjs
+      - name: Validar totais e preservar checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          lib=json.loads(Path("public/library.json").read_text())
+          active=[x for x in lib if x["status"]=="active"]
+          assert len(active)==47
+          assert sum(x["count"] for x in active)==26774
+          print("PASS INVARIANTES: 47 coleções, 26.774 cromos")
+          PY
+          test -z "$(git status --porcelain)"
+          echo 'PASS: checkout limpo, build determinístico, zero alteracoes de dados'
+      - name: Arquivar evidencia da auditoria (sem escrita no repositorio)
+        uses: actions/upload-artifact@v4
+        with:
+          name: fut-etapa3-auditoria-json
+          path: /tmp/fut-deep-catalogue-report.json
+          retention-days: 30
