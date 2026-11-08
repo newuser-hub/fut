@@ -475,7 +475,17 @@
       "declaredMainCount": 444,
       "description": "Edição FIFA World Cup USA 1994 · Panini; 444 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/13/fifa-world-cup-usa-1994-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 444,
+        "principal": 444,
+        "principalWithImage": 444,
+        "verifiedImages": 444,
+        "missingImages": 0,
+        "sections": 26,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42473969216"
+      }
     },
     {
       "priority": 20,
@@ -490,7 +500,17 @@
       "declaredMainCount": 354,
       "description": "Edição UEFA Euro England 1996 · Panini; 354 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/14/uefa-euro-england-1996-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 354,
+        "principal": 354,
+        "principalWithImage": 354,
+        "verifiedImages": 354,
+        "missingImages": 0,
+        "sections": 18,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42473969216"
+      }
     }
   ],
   "lastReviewedAt": "2026-11-08",
@@ -681,6 +701,42 @@
           "missingImages": 0,
           "sections": 14,
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/42467903628"
+        }
+      ]
+    },
+    {
+      "batch": "roadmap-8",
+      "authorized": [
+        13,
+        14
+      ],
+      "integrated": [
+        "world-cup-1994",
+        "euro-1996"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/42473969216",
+      "details": [
+        {
+          "id": "world-cup-1994",
+          "auditedAt": "2026-11-08",
+          "positions": 444,
+          "principal": 444,
+          "principalWithImage": 444,
+          "verifiedImages": 444,
+          "missingImages": 0,
+          "sections": 26,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42473969216"
+        },
+        {
+          "id": "euro-1996",
+          "auditedAt": "2026-11-08",
+          "positions": 354,
+          "principal": 354,
+          "principalWithImage": 354,
+          "verifiedImages": 354,
+          "missingImages": 0,
+          "sections": 18,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42473969216"
         }
       ]
     }

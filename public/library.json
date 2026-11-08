@@ -383,5 +383,27 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/0xS72RBZRkytUnpPcQ0APGmVZv8uz0Fy91DhINCh.jpg",
     "description": "Edição FIFA Confederations Cup Russia 2017 · Panini; 301 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "world-cup-1994",
+    "title": "Mundial EUA 1994",
+    "year": "1994",
+    "count": 444,
+    "sections": 26,
+    "category": "Seleções · Mundial",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/SvmKPvulP6O19iQZGHDFRWkVvnTgutOnfNcRa8T1.jpg",
+    "description": "Edição FIFA World Cup USA 1994 · Panini; 444 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "euro-1996",
+    "title": "Euro Inglaterra 1996",
+    "year": "1996",
+    "count": 354,
+    "sections": 18,
+    "category": "Seleções · Europeu",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/VFwfTJld4GYKjYo1cunOTYEX0eFNruwMY0PUPrMh.jpg",
+    "description": "Edição UEFA Euro England 1996 · Panini; 354 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
   }
 ]
