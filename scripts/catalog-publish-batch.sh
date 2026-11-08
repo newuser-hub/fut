@@ -94,7 +94,7 @@ for round in 1 2 3; do
     echo "Lote já integrado; nenhuma escrita remota"
     exit 0
   fi
-  git commit -m "Integrar lote FUT $mode validado pelo evento $sha [skip ci]"
+  git commit -m "Integrar lote FUT $mode validado pelo evento $sha"
   if git push origin HEAD:refs/heads/main; then
     echo "Lote validado publicado no novo HEAD de main"
     exit 0
