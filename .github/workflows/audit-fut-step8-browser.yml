@@ -15,7 +15,7 @@ on:
         description: 'baseline ou regression'
         type: choice
         options: [baseline, regression]
-        default: baseline
+        default: regression
 permissions:
   contents: read
 jobs:
@@ -47,7 +47,7 @@ jobs:
       - name: Testar as seis combinações de motor e largura
         shell: bash
         env:
-          SUITE: ${{ inputs.suite || 'baseline' }}
+          SUITE: ${{ inputs.suite || 'regression' }}
         run: |
           set -euo pipefail
           mkdir -p artifacts
