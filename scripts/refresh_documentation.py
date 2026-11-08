@@ -140,8 +140,8 @@ def collections_md(m: dict) -> str:
     t = [
         "# 02 — Inventário atual de coleções",
         "",
-        f"**Snapshot documental:** {SNAPSHOT}, calculado de [\`public/library.json\`](../../public/library.json) e dos **{m['activeCollections']} JSON** em [\`public/data/\`](../../public/data/). "
-        "Este documento é gerado automaticamente com \`python3 scripts/refresh_documentation.py --write\` e não altera os catálogos.",
+        f"**Snapshot documental:** {SNAPSHOT}, calculado de [`public/library.json`](../../public/library.json) e dos **{m['activeCollections']} JSON** em [`public/data/`](../../public/data/). "
+        "Este documento é gerado automaticamente com `python3 scripts/refresh_documentation.py --write` e não altera os catálogos.",
         "",
         f"**{m['activeCollections']} coleções ativas; {m['positions']:,} posições; {m['cardsWithSHA']:,} imagens de cromos com hash; "
         f"{m['previewLinksUnverified']} ligações não verificadas; {m['missingImagePositions']:,} posições sem URL de fotografia.**".replace(",", "."),
@@ -186,10 +186,10 @@ def images_md(m: dict) -> str:
         "",
         "| Estado, mutuamente exclusivo | Cromos | Fonte da classificação |",
         "|---|---:|---|",
-        f"| URL e SHA-256 persistido com bytes positivos | **{x['cardsWithSHA']:,}** | Campos \`image\`, \`sha256\`, \`bytes\` |".replace(",","."),
+        f"| URL e SHA-256 persistido com bytes positivos | **{x['cardsWithSHA']:,}** | Campos `image`, `sha256`, `bytes` |".replace(",","."),
         f"| URL oficial sem SHA-256 auditado | **{x['previewLinksUnverified']}** | Cinco previews Topps, HTTP 403 na última auditoria |",
-        f"| Sem URL de imagem | **{x['missingImagePositions']:,}** | \`image\` ausente ou nulo; posições mantidas |".replace(",","."),
-        f"| **Total de posições** | **{x['positions']:,}** | \`public/library.json\` e \`public/data/*.json\` |".replace(",","."),
+        f"| Sem URL de imagem | **{x['missingImagePositions']:,}** | `image` ausente ou nulo; posições mantidas |".replace(",","."),
+        f"| **Total de posições** | **{x['positions']:,}** | `public/library.json` e `public/data/*.json` |".replace(",","."),
         "",
         f"**URLs de cromos:** {x['cardsWithImageURL']:,} = {x['cardsWithSHA']:,} com hash + {x['previewLinksUnverified']} ligações não verificadas. "
         f"**Capas:** {x['totalCoversWithURL']} URLs adicionais (não fazem parte das posições). "
@@ -199,7 +199,7 @@ def images_md(m: dict) -> str:
         "",
         "- O varrimento da [etapa 4](../../ops/audit-2026-11-08-step4-images.md) cobriu 24.747 URLs e comprovou **24.742 GET 200** com tipo MIME de imagem, tamanho e SHA (24.695 cromos + 47 capas), sem divergência de hash confirmada. Os outros **5 URLs** devolveram HTTP 403.",
         "- O hash persistido no JSON é evidência histórica de bytes, **não** uma nova descarga e **não** garante que o URL responda hoje.",
-        "- A capa Premier League num URL específico de \`blogger.googleusercontent.com\` foi verificada por GET; o pipeline Drive permite apenas essa URL exata como exceção de host.",
+        "- A capa Premier League num URL específico de `blogger.googleusercontent.com` foi verificada por GET; o pipeline Drive permite apenas essa URL exata como exceção de host.",
         "- O cromo **Salis Abdul Samed**, Ligue 1 #383, tinha os mesmos bytes de uma fotografia de outro jogador. A associação errada foi retirada; preservaram-se identidade, número e progresso, mantendo a fotografia pendente.",
         "- Oito pares de cromos regionais Coca-Cola partilham imagens legitimamente. Não foram apagados nem alterados.",
         "",
