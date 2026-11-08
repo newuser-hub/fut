@@ -24,6 +24,8 @@ on:
       - "public/data/liga-portugal-2017-18.json"
       - "public/data/world-cup-1990.json"
       - "public/data/euro-1992.json"
+      - "public/data/liga-portugal-2016-17.json"
+      - "public/data/liga-portugal-2014-15.json"
       - "scripts/verify_audited_batch.py"
       - "src/index.html"
       - "scripts/verify-portal-groups.mjs"

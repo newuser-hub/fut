@@ -76,3 +76,18 @@ Após cada lote, atualizar checkpoint e validar o SHA efetivamente em READY no V
 - Biblioteca final **45 coleções ativas, 25.836 posições**; roteiro de 30 candidatas: **24 integradas, 4 bloqueadas, 2 pendentes**. As **43 coleções anteriores foram comparadas e mantêm entradas de manifesto exatamente iguais**; nenhum catálogo pré-existente ou código de OAuth, password, progresso independente ou categoria Champions League foi alterado.
 - Vercel: `fbe1ab6636bef4d018839d660dff4cb9259c1c31` confirmado em **production READY** (deployment `dpl_EKXQYYJvDGcVvucXdbkyZb1Qx8yx`). Revalidar o SHA final após documentação e novos testes.
 - Próximo lote **13** (Liga Portugal 2016/17 e 2014/15), não iniciado e dependente de nova autorização.
+
+
+## Lote 13 concluído — Liga Portugal 2016/17 e 2014/15
+
+- Autorização registada no [commit 1000cca6](https://github.com/newuser-hub/fut/commit/1000cca672c97ba909f38ac69d795131b0fc9943); [auditoria transacional 42482442878](https://github.com/newuser-hub/fut/actions/runs/42482442878) concluída com **SUCCESS**, incluindo validação integral de catálogos e frontend.
+- [Commit de integração bd4765ce](https://github.com/newuser-hub/fut/commit/bd4765ce94864f53a66444655f75f446a156c722): **Liga Portugal 2016/17** (origem Cromos.pt 64), 442 posições (402 principais + 40 extras), **442/442 imagens**, 20 secções; **Liga Portugal 2014/15** (ID 55), 496 posições (406 principais + 90 extras), **496/496 imagens**, 25 secções.
+- **938 imagens** validadas por GET HTTP, MIME, bytes e SHA-256. **938 SHA-256 distintos** nas duas edições, sem imagens ausentes, números ou IDs duplicados, nomes ou secções vazios. Não foram necessárias origens alternativas.
+- As **45 entradas pré-existentes** no manifesto são iguais antes/depois da integração; o diff de código alterou apenas os dois catálogos novos, `public/library.json`, `public/expansion-plan.json` e o pedido `requests/roadmap-batch.json`. OAuth, palavra-passe, progresso local independente e categoria Champions League permanecem inalterados.
+- Biblioteca: **47 coleções ativas, 26.774 cromos**. Roteiro das 30 candidatas dos 15 lotes: **26 integradas, 4 bloqueadas por ausência de fotografias, 0 pendentes**. As quatro bloqueadas permanecem registadas, sem entradas fabricadas.
+- Vercel: commit `bd4765ce94864f53a66444655f75f446a156c722` confirmado **production READY**, deployment `dpl_9fSLQfxqXiAt7Hau9rn6xftQ7wBK`. A validação final deve confirmar igualmente o SHA do commit de documentação.
+
+## Conclusão da fase de expansão
+
+- Os lotes **9–13** estão concluídos; não existem outras importações autorizadas neste roteiro.
+- As quatro candidatas bloqueadas continuam excluídas enquanto não existir uma origem fotográfica fiável. Qualquer novo lote, ou tentativa de desbloqueio, exige um plano e autorização separados.
