@@ -110,6 +110,13 @@
     .roadmap-card .pill{align-self:flex-start;font-size:11px}
     .roadmap-note{color:#aabeca;font-size:12px;line-height:1.6;margin:16px 3px 4px}
     @media(max-width:700px){.roadmap-grid{grid-template-columns:1fr}.roadmap-card{padding:14px}}
+    /* Auditoria 8: alvos táteis e foco visível sem alterar a linguagem visual. */
+    .star{min-width:44px;min-height:44px;display:grid;place-items:center;color:#536273;border-radius:9px}
+    .star.saved{color:#795212}
+    .card-bottom .card-name{max-width:calc(100% - 48px)}
+    .tool,.pill,.category-shortcut,.modal button,.subtrail button{min-height:44px}
+    .category-shortcut:focus-visible,.flip-card:focus-visible,.star:focus-visible,.tool:focus-visible,.pill:focus-visible,.modal button:focus-visible,.subtrail button:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+    .modal button:focus-visible{outline-color:#0b617c}
       </style>
 </head>
 <body>
@@ -135,6 +142,9 @@
     const toastNode = document.getElementById("toast");
     let catalog = {cards:[], sections:[]}; let sections = []; let pages = []; let currentPage = 0; let view = "portal"; let query = ""; let modalCard = null;
     let state = {revealed:{}, favorites:{}};
+    let modalReturnFocus = null;
+    let modalPreviousOverflow = '';
+    const scrollBehavior = () => window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ? 'auto' : 'smooth';
     let selectionEpoch = 0; // Invalida pedidos pendentes ao selecionar ou navegar.
     // Estado independente por coleção: é carregado ao selecionar a caderneta.
     const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[c]);
@@ -330,7 +340,7 @@
         view='index';
         if(replaceRoute)history.replaceState(null,'',routeHash());
         render();
-        window.scrollTo({top:0,behavior:'smooth'});
+        window.scrollTo({top:0,behavior:scrollBehavior()});
         return true;
       }catch(e){
         if(token!==selectionEpoch)return false;
@@ -352,7 +362,7 @@
       html+=toolsFooter();return html}
     function toolsFooter(){return '<section class="toolbar" style="margin-top:27px"><span class="small-muted">Progresso privado neste navegador</span><div class="tools"><button class="tool" data-action="export">↓ Exportar</button><button class="tool" data-action="import">↑ Importar</button><button class="tool" data-action="hide-all">⟳ Repor revelações</button></div></section>'}
     function cardMarkup(c){const turned=isRevealed(c);const label=turned?"Um toque para ampliar, dois toques para tapar cromo":"Virar cromo";const image=c.available!==false&&c.image?'<img '+(turned?'src="'+esc(c.image)+'"':'data-src="'+esc(c.image)+'"')+' data-source="'+esc(c.source||'')+'" alt="'+esc(c.number+' '+c.name)+'" loading="lazy" onerror="if(this.dataset.source && this.src !== this.dataset.source){this.src=this.dataset.source;this.dataset.source=\'\'}else{this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\'}">':'';
-      return '<div class="card-cell" data-card="'+esc(c.id)+'"><button class="flip-card'+(turned?' is-flipped':'')+'" data-action="flip" data-id="'+esc(c.id)+'" aria-label="'+esc(label+' '+(c.number||''))+'" aria-pressed="'+turned+'"><span class="flip-inner"><span class="face cover-face"><span class="cover-top">FUT · '+esc(catalog.year)+'</span><span class="cover-number">'+esc(c.number||'✦')+'</span><span class="cover-bottom">TOCA PARA REVELAR</span></span><span class="face image-face">'+image+'<span class="no-image" style="'+(image?'display:none':'')+'">'+esc(c.name||"Cromo sem imagem")+'<br>Imagem não disponível</span></span></span></button><div class="card-bottom"><span class="card-name'+(turned?'':' muted')+'">'+esc(turned?(c.name||"Cromo"):(c.number||"Cromo por revelar"))+'</span><button class="star'+(isFavorite(c)?' saved':'')+'" data-action="favorite" data-id="'+esc(c.id)+'" aria-label="'+(isFavorite(c)?'Remover dos':'Adicionar aos')+' favoritos" title="Favoritos">'+(isFavorite(c)?'★':'☆')+'</button></div>'+'</div>'}
+      return '<div class="card-cell" data-card="'+esc(c.id)+'"><button class="flip-card'+(turned?' is-flipped':'')+'" data-action="flip" data-id="'+esc(c.id)+'" aria-label="'+esc(label+' '+(c.number||''))+'" aria-pressed="'+turned+'"><span class="flip-inner"><span class="face cover-face"><span class="cover-top">FUT · '+esc(catalog.year)+'</span><span class="cover-number">'+esc(c.number||'✦')+'</span><span class="cover-bottom">TOCA PARA REVELAR</span></span><span class="face image-face">'+image+'<span class="no-image" style="'+(image?'display:none':'')+'">'+esc(c.name||"Cromo sem imagem")+'<br>Imagem não disponível</span></span></span></button><div class="card-bottom"><span class="card-name'+(turned?'':' muted')+'">'+esc(turned?(c.name||"Cromo"):(c.number||"Cromo por revelar"))+'</span><button class="star'+(isFavorite(c)?' saved':'')+'" data-action="favorite" data-id="'+esc(c.id)+'" aria-label="'+esc((isFavorite(c)?'Remover ':'Adicionar ')+(c.number||'')+' '+(c.name||'Cromo')+(isFavorite(c)?' dos favoritos':' aos favoritos'))+'" aria-pressed="'+isFavorite(c)+'" title="Favoritos">'+(isFavorite(c)?'★':'☆')+'</button></div>'+'</div>'}
     function pageView(){if(!pages.length)return '<div class="empty">O arquivo de cromos ainda está a ser preparado.</div>';currentPage=Math.max(0,Math.min(currentPage,pages.length-1));const p=pages[currentPage],cnt=p.cards.filter(isRevealed).length;
       let html='<div class="toolbar"><div class="tools"><button class="tool" data-action="portal">⌂ Coleções</button><button class="tool" data-action="index">▦ Índice</button><select class="select-page" id="jump-select" aria-label="Ir para secção">'+sections.map(s=>'<option value="'+esc(s.slug)+'"'+(s.slug===p.section.slug?' selected':'')+'>'+esc(s.name)+'</option>').join('')+'</select></div><div class="tools"><button class="tool accent" data-action="reveal-page">◉ Revelar página</button><button class="tool" data-action="hide-page">◌ Tapar página</button><button class="tool" data-action="reveal-all">✦ Revelar tudo</button></div></div>';
       html+='<p class="small-muted" style="margin:0 0 12px">Desliza ← para a página seguinte · → para a anterior. Cromos revelados: um toque amplia · dois toques rápidos tapam.</p>';
@@ -360,12 +370,47 @@
       html+='<div class="page-nav"><button class="tool" data-action="prev"'+(currentPage===0?' disabled':'')+'>← Anterior</button><span class="page-indicator">'+(currentPage+1)+' / '+pages.length+'</span><button class="tool" data-action="next"'+(currentPage===pages.length-1?' disabled':'')+'>Seguinte →</button></div><div class="toolbar"><span class="small-muted">'+esc(p.section.name)+' · '+p.pageInSection+' / '+p.sectionPages+' nesta secção</span><div class="tools"><button class="tool" data-action="index">⌂ Índice</button><button class="tool" data-action="export">↓ Exportar progresso</button></div></div>';return html}
     function favoritesView(){const fav=catalog.cards.filter(isFavorite);return '<div class="section-heading"><div><span class="section-label">A tua seleção</span><h2>Favoritos</h2><p>Marca com ☆ os cromos que queres encontrar rapidamente.</p></div><button class="tool" data-action="index">⌂ Índice</button></div>'+(fav.length?'<div class="result-list">'+fav.map(c=>'<button class="result" data-action="jump" data-id="'+esc(c.id)+'"><span><strong>'+esc(c.number||"—")+' · '+esc(c.name||"Cromo")+'</strong><small>'+esc(sectionLabel(c))+'</small></span><span>↗</span></button>').join('')+'</div>':'<div class="empty">Ainda não adicionaste nenhum cromo aos favoritos.</div>')}
     function routeHash(){if(view==='portal'||!activeCollectionId)return '#/colecoes';const base='#/c/'+encodeURIComponent(activeCollectionId);if(view==='index')return base+'/indice';if(view==='favorites')return base+'/favoritos';const p=pages[currentPage];return p?base+'/secao/'+encodeURIComponent(p.section.slug)+'/'+p.pageInSection:base+'/indice'}
-    function navigate(nextView,page){++selectionEpoch;cancelPendingCardTap();if(nextView!=='portal'&&!activeCollectionId)return;view=nextView;if(typeof page==='number')currentPage=Math.max(0,Math.min(page,pages.length-1));history.replaceState(null,'',routeHash());render();window.scrollTo({top:0,behavior:'smooth'})}
+    function navigate(nextView,page){++selectionEpoch;cancelPendingCardTap();if(nextView!=='portal'&&!activeCollectionId)return;view=nextView;if(typeof page==='number')currentPage=Math.max(0,Math.min(page,pages.length-1));history.replaceState(null,'',routeHash());render();window.scrollTo({top:0,behavior:scrollBehavior()})}
     function render(){cancelPendingCardTap();updateTop();app.innerHTML=view==='portal'?portalView():view==='index'?indexView():view==='favorites'?favoritesView():pageView();updateTop()}
     function cardById(id){return catalog.cards.find(c=>c.id===id)}
     function reveal(ids,value){ids.forEach(id=>{if(value)state.revealed[id]=true;else delete state.revealed[id]});save();render()}
-    function zoom(c){if(!c)return;modalCard=c.id;const root=document.getElementById('modal-root');root.innerHTML='<div class="modal-backdrop" data-action="close-modal"><div class="modal" role="dialog" aria-modal="true" aria-label="Detalhes do cromo"><div class="modal-header"><div><h3>'+esc(c.number+' · '+c.name)+'</h3><p style="margin:0">'+esc(c.section)+'</p></div><button data-action="close-modal" aria-label="Fechar">✕</button></div>'+(c.available!==false&&c.image?'<img src="'+esc(c.image)+'" alt="'+esc(c.name)+'" onerror="if(this.dataset.fallback){this.src=this.dataset.fallback;this.dataset.fallback=\'\'}" data-fallback="'+esc(c.source||'')+'">':'<div class="empty">Sem imagem disponível</div>')+'<div class="modal-controls"><button data-action="favorite" data-id="'+esc(c.id)+'">'+(isFavorite(c)?'★ Favorito':'☆ Favorito')+'</button><button data-action="close-modal">Fechar</button></div></div></div>';document.body.style.overflow='hidden'}
-    function closeModal(){document.getElementById('modal-root').innerHTML='';document.body.style.overflow='';modalCard=null}
+    // O modal mantém foco dentro, desativa temporariamente a navegação de fundo
+    // e devolve o foco ao cromo, sem tocar no progresso nem na identidade.
+    function modalBackground(inert){
+      [app,document.querySelector('header.app-top'),document.querySelector('footer.footer')].forEach(node=>{
+        if(node)node.inert=inert;
+      });
+    }
+    function zoom(c){
+      if(!c)return;
+      const opening=!modalCard;
+      const previousAction=document.activeElement?.dataset?.action;
+      if(opening){
+        modalReturnFocus=document.activeElement;
+        modalPreviousOverflow=document.body.style.overflow;
+      }
+      modalCard=c.id;
+      const root=document.getElementById('modal-root');
+      root.innerHTML='<div class="modal-backdrop" data-action="close-modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="fut-modal-title" tabindex="-1"><div class="modal-header"><div><h3 id="fut-modal-title">'+esc(c.number+' · '+c.name)+'</h3><p style="margin:0">'+esc(c.section)+'</p></div><button data-action="close-modal" aria-label="Fechar detalhes do cromo">✕</button></div>'+(c.available!==false&&c.image?'<img src="'+esc(c.image)+'" alt="'+esc(c.name)+'" onerror="if(this.dataset.fallback){this.src=this.dataset.fallback;this.dataset.fallback=\'\'}" data-fallback="'+esc(c.source||'')+'">':'<div class="empty">Sem imagem disponível</div>')+'<div class="modal-controls"><button data-action="favorite" data-id="'+esc(c.id)+'" aria-label="'+esc((isFavorite(c)?'Remover ':'Adicionar ')+(c.number||'')+' '+(c.name||'Cromo')+(isFavorite(c)?' dos favoritos':' aos favoritos'))+'" aria-pressed="'+isFavorite(c)+'">'+(isFavorite(c)?'★ Favorito':'☆ Favorito')+'</button><button data-action="close-modal">Fechar</button></div></div></div>';
+      document.body.style.overflow='hidden';
+      modalBackground(true);
+      const focusTarget=!opening&&previousAction==='favorite'?
+        root.querySelector('.modal [data-action="favorite"]'):
+        root.querySelector('.modal [data-action="close-modal"]');
+      focusTarget?.focus({preventScroll:true});
+    }
+    function closeModal(){
+      if(!modalCard)return;
+      const id=modalCard,previous=modalReturnFocus;
+      document.getElementById('modal-root').innerHTML='';
+      document.body.style.overflow=modalPreviousOverflow;
+      modalBackground(false);
+      modalCard=null;
+      modalReturnFocus=null;
+      const fallback=app.querySelector('.flip-card[data-id="'+CSS.escape(id)+'"]');
+      const target=previous?.isConnected?previous:fallback;
+      target?.focus?.({preventScroll:true});
+    }
     function exportProgress(){const payload={app:'fut',collection:activeCollectionId,version:1,exportedAt:new Date().toISOString(),revealed:Object.keys(state.revealed),favorites:Object.keys(state.favorites)};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const href=URL.createObjectURL(blob),a=document.createElement('a');a.href=href;a.download='fut-'+activeCollectionId+'-progresso.json';a.click();setTimeout(()=>URL.revokeObjectURL(href),500);notify('Progresso exportado.')}
     async function importProgress(file){
       if(!file||!activeCollectionId)return false;
@@ -494,13 +539,33 @@
         if(navigator.clipboard?.writeText)navigator.clipboard.writeText(prompt).then(()=>notify('Pedido copiado. Cola-o no ChatGPT.')).catch(()=>window.prompt('Copia o pedido:',prompt));
         else window.prompt('Copia o pedido:',prompt);
       }
-    }else if(action==='jump-category'){if(portalSearch){portalSearch='';render()}const group=app.querySelector('#group-'+btn.dataset.category);if(group){group.open=true;group.scrollIntoView({behavior:'smooth',block:'start'})}}else if(action==='portal')navigate('portal');else if(action==='collection')selectCollection(btn.dataset.collection);else if(action==='scroll-collections'){app.querySelector('#collection-grid')?.scrollIntoView({behavior:'smooth'})}else if(!activeCollectionId)return;else if(action==='index')navigate('index');else if(action==='album')navigate('album');else if(action==='favorites')navigate('favorites');else if(action==='section'){const idx=pages.findIndex(p=>p.section.slug===btn.dataset.slug);navigate('album',idx>=0?idx:0)}else if(action==='jump'&&card){navigate('album',pageFor(card.id));const el=app.querySelector('[data-card="'+CSS.escape(card.id)+'"]');if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.add('spotlight')}}else if(action==='prev')navigate('album',currentPage-1);else if(action==='next')navigate('album',currentPage+1);else if(action==='flip'&&card){handleCardClick(card,btn,event)}else if(action==='favorite'&&card){if(isFavorite(card))delete state.favorites[card.id];else state.favorites[card.id]=true;save();if(modalCard)zoom(card);else render()}else if(action==='reveal-page'){reveal(pages[currentPage].cards.map(c=>c.id),true);notify('Todos os cromos desta página revelados.')}else if(action==='hide-page'){reveal(pages[currentPage].cards.map(c=>c.id),false);notify('Cromos desta página novamente tapados.')}else if(action==='reveal-all'){reveal(catalog.cards.map(c=>c.id),true);notify('Toda a coleção foi revelada.')}else if(action==='hide-all'){if(confirm('Voltar a tapar todos os cromos? Os favoritos serão preservados.')){state.revealed={};save();render();notify('Todos os cromos ficaram tapados.')}}else if(action==='random'){const pool=catalog.cards.filter(c=>!isRevealed(c));const candidates=pool.length?pool:catalog.cards;if(!candidates.length)return;const chosen=candidates[Math.floor(Math.random()*candidates.length)];state.revealed[chosen.id]=true;save();navigate('album',pageFor(chosen.id));notify('Descoberto: '+chosen.number+' · '+chosen.name)}else if(action==='export')exportProgress();else if(action==='import')document.getElementById('import-file').click()});
+    }else if(action==='jump-category'){if(portalSearch){portalSearch='';render()}const group=app.querySelector('#group-'+btn.dataset.category);if(group){group.open=true;group.scrollIntoView({behavior:scrollBehavior(),block:'start'})}}else if(action==='portal')navigate('portal');else if(action==='collection')selectCollection(btn.dataset.collection);else if(action==='scroll-collections'){app.querySelector('#collection-grid')?.scrollIntoView({behavior:scrollBehavior()})}else if(!activeCollectionId)return;else if(action==='index')navigate('index');else if(action==='album')navigate('album');else if(action==='favorites')navigate('favorites');else if(action==='section'){const idx=pages.findIndex(p=>p.section.slug===btn.dataset.slug);navigate('album',idx>=0?idx:0)}else if(action==='jump'&&card){navigate('album',pageFor(card.id));const el=app.querySelector('[data-card="'+CSS.escape(card.id)+'"]');if(el){el.scrollIntoView({block:'center',behavior:scrollBehavior()});el.classList.add('spotlight')}}else if(action==='prev')navigate('album',currentPage-1);else if(action==='next')navigate('album',currentPage+1);else if(action==='flip'&&card){handleCardClick(card,btn,event)}else if(action==='favorite'&&card){if(isFavorite(card))delete state.favorites[card.id];else state.favorites[card.id]=true;save();if(modalCard)zoom(card);else render()}else if(action==='reveal-page'){reveal(pages[currentPage].cards.map(c=>c.id),true);notify('Todos os cromos desta página revelados.')}else if(action==='hide-page'){reveal(pages[currentPage].cards.map(c=>c.id),false);notify('Cromos desta página novamente tapados.')}else if(action==='reveal-all'){reveal(catalog.cards.map(c=>c.id),true);notify('Toda a coleção foi revelada.')}else if(action==='hide-all'){if(confirm('Voltar a tapar todos os cromos? Os favoritos serão preservados.')){state.revealed={};save();render();notify('Todos os cromos ficaram tapados.')}}else if(action==='random'){const pool=catalog.cards.filter(c=>!isRevealed(c));const candidates=pool.length?pool:catalog.cards;if(!candidates.length)return;const chosen=candidates[Math.floor(Math.random()*candidates.length)];state.revealed[chosen.id]=true;save();navigate('album',pageFor(chosen.id));notify('Descoberto: '+chosen.number+' · '+chosen.name)}else if(action==='export')exportProgress();else if(action==='import')document.getElementById('import-file').click()});
     document.getElementById('modal-root').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;if(b.dataset.action==='close-modal' && b.classList.contains('modal-backdrop') && e.target!==b)return;if(b.dataset.action==='close-modal')closeModal();else if(b.dataset.action==='favorite'){const c=cardById(b.dataset.id);if(c){if(isFavorite(c))delete state.favorites[c.id];else state.favorites[c.id]=true;save();zoom(c)}}});
     app.addEventListener('change',e=>{if(e.target.id==='jump-select'){const idx=pages.findIndex(p=>p.section.slug===e.target.value);if(idx>=0)navigate('album',idx)}});
     app.addEventListener('input',e=>{if(e.target.id==='portal-search'){const pos=e.target.selectionStart;portalSearch=e.target.value;render();const input=document.getElementById('portal-search');if(input){input.focus();input.setSelectionRange(pos,pos)}}else if(e.target.id==='search'){const pos=e.target.selectionStart;query=e.target.value;render();const input=document.getElementById('search');input.focus();input.setSelectionRange(pos,pos)}});
     document.querySelector('header.app-top').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;if(a==='portal')navigate('portal');if(!activeCollectionId)return;if(a==='index')navigate('index');if(a==='album')navigate('album');if(a==='favorites')navigate('favorites');if(a==='random'){const pool=catalog.cards.filter(c=>!isRevealed(c));const a=pool.length?pool:catalog.cards;if(a.length){const c=a[Math.floor(Math.random()*a.length)];state.revealed[c.id]=true;save();navigate('album',pageFor(c.id));notify('Descoberto: '+c.number+' · '+c.name)}}});
     document.getElementById('import-file').addEventListener('change',e=>{importProgress(e.target.files[0]);e.target.value=''});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();return}if(view==='album'&&!modalCard&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){if(e.key==='ArrowRight'){e.preventDefault();navigate('album',Math.min(pages.length-1,currentPage+1))}else if(e.key==='ArrowLeft'){e.preventDefault();navigate('album',Math.max(0,currentPage-1))}}});
+    document.addEventListener('keydown',e=>{
+      if(modalCard){
+        if(e.key==='Escape'){e.preventDefault();closeModal();return}
+        if(e.key==='Tab'){
+          const modal=document.querySelector('#modal-root .modal');
+          const focusable=[...modal.querySelectorAll('button:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])')];
+          if(!focusable.length){e.preventDefault();modal.focus();return}
+          const first=focusable[0],last=focusable[focusable.length-1];
+          if(e.shiftKey&&(document.activeElement===first||!modal.contains(document.activeElement))){
+            e.preventDefault();last.focus();
+          }else if(!e.shiftKey&&(document.activeElement===last||!modal.contains(document.activeElement))){
+            e.preventDefault();first.focus();
+          }
+        }
+        return;
+      }
+      if(view==='album'&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){
+        if(e.key==='ArrowRight'){e.preventDefault();navigate('album',Math.min(pages.length-1,currentPage+1))}
+        else if(e.key==='ArrowLeft'){e.preventDefault();navigate('album',Math.max(0,currentPage-1))}
+      }
+    });
     window.addEventListener('hashchange',restoreHash);
     async function restoreHash(){
       // Cada hashchange invalida seleções anteriores, mesmo para uma coleção
