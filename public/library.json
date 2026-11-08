@@ -361,5 +361,27 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/1DNvFjx8GYoUEcntwD3aO913TdeInvAZuk9a860M.jpg",
     "description": "Edição FIFA World Cup France 1998 · Panini; 561 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "euro-2000",
+    "title": "Euro 2000 — Bélgica/Países Baixos",
+    "year": "2000",
+    "count": 358,
+    "sections": 17,
+    "category": "Seleções · Europeu",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/6Usxe96o7PR0wZNJ6MchUvWPGTcIfYE3ZoP9s8e0.jpg",
+    "description": "Edição UEFA Euro Belgium–Netherlands 2000 · Panini; 358 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
+  },
+  {
+    "id": "confederations-2017",
+    "title": "Taça das Confederações 2017",
+    "year": "2017",
+    "count": 301,
+    "sections": 14,
+    "category": "Seleções · Confederações",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/0xS72RBZRkytUnpPcQ0APGmVZv8uz0Fy91DhINCh.jpg",
+    "description": "Edição FIFA Confederations Cup Russia 2017 · Panini; 301 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria."
   }
 ]

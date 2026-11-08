@@ -425,7 +425,17 @@
       "declaredMainCount": 358,
       "description": "Edição UEFA Euro Belgium–Netherlands 2000 · Panini; 358 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/16/uefa-euro-belgium-netherlands-2000-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 358,
+        "principal": 358,
+        "principalWithImage": 358,
+        "verifiedImages": 358,
+        "missingImages": 0,
+        "sections": 17,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42467903628"
+      }
     },
     {
       "priority": 18,
@@ -440,7 +450,17 @@
       "declaredMainCount": 301,
       "description": "Edição FIFA Confederations Cup Russia 2017 · Panini; 301 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
       "sourceUrl": "https://www.cromos.pt/collection/29/fifa-confederations-cup-russia-2017",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-08",
+        "positions": 301,
+        "principal": 301,
+        "principalWithImage": 301,
+        "verifiedImages": 301,
+        "missingImages": 0,
+        "sections": 14,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42467903628"
+      }
     },
     {
       "priority": 19,
@@ -627,6 +647,42 @@
         }
       ],
       "sourceAudit": "https://github.com/newuser-hub/fut/blob/main/ops/roadmap-lote6-source-audit.md"
+    },
+    {
+      "batch": "roadmap-7",
+      "authorized": [
+        16,
+        29
+      ],
+      "integrated": [
+        "euro-2000",
+        "confederations-2017"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/42467903628",
+      "details": [
+        {
+          "id": "euro-2000",
+          "auditedAt": "2026-11-08",
+          "positions": 358,
+          "principal": 358,
+          "principalWithImage": 358,
+          "verifiedImages": 358,
+          "missingImages": 0,
+          "sections": 17,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42467903628"
+        },
+        {
+          "id": "confederations-2017",
+          "auditedAt": "2026-11-08",
+          "positions": 301,
+          "principal": 301,
+          "principalWithImage": 301,
+          "verifiedImages": 301,
+          "missingImages": 0,
+          "sections": 14,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/42467903628"
+        }
+      ]
     }
   ]
 }
