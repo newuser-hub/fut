@@ -60,7 +60,7 @@ for ((attempt=1; attempt<=180; attempt++)); do
     echo "::error::Lock ocupado por mais de 90 minutos; pedido recuperável pelo SHA do evento" >&2
     exit 1
   fi
-  sleep 30
+  sleep "${FUT_LOCK_POLL_SECONDS:-30}"
 done
 # Sem lock não existe importação. Trap liberta o lock, mesmo com erro do filho.
 "$@"
