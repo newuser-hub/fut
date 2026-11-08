@@ -1,34 +1,34 @@
 {
   "version": 1,
-  "batch": "roadmap-8",
+  "batch": "roadmap-9",
   "authorizedSourceIds": [
-    13,
-    14
+    60,
+    61
   ],
   "auditPipelineVersion": 2,
   "collections": [
     {
-      "id": "world-cup-1994",
-      "sourceId": 13,
-      "sourceSlug": "fifa-world-cup-usa-1994-panini",
-      "title": "Mundial EUA 1994",
-      "subtitle": "FIFA World Cup USA 1994 · Panini",
-      "year": "1994",
+      "id": "liga-portugal-2020-21",
+      "sourceId": 60,
+      "sourceSlug": "futebol-2020-2021-panini",
+      "title": "Liga Portugal 2020/21",
+      "subtitle": "Futebol 2020–2021 · Panini",
+      "year": "20/21",
       "publisher": "Panini",
-      "category": "Seleções · Mundial",
-      "description": "Edição FIFA World Cup USA 1994 · Panini; 444 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "category": "Clubes · Liga Portugal",
+      "description": "Edição Futebol 2020–2021 · Panini; 418 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "requireAllImages": false
     },
     {
-      "id": "euro-1996",
-      "sourceId": 14,
-      "sourceSlug": "uefa-euro-england-1996-panini",
-      "title": "Euro Inglaterra 1996",
-      "subtitle": "UEFA Euro England 1996 · Panini",
-      "year": "1996",
+      "id": "liga-portugal-2019-20",
+      "sourceId": 61,
+      "sourceSlug": "futebol-2019-2020-panini",
+      "title": "Liga Portugal 2019/20",
+      "subtitle": "Futebol 2019–2020 · Panini",
+      "year": "19/20",
       "publisher": "Panini",
-      "category": "Seleções · Europeu",
-      "description": "Edição UEFA Euro England 1996 · Panini; 354 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria.",
+      "category": "Clubes · Liga Portugal",
+      "description": "Edição Futebol 2019–2020 · Panini; 397 cromos principais listados na fonte. Imagens e extras sujeitos a auditoria integral.",
       "requireAllImages": false
     }
   ]
