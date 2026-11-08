@@ -58,6 +58,8 @@ class CatalogTransactionTests(unittest.TestCase):
     def fake_git(self, *args):
         if args[:2] == ("diff", "--cached"):
             return "\n".join(self.changed)
+        if args == ("diff", "--name-only", "--"):
+            return ""
         raise ValueError(args)
 
     def fake_base(self, path):
