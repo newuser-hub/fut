@@ -22,6 +22,8 @@ on:
       - "public/data/confederations-2013.json"
       - "public/data/liga-portugal-2018-19.json"
       - "public/data/liga-portugal-2017-18.json"
+      - "public/data/world-cup-1990.json"
+      - "public/data/euro-1992.json"
       - "scripts/verify_audited_batch.py"
       - "src/index.html"
       - "scripts/verify-portal-groups.mjs"

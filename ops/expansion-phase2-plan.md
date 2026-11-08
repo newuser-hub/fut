@@ -65,3 +65,14 @@ Após cada lote, atualizar checkpoint e validar o SHA efetivamente em READY no V
 - Biblioteca: **43 coleções ativas e 25.127 cromos**. Roteiro: **22 candidatas integradas, quatro bloqueadas, quatro pendentes**, de 30. Comparação da `public/library.json` com a versão anterior confirmou as **41 entradas pré-existentes imutáveis**. O diff não altera os dados de catálogos anteriores, autenticação, OAuth, progresso nem categoria Champions League.
 - Vercel: commit `dc8b1011d51fa222743f76bdabfa96b7cc5dffb8` verificado em `production` com estado **READY** (deployment `dpl_9en2jNr8abMJH6HgvNYXybpNbY5C`); confirmar novo SHA e testes de proteção após os commits de documentação.
 - **Lote 12 não autorizado** nesta execução: Mundial Itália 1990 (ID 11) + Euro Suécia 1992 (ID 12). Não executar sem novo pedido explícito.
+
+
+## Lote 12 concluído — Mundial Itália 1990 e Euro Suécia 1992
+
+- Autorização no [commit 7a36f93c](https://github.com/newuser-hub/fut/commit/7a36f93c2caf2d1c2059914ef612ab10970d788d); [auditoria integral e testes transacionais 42482032742](https://github.com/newuser-hub/fut/actions/runs/42482032742) terminados com **SUCCESS**.
+- [Commit de integração fbe1ab66](https://github.com/newuser-hub/fut/commit/fbe1ab6636bef4d018839d660dff4cb9259c1c31): **Mundial Itália 1990** (Cromos.pt 11), 448 posições principais, **448/448 imagens**, 27 secções; **Euro Suécia 1992** (ID 12), 261 posições principais, **257/261 imagens (98,47%)**, 12 secções.
+- As quatro fotografias sem caminho na fonte do Euro 1992 correspondem a **Klas Ingesson (29, Suécia, source ID 3791)**, **Bernard Casoni (48, França, source ID 3810)**, **Henry Smith (145, Escócia, source ID 3907)** e **Brian Steen Nielsen (223, Dinamarca, source ID 3985)**. Registos preservados como indisponíveis, sem imagem fabricada ou substituição de origem sem necessidade comprovada; a cobertura de 98,47% supera o mínimo de 80% do verificador transacional.
+- Foram auditadas por GET/MIME/tamanho/SHA-256 **705 imagens**, com **705 SHA-256 distintos** no lote. Sem IDs ou números repetidos, nem nomes ou secções vazios.
+- Biblioteca final **45 coleções ativas, 25.836 posições**; roteiro de 30 candidatas: **24 integradas, 4 bloqueadas, 2 pendentes**. As **43 coleções anteriores foram comparadas e mantêm entradas de manifesto exatamente iguais**; nenhum catálogo pré-existente ou código de OAuth, password, progresso independente ou categoria Champions League foi alterado.
+- Vercel: `fbe1ab6636bef4d018839d660dff4cb9259c1c31` confirmado em **production READY** (deployment `dpl_EKXQYYJvDGcVvucXdbkyZb1Qx8yx`). Revalidar o SHA final após documentação e novos testes.
+- Próximo lote **13** (Liga Portugal 2016/17 e 2014/15), não iniciado e dependente de nova autorização.

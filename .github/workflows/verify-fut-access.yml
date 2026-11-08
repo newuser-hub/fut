@@ -26,7 +26,7 @@ jobs:
           grep -q 'status:401' proxy.js
           grep -q 'WWW-Authenticate' proxy.js
           for host in fut-rosy.vercel.app fut-pjr-s-projects.vercel.app; do
-            for path in / /library.json /data/idolos-pt-2026-27.json /data/ucl-topps-2025-26.json /data/match-attax-extra-2025-26.json /data/fifa-365-2026.json /data/liga-portugal-2023-24.json /data/ucl-topps-2024-25.json /data/liga-portugal-2022-23.json /data/world-cup-2002.json /data/world-cup-1998.json /data/euro-2000.json /data/confederations-2017.json /data/world-cup-1994.json /data/euro-1996.json /data/liga-portugal-2020-21.json /data/liga-portugal-2019-20.json /data/euro-2008.json /data/confederations-2013.json /data/liga-portugal-2018-19.json /data/liga-portugal-2017-18.json /expansion-plan.json; do
+            for path in / /library.json /data/idolos-pt-2026-27.json /data/ucl-topps-2025-26.json /data/match-attax-extra-2025-26.json /data/fifa-365-2026.json /data/liga-portugal-2023-24.json /data/ucl-topps-2024-25.json /data/liga-portugal-2022-23.json /data/world-cup-2002.json /data/world-cup-1998.json /data/euro-2000.json /data/confederations-2017.json /data/world-cup-1994.json /data/euro-1996.json /data/liga-portugal-2020-21.json /data/liga-portugal-2019-20.json /data/euro-2008.json /data/confederations-2013.json /data/liga-portugal-2018-19.json /data/liga-portugal-2017-18.json /data/world-cup-1990.json /data/euro-1992.json /expansion-plan.json; do
               status=$(curl -sS --max-time 20 -D /tmp/fut-headers -o /tmp/fut-body -w '%{http_code}' "https://$host$path")
               echo "$host$path -> HTTP $status"
               if [[ "$status" != "401" ]]; then
