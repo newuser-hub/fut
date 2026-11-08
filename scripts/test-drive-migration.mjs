@@ -415,3 +415,18 @@ test('capa sem hash inicial: URL novo não reutiliza bytes antigos de staging',a
   assert.equal((await validateGeneration({
     store,generation:'stage-cover-changed'})).imagesValidated,5);
 });
+
+test('geração já ativa nunca reabre staging se marcador ready desaparecer',async()=>{
+  const store=new MemoryDrive(),src=source();
+  await prepareGeneration({store,source:src,generation:'stage-immutable'});
+  await promoteGeneration({store,generation:'stage-immutable',expectedActive:null});
+  const stage=await store.findFile(store.folder.catalog,'fut-stage-stage-immutable');
+  const marker=await store.findFile(stage.id,READY_MARKER);
+  store.remove(marker.id);
+  const count=store.writes.length;
+  await assert.rejects(()=>prepareGeneration({
+    store,source:src,generation:'stage-immutable'
+  }),/Geração ativa é imutável/);
+  assert.equal(store.writes.length,count,
+    'A ausência do marcador não pode alterar geração ativa');
+});
