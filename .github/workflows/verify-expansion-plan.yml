@@ -14,6 +14,7 @@ on:
       - "public/data/world-cup-1998.json"
       - "scripts/verify_audited_batch.py"
       - "src/index.html"
+      - "scripts/verify-portal-groups.mjs"
       - "scripts/verify_expansion_plan.py"
       - ".github/workflows/verify-expansion-plan.yml"
   workflow_dispatch:
@@ -50,3 +51,4 @@ jobs:
           assert "roadmap-grid" in html and "roadmap-copy" in html
           PY
           node --check /tmp/fut-roadmap.js
+          node scripts/verify-portal-groups.mjs

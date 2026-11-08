@@ -62,6 +62,40 @@
     @media(max-width:1100px){.library-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media(max-width:700px){.library-grid{grid-template-columns:1fr;gap:13px}.library-tile{min-height:310px}.library-cover{height:180px}.portal-hero{padding:30px 24px}.portal-hero h1{font-size:44px}.library-summary{gap:20px}.library-cover img{max-width:53%}.library-info h3{font-size:19px}}
 
+    /* Biblioteca de entrada: navegação progressiva por categorias e anos. */
+    .collection-browser{scroll-margin-top:110px;margin-bottom:26px}
+    .collection-toolbar{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+    .collection-toolbar .section-heading{margin-bottom:15px}
+    .portal-search{display:flex;align-items:center;gap:10px;background:#112942;border:1px solid #34526a;border-radius:12px;padding:0 14px;width:min(100%,370px);color:#aec9da;margin-bottom:15px}
+    .portal-search:focus-within{border-color:var(--sky)}
+    .portal-search input{background:transparent;border:0;outline:0;padding:13px 0;width:100%;font-size:13px;color:#fff}
+    .portal-search input::placeholder{color:#a7bacb}
+    .category-shortcuts{display:flex;gap:9px;flex-wrap:wrap;margin:2px 0 18px}
+    .category-shortcut{border:1px solid #3b536c;background:#122c48;border-radius:12px;padding:11px 16px;color:#fff;font-weight:750;font-size:13px}
+    .category-shortcut:hover,.category-shortcut:focus-visible{border-color:var(--sky);outline:none}
+    .category-shortcut small{font-size:11px;margin-left:8px;color:#a9c8d6}
+    .collection-group{background:#102841;border:1px solid #334f6a;border-radius:19px;overflow:hidden;margin:13px 0}
+    .collection-group[open]{border-color:#496781}
+    .collection-group>summary{list-style:none;display:flex;gap:14px;align-items:center;padding:21px 23px;cursor:pointer}
+    .collection-group>summary::-webkit-details-marker{display:none}
+    .collection-group>summary:hover{background:#15334e}
+    .collection-group>summary:focus-visible{outline:2px solid var(--sky);outline-offset:-3px}
+    .collection-group-mark{display:grid;place-items:center;background:#1b3d58;border:1px solid rgba(223,181,107,.36);border-radius:12px;color:var(--gold);font-size:12px;font-weight:900;width:43px;height:43px;flex:none}
+    .collection-group-title{display:flex;flex-direction:column;gap:5px;flex:1}
+    .collection-group-title strong{font-size:20px;letter-spacing:-.035em}
+    .collection-group-title small{font-size:12px;color:#abc2d1;line-height:1.5}
+    .collection-chevron{font-size:22px;color:var(--gold);transition:transform .2s}
+    .collection-group[open] .collection-chevron{transform:rotate(180deg)}
+    .collection-group-body{border-top:1px solid rgba(255,255,255,.08);padding:5px 22px 25px}
+    .collection-year{margin-top:22px}
+    .collection-year+.collection-year{margin-top:32px}
+    .collection-year-head{display:flex;gap:13px;align-items:baseline;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:10px}
+    .collection-year-head h4{color:var(--gold);font-size:20px;margin:0}
+    .collection-year-head span{color:#adc3d0;font-size:12px}
+    .collection-year .library-grid{margin-top:16px}
+    .collection-empty{padding:28px;border:1px dashed #49657b;border-radius:12px;color:#b9ceda;font-size:13px}
+    @media(max-width:700px){.collection-toolbar{display:block}.portal-search{width:100%}.category-shortcuts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.category-shortcut{padding:11px 7px;font-size:12px}.category-shortcut small{margin-left:4px}.collection-group>summary{padding:15px 13px;gap:10px}.collection-group-mark{height:37px;width:37px}.collection-group-title strong{font-size:18px}.collection-group-title small{font-size:11px}.collection-group-body{padding:0 13px 17px}}
+    @media(prefers-reduced-motion:reduce){.collection-chevron{transition:none}}
     .next-batch{border:1px solid rgba(223,181,107,.4);border-radius:17px;background:linear-gradient(120deg,#132e4a,#0b213a);padding:24px;margin:28px 0 6px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
     .next-batch h3{font-size:20px;margin:7px 0}.next-batch p{font-size:12px;color:#a8bfd1;margin:0;line-height:1.65;max-width:630px}
     .next-batch .pill{flex-shrink:0}
@@ -94,6 +128,7 @@
     "use strict";
     let LIBRARY = [];
     let EXPANSION_PLAN = [];
+    let portalSearch = '';
     let activeCollectionId = null;
     const stateKey = id => "fut.album."+id+".progress.v1";
     const app = document.getElementById("app");
@@ -165,18 +200,54 @@
       if(navigator.clipboard?.writeText)navigator.clipboard.writeText(text).then(()=>notify('Autorização copiada. Cola-a na conversa do ChatGPT.')).catch(()=>window.prompt('Copia o pedido para o ChatGPT:',text));
       else window.prompt('Copia o pedido para o ChatGPT:',text);
     }
+    // Metadados classificados sem alterar catálogos, URLs ou progresso.
+    const PORTAL_CATEGORIES=[
+      {id:'portugal',title:'Portugal',mark:'PT',description:'Liga Portugal e coleções de futebol português'},
+      {id:'selecoes',title:'Seleções',mark:'SE',description:'Campeonatos do Mundo, Europeus e outras seleções'},
+      {id:'outros',title:'Outros',mark:'CL',description:'Champions League, outras ligas e clubes'}
+    ];
+    const ptCollator=new Intl.Collator('pt-PT',{numeric:true,sensitivity:'base'});
+    const normalText=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-PT');
+    function collectionGroup(item){
+      const category=normalText(item.category);
+      return category.includes('selecoes')?'selecoes':category.includes('portugal')?'portugal':'outros';
+    }
+    function collectionYear(item){
+      const year=String(item.year||'').trim();
+      if(/^(?:19|20)\d{2}$/.test(year))return Number(year);
+      const match=/^(\d{2})\s*\/\s*\d{2}$/.exec(year);
+      if(match)return Number(match[1])>=90?1900+Number(match[1]):2000+Number(match[1]);
+      const found=/(?:19|20)\d{2}/.exec(year);
+      return found?Number(found[0]):0;
+    }
+    function collectionTile(item){
+      const enabled=item.status==='active',progress=enabled?portalStats(item):{revealed:0,pct:0};
+      const top='<div class="library-cover">'+(item.cover?'<img src="'+esc(item.cover)+'" loading="lazy" alt="Capa da coleção '+esc(item.title)+'" onerror="this.style.display=\'none\'">':'<span class="cover-placeholder" aria-hidden="true">'+esc(item.year)+'</span>')+'</div>';
+      const info='<div class="library-info"><span class="eyebrow">'+esc(item.category)+' · '+esc(item.year)+'</span><h3>'+esc(item.title)+'</h3><p>'+esc(item.description)+'</p><div class="library-tile-foot"><span>'+(item.count?item.count+' cromos':'Catálogo por preparar')+'</span><strong>'+(enabled?'Abrir coleção ↗':'Em preparação')+'</strong></div>'+(enabled?'<div class="bar"><i style="width:'+progress.pct+'%"></i></div><span style="color:#a7c7d1;font-size:11px">'+progress.revealed+' / '+item.count+' revelados</span>':'')+'</div>';
+      return (enabled?'<button class="library-tile" data-action="collection" data-collection="'+esc(item.id)+'" aria-label="Abrir '+esc(item.title)+'">':'<article class="library-tile soon">')+top+info+(enabled?'</button>':'</article>');
+    }
     function portalView(){
       const ready=LIBRARY.filter(c=>c.status==='active');
       let html='<section class="portal-hero"><div class="portal-intro"><span class="section-label">Arquivo interativo · Futebol</span><h1>As grandes coleções.<br><em>Uma só caderneta digital.</em></h1><p>Descobre os cromos, vira cada um, amplia a imagem e guarda o teu progresso. Cada coleção tem o seu próprio índice, favoritos e registo neste equipamento.</p><div class="hero-actions"><button class="pill gold" data-action="scroll-collections">Explorar coleções ↓</button>'+(activeCollectionId?'<button class="pill" data-action="index">Continuar a última coleção ↗</button>':'')+'</div><div class="library-summary"><span><strong>'+LIBRARY.length+'</strong>Coleções no portal</span><span><strong>'+ready.length+'</strong>Disponíveis</span><span><strong>'+ready.reduce((n,x)=>n+x.count,0).toLocaleString('pt-PT')+'</strong>Cromos catalogados</span></div></div></section>';
-      html+='<section class="section-heading" id="collection-grid"><div><span class="section-label">A tua biblioteca</span><h2>Escolhe uma coleção</h2><p>Os catálogos disponíveis foram auditados; algumas fotografias podem faltar na origem.</p></div></section><div class="library-grid">';
-      LIBRARY.forEach(item=>{
-        const enabled=item.status==='active';
-        const progress=enabled?portalStats(item):{revealed:0,pct:0};
-        const top='<div class="library-cover">'+(item.cover?'<img src="'+esc(item.cover)+'" loading="lazy" alt="Capa da coleção '+esc(item.title)+'" onerror="this.style.display=\'none\'">':'<span class="cover-placeholder" aria-hidden="true">'+esc(item.year)+'</span>')+'</div>';
-        const info='<div class="library-info"><span class="eyebrow">'+esc(item.category)+' · '+esc(item.year)+'</span><h3>'+esc(item.title)+'</h3><p>'+esc(item.description)+'</p><div class="library-tile-foot"><span>'+(item.count?item.count+' cromos':'Catálogo por preparar')+'</span><strong>'+(enabled?'Abrir coleção ↗':'Em preparação')+'</strong></div>'+(enabled?'<div class="bar"><i style="width:'+progress.pct+'%"></i></div><span style="color:#a7c7d1;font-size:11px">'+progress.revealed+' / '+item.count+' revelados</span>':'')+'</div>';
-        html+=(enabled?'<button class="library-tile" data-action="collection" data-collection="'+esc(item.id)+'" aria-label="Abrir '+esc(item.title)+'">':'<article class="library-tile soon">')+top+info+(enabled?'</button>':'</article>');
-      });
-      html+='</div>'+roadmapPanel()+'<p class="portal-note">O progresso fica apenas neste navegador. Para mudar de equipamento, utiliza Exportar / Importar em cada caderneta. Imagens de referência provenientes de fontes públicas, sujeitas aos direitos dos respetivos titulares.</p>';
+      html+='<section class="collection-browser" id="collection-grid"><div class="collection-toolbar"><div class="section-heading"><div><span class="section-label">A tua biblioteca</span><h2>Explorar por categoria e ano</h2><p>Escolhe uma categoria. As coleções surgem do ano mais recente para o mais antigo.</p></div></div><label class="portal-search">⌕ <input id="portal-search" type="search" aria-label="Pesquisar coleções" placeholder="Pesquisar coleção, competição ou ano..." autocomplete="off" value="'+esc(portalSearch)+'"></label></div>';
+      html+='<nav class="category-shortcuts" aria-label="Ir para categoria">'+PORTAL_CATEGORIES.map(cat=>'<button class="category-shortcut" data-action="jump-category" data-category="'+cat.id+'">'+cat.title+' <small>'+LIBRARY.filter(item=>collectionGroup(item)===cat.id).length+'</small></button>').join('')+'</nav>';
+      let shown=0;
+      const search=normalText(portalSearch.trim());
+      for(const cat of PORTAL_CATEGORIES){
+        const items=LIBRARY.filter(item=>collectionGroup(item)===cat.id&&(!search||normalText([item.title,item.category,item.year,item.description,item.subtitle].join(' ')).includes(search)));
+        if(!items.length)continue;
+        shown+=items.length;
+        html+='<details class="collection-group" id="group-'+cat.id+'" data-group="'+cat.id+'"'+(search||cat.id==='portugal'?' open':'')+'><summary><span class="collection-group-mark" aria-hidden="true">'+cat.mark+'</span><span class="collection-group-title"><strong>'+esc(cat.title)+'</strong><small>'+esc(cat.description)+' · '+items.length+' '+(items.length===1?'coleção':'coleções')+'</small></span><span class="collection-chevron" aria-hidden="true">⌄</span></summary><div class="collection-group-body">';
+        const years=new Map();
+        for(const item of items){const year=collectionYear(item);if(!years.has(year))years.set(year,[]);years.get(year).push(item)}
+        for(const year of [...years.keys()].sort((a,b)=>b-a)){
+          const groupItems=years.get(year).sort((a,b)=>ptCollator.compare(a.title,b.title));
+          html+='<section class="collection-year" data-year="'+year+'" aria-label="Coleções de '+(year||'ano desconhecido')+'"><div class="collection-year-head"><h4>'+(year||'Sem data')+'</h4><span>'+groupItems.length+' '+(groupItems.length===1?'coleção':'coleções')+'</span></div><div class="library-grid">'+groupItems.map(collectionTile).join('')+'</div></section>';
+        }
+        html+='</div></details>';
+      }
+      if(!shown)html+='<div class="collection-empty">Nenhuma coleção encontrada. Altera a pesquisa para consultar as outras edições.</div>';
+      html+='</section>'+roadmapPanel()+'<p class="portal-note">O progresso fica apenas neste navegador. Para mudar de equipamento, utiliza Exportar / Importar em cada caderneta. Imagens de referência provenientes de fontes públicas, sujeitas aos direitos dos respetivos titulares.</p>';
       return html;
     }
     async function selectCollection(id,replaceRoute=true){
@@ -354,10 +425,10 @@
         if(navigator.clipboard?.writeText)navigator.clipboard.writeText(prompt).then(()=>notify('Pedido copiado. Cola-o no ChatGPT.')).catch(()=>window.prompt('Copia o pedido:',prompt));
         else window.prompt('Copia o pedido:',prompt);
       }
-    }else if(action==='portal')navigate('portal');else if(action==='collection')selectCollection(btn.dataset.collection);else if(action==='scroll-collections'){app.querySelector('#collection-grid')?.scrollIntoView({behavior:'smooth'})}else if(!activeCollectionId)return;else if(action==='index')navigate('index');else if(action==='album')navigate('album');else if(action==='favorites')navigate('favorites');else if(action==='section'){const idx=pages.findIndex(p=>p.section.slug===btn.dataset.slug);navigate('album',idx>=0?idx:0)}else if(action==='jump'&&card){navigate('album',pageFor(card.id));const el=app.querySelector('[data-card="'+CSS.escape(card.id)+'"]');if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.add('spotlight')}}else if(action==='prev')navigate('album',currentPage-1);else if(action==='next')navigate('album',currentPage+1);else if(action==='flip'&&card){handleCardClick(card,btn,event)}else if(action==='favorite'&&card){if(isFavorite(card))delete state.favorites[card.id];else state.favorites[card.id]=true;save();if(modalCard)zoom(card);else render()}else if(action==='reveal-page'){reveal(pages[currentPage].cards.map(c=>c.id),true);notify('Todos os cromos desta página revelados.')}else if(action==='hide-page'){reveal(pages[currentPage].cards.map(c=>c.id),false);notify('Cromos desta página novamente tapados.')}else if(action==='reveal-all'){reveal(catalog.cards.map(c=>c.id),true);notify('Toda a coleção foi revelada.')}else if(action==='hide-all'){if(confirm('Voltar a tapar todos os cromos? Os favoritos serão preservados.')){state.revealed={};save();render();notify('Todos os cromos ficaram tapados.')}}else if(action==='random'){const pool=catalog.cards.filter(c=>!isRevealed(c));const candidates=pool.length?pool:catalog.cards;if(!candidates.length)return;const chosen=candidates[Math.floor(Math.random()*candidates.length)];state.revealed[chosen.id]=true;save();navigate('album',pageFor(chosen.id));notify('Descoberto: '+chosen.number+' · '+chosen.name)}else if(action==='export')exportProgress();else if(action==='import')document.getElementById('import-file').click()});
+    }else if(action==='jump-category'){if(portalSearch){portalSearch='';render()}const group=app.querySelector('#group-'+btn.dataset.category);if(group){group.open=true;group.scrollIntoView({behavior:'smooth',block:'start'})}}else if(action==='portal')navigate('portal');else if(action==='collection')selectCollection(btn.dataset.collection);else if(action==='scroll-collections'){app.querySelector('#collection-grid')?.scrollIntoView({behavior:'smooth'})}else if(!activeCollectionId)return;else if(action==='index')navigate('index');else if(action==='album')navigate('album');else if(action==='favorites')navigate('favorites');else if(action==='section'){const idx=pages.findIndex(p=>p.section.slug===btn.dataset.slug);navigate('album',idx>=0?idx:0)}else if(action==='jump'&&card){navigate('album',pageFor(card.id));const el=app.querySelector('[data-card="'+CSS.escape(card.id)+'"]');if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.add('spotlight')}}else if(action==='prev')navigate('album',currentPage-1);else if(action==='next')navigate('album',currentPage+1);else if(action==='flip'&&card){handleCardClick(card,btn,event)}else if(action==='favorite'&&card){if(isFavorite(card))delete state.favorites[card.id];else state.favorites[card.id]=true;save();if(modalCard)zoom(card);else render()}else if(action==='reveal-page'){reveal(pages[currentPage].cards.map(c=>c.id),true);notify('Todos os cromos desta página revelados.')}else if(action==='hide-page'){reveal(pages[currentPage].cards.map(c=>c.id),false);notify('Cromos desta página novamente tapados.')}else if(action==='reveal-all'){reveal(catalog.cards.map(c=>c.id),true);notify('Toda a coleção foi revelada.')}else if(action==='hide-all'){if(confirm('Voltar a tapar todos os cromos? Os favoritos serão preservados.')){state.revealed={};save();render();notify('Todos os cromos ficaram tapados.')}}else if(action==='random'){const pool=catalog.cards.filter(c=>!isRevealed(c));const candidates=pool.length?pool:catalog.cards;if(!candidates.length)return;const chosen=candidates[Math.floor(Math.random()*candidates.length)];state.revealed[chosen.id]=true;save();navigate('album',pageFor(chosen.id));notify('Descoberto: '+chosen.number+' · '+chosen.name)}else if(action==='export')exportProgress();else if(action==='import')document.getElementById('import-file').click()});
     document.getElementById('modal-root').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;if(b.dataset.action==='close-modal' && b.classList.contains('modal-backdrop') && e.target!==b)return;if(b.dataset.action==='close-modal')closeModal();else if(b.dataset.action==='favorite'){const c=cardById(b.dataset.id);if(c){if(isFavorite(c))delete state.favorites[c.id];else state.favorites[c.id]=true;save();zoom(c)}}});
     app.addEventListener('change',e=>{if(e.target.id==='jump-select'){const idx=pages.findIndex(p=>p.section.slug===e.target.value);if(idx>=0)navigate('album',idx)}});
-    app.addEventListener('input',e=>{if(e.target.id==='search'){const pos=e.target.selectionStart;query=e.target.value;render();const input=document.getElementById('search');input.focus();input.setSelectionRange(pos,pos)}});
+    app.addEventListener('input',e=>{if(e.target.id==='portal-search'){const pos=e.target.selectionStart;portalSearch=e.target.value;render();const input=document.getElementById('portal-search');if(input){input.focus();input.setSelectionRange(pos,pos)}}else if(e.target.id==='search'){const pos=e.target.selectionStart;query=e.target.value;render();const input=document.getElementById('search');input.focus();input.setSelectionRange(pos,pos)}});
     document.querySelector('header.app-top').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;if(a==='portal')navigate('portal');if(!activeCollectionId)return;if(a==='index')navigate('index');if(a==='album')navigate('album');if(a==='favorites')navigate('favorites');if(a==='random'){const pool=catalog.cards.filter(c=>!isRevealed(c));const a=pool.length?pool:catalog.cards;if(a.length){const c=a[Math.floor(Math.random()*a.length)];state.revealed[c.id]=true;save();navigate('album',pageFor(c.id));notify('Descoberto: '+c.number+' · '+c.name)}}});
     document.getElementById('import-file').addEventListener('change',e=>{importProgress(e.target.files[0]);e.target.value=''});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();return}if(view==='album'&&!modalCard&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){if(e.key==='ArrowRight'){e.preventDefault();navigate('album',Math.min(pages.length-1,currentPage+1))}else if(e.key==='ArrowLeft'){e.preventDefault();navigate('album',Math.max(0,currentPage-1))}}});

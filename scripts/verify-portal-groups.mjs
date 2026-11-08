@@ -1,0 +1,46 @@
+#!/usr/bin/env node
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+const source=readFileSync(new URL('../src/index.html',import.meta.url),'utf8');
+assert.equal(source,readFileSync(new URL('../public/index.html',import.meta.url),'utf8'));
+const match=source.match(/<script>\s*([\s\S]*?)\s*<\/script>/);
+assert(match && match[1].includes('    start();'),'Ponto de entrada não reconhecido');
+const script=match[1].replace('    start();',"    globalThis.__test={library:x=>{LIBRARY=x},query:x=>{portalSearch=x},html:portalView,group:collectionGroup,year:collectionYear};");
+const element={addEventListener(){}};
+const context={document:{getElementById(){return element},querySelector(){return element},addEventListener(){}},window:{addEventListener(){}},localStorage:{getItem(){return null}},location:{hash:''},navigator:{},console};
+context.globalThis=context;vm.createContext(context);vm.runInContext(script,context);
+const t=context.__test;
+const library=JSON.parse(readFileSync(new URL('../public/library.json',import.meta.url),'utf8'));
+t.library(library);
+const categories=['portugal','selecoes','outros'];
+const counts=Object.fromEntries(categories.map(x=>[x,library.filter(y=>t.group(y)===x).length]));
+assert.equal(counts.portugal,6);
+assert.equal(Object.values(counts).reduce((a,b)=>a+b,0),library.length);
+assert.equal(t.group(library.find(x=>x.id==='euro-2004')),'selecoes');
+assert.equal(t.group(library.find(x=>x.id==='idolos-pt-2026-27')),'portugal');
+assert.equal(t.group(library.find(x=>x.id==='ucl-topps-2024-25')),'outros');
+assert.equal(t.year(library.find(x=>x.id==='match-attax-2026-27')),2026);
+assert.equal(t.year(library.find(x=>x.id==='world-cup-1998')),1998);
+const cards=html=>[...html.matchAll(/data-action="collection" data-collection="([^"]+)"/g)].map(x=>x[1]);
+const full=t.html(),all=cards(full);
+assert.equal(all.length,library.filter(x=>x.status==='active').length);
+assert.equal(new Set(all).size,all.length);
+assert.equal((full.match(/class="collection-group"/g)||[]).length,3);
+assert(full.includes('id="group-portugal" data-group="portugal" open'));
+for(const category of categories){
+ const panel=full.split('id="group-'+category+'"')[1].split('</details>')[0];
+ const years=[...panel.matchAll(/class="collection-year" data-year="(\d+)"/g)].map(x=>Number(x[1]));
+ assert.deepEqual(years,[...years].sort((a,b)=>b-a));
+ assert.equal(cards(panel).length,counts[category]);
+}
+t.query('Mundial França 1998');
+const matching=t.html();
+assert.deepEqual(cards(matching),['world-cup-1998']);
+assert(matching.includes('id="group-selecoes" data-group="selecoes" open'));
+t.query('colecao que nao existe');
+assert.equal(cards(t.html()).length,0);
+assert(t.html().includes('collection-empty'));
+assert(source.includes('const stateKey = id => "fut.album."+id+".progress.v1"'));
+console.log('PASS: agrupamento e anos de '+library.length+' coleções; '+JSON.stringify(counts));
+console.log('PASS: pesquisa, IDs e progresso independente');
