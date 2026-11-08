@@ -57,7 +57,7 @@ class CatalogWorkflowTests(unittest.TestCase):
                         'test-frontend-progress.mjs', 'test-access-security.mjs',
                         'test-drive-migration.mjs','verify_catalogs.py',
                         'verify_expansion_plan.py','test-verify-fut-deployment.mjs',
-                        'test_catalog_transaction.py'):
+                        'scripts.test_catalog_transaction'):
             self.assertIn(snippet,text)
         self.assertIn("contents: read",text)
         self.assertNotIn("contents: write",text)
