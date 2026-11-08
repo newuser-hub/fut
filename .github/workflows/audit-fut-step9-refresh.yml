@@ -1,0 +1,41 @@
+name: FUT - Etapa 9 - atualizar métricas documentais geradas
+on:
+  push:
+    branches: [audit/fut-2026-11-08]
+    paths:
+      - .github/workflows/audit-fut-step9-refresh.yml
+permissions:
+  contents: write
+jobs:
+  documentation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/fut-2026-11-08
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Gerar inventário a partir dos 47 JSON sem rede
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/refresh_documentation.py --write
+          python3 scripts/refresh_documentation.py --check
+          python3 -B -m unittest scripts.test_documentation -v
+      - name: Commit apenas das quatro saídas geradas
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/02-colecoes/README.md docs/04-imagens/README.md docs/index.json docs/metrics-current.json
+          if git diff --cached --quiet; then
+            echo 'PASS: documentação gerada sem diferenças'
+            exit 0
+          fi
+          test -z "$(git diff --cached --name-only | grep -Ev '^(docs/02-colecoes/README.md|docs/04-imagens/README.md|docs/index.json|docs/metrics-current.json)$' || true)"
+          git commit -m 'docs(audit): ordenar inventário por época decrescente e validar JSON'
+          git push origin HEAD:refs/heads/audit/fut-2026-11-08
