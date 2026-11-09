@@ -1,17 +1,7 @@
 name: FUT - Auditoria etapa 5 (seguranca, sem deploy)
+# Evidência histórica de uma etapa isolada; a CI permanente cobre os testes atuais.
 on:
-  push:
-    branches:
-      - audit/fut-2026-11-08
-    paths:
-      - .github/workflows/audit-fut-step5-security.yml
-      - proxy.js
-      - api/storage.js
-      - lib/access-control.js
-      - vercel.json
-      - scripts/test-access-security.mjs
-      - scripts/test-drive-storage.mjs
-      - scripts/check-production-unauth.mjs
+  workflow_dispatch:
 
 permissions:
   contents: read

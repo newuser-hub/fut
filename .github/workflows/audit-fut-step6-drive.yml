@@ -1,17 +1,6 @@
 name: FUT - Auditoria etapa 6 (Drive mocks, sem migracao)
+# Evidência histórica de uma etapa isolada; a CI permanente cobre os testes atuais.
 on:
-  push:
-    branches:
-      - audit/fut-2026-11-08
-    paths:
-      - .github/workflows/audit-fut-step6-drive.yml
-      - lib/drive-store.js
-      - lib/drive-migration.js
-      - api/storage.js
-      - scripts/migrate-drive.mjs
-      - scripts/test-drive-migration.mjs
-      - scripts/test-drive-store-safety.mjs
-      - scripts/test-access-security.mjs
   workflow_dispatch:
 
 permissions:

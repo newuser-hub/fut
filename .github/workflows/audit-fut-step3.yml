@@ -1,12 +1,8 @@
 name: FUT - Auditoria 2026-11-08 etapa 3 (somente leitura)
+# Evidência histórica de uma etapa isolada; a CI permanente cobre os testes atuais.
 on:
-  push:
-    branches:
-      - audit/fut-2026-11-08
-    paths:
-      - .github/workflows/audit-fut-step3.yml
-      - scripts/audit_catalogues_deep.py
-      - scripts/test_audit_catalogues.py
+  workflow_dispatch:
+
 permissions:
   contents: read
 jobs:
