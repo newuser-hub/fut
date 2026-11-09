@@ -1,11 +1,6 @@
 name: FUT - Integrar Serie A 2026-27 e Ligue 1 2025-26
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/audit-italia-franca.yml"
-      - "scripts/ingest_italia_franca.py"
   workflow_dispatch:
 
 permissions:

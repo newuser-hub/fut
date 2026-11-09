@@ -52,7 +52,7 @@ function harness(){
   const element=()=>({
     innerHTML:'',textContent:'',value:'',style:{},disabled:false,
     classList:{toggle(){},add(){},remove(){}},
-    addEventListener(){},querySelector(){return null},
+    addEventListener(type,fn){this.events??={};(this.events[type]??=[]).push(fn)},querySelector(){return null},
     scrollIntoView(){},setAttribute(){}
   });
   const node=id=>{
@@ -82,6 +82,10 @@ function harness(){
   const api=context.__audit;
   api.library(collections);
   return {api,location,store,
+    click(action,id,where='app',detail=1){
+      const button={dataset:{action,id},classList:{add(){},remove(){}},setAttribute(){},querySelector(){return null}};
+      for(const fn of node(where).events?.click||[])fn({target:{closest:()=>button},detail});
+    },
     setFetch(fn){fetcher=fn},
     setQuotaFail(value){readonly=value},
     notice:()=>node('toast').textContent
@@ -218,4 +222,35 @@ test('leitura assíncrona de backup é cancelada se a seleção mudar',async()=>
   assert.equal(h.store.has(key('alpha')),false);
   assert.equal(h.store.has(key('beta')),false);
   assert.equal(h.api.snapshot().id,'beta');
+});
+
+for(const action of ['reveal-page','hide-page','reveal-all','hide-all','favorite','random','flip']){
+  test('armazenamento bloqueado preserva estado e aviso: '+action,async()=>{
+    const h=harness();await h.api.select('alpha');h.api.navigate('album');
+    const initial=backup('alpha',{revealed:action.startsWith('hide')?['alpha-1','alpha-2']:[],favorites:['alpha-2']});
+    await h.api.importProgress(file(initial));h.api.navigate('album');
+    const before=JSON.stringify(h.api.snapshot().state),saved=h.store.get(key('alpha'));
+    h.setQuotaFail(true);h.click(action,'alpha-1');
+    assert.equal(JSON.stringify(h.api.snapshot().state),before);
+    assert.equal(h.store.get(key('alpha')),saved);
+    assert.match(h.notice(),/Não foi possível guardar/);
+  });
+}
+test('duplo toque não tapa quando gravação falha',async()=>{
+ const h=harness();await h.api.select('alpha');await h.api.importProgress(file(backup('alpha')));h.api.navigate('album');
+ const before=JSON.stringify(h.api.snapshot().state);h.setQuotaFail(true);
+ h.click('flip','alpha-1');h.click('flip','alpha-1');
+ assert.equal(JSON.stringify(h.api.snapshot().state),before);assert.match(h.notice(),/Não foi possível guardar/);
+});
+for(const where of ['header.app-top','modal-root'])test('gravação falhada no '+where,async()=>{
+ const h=harness();await h.api.select('alpha');h.api.navigate('album');
+ const before=JSON.stringify(h.api.snapshot().state);h.setQuotaFail(true);
+ h.click(where==='modal-root'?'favorite':'random','alpha-1',where);
+ assert.equal(JSON.stringify(h.api.snapshot().state),before);assert.match(h.notice(),/Não foi possível guardar/);
+});
+test('ações bem-sucedidas persistem e recarregam sem contaminar outra coleção',async()=>{
+ const h=harness();await h.api.select('alpha');h.api.navigate('album');h.click('reveal-page');h.click('favorite','alpha-1');
+ await h.api.select('beta');assert.deepEqual(ids(h.api.snapshot().state.revealed),[]);
+ await h.api.select('alpha');assert.deepEqual(ids(h.api.snapshot().state.revealed),['alpha-1','alpha-2']);
+ assert.deepEqual(ids(h.api.snapshot().state.favorites),['alpha-1']);
 });

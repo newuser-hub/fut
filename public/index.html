@@ -373,7 +373,29 @@
     function navigate(nextView,page){++selectionEpoch;cancelPendingCardTap();if(nextView!=='portal'&&!activeCollectionId)return;view=nextView;if(typeof page==='number')currentPage=Math.max(0,Math.min(page,pages.length-1));history.replaceState(null,'',routeHash());render();window.scrollTo({top:0,behavior:scrollBehavior()})}
     function render(){cancelPendingCardTap();updateTop();app.innerHTML=view==='portal'?portalView():view==='index'?indexView():view==='favorites'?favoritesView():pageView();updateTop()}
     function cardById(id){return catalog.cards.find(c=>c.id===id)}
-    function reveal(ids,value){ids.forEach(id=>{if(value)state.revealed[id]=true;else delete state.revealed[id]});save();render()}
+    function changeProgress(edit){
+      const next={revealed:{...state.revealed},favorites:{...state.favorites}};
+      edit(next);
+      if(!save(next))return false;
+      state=next;
+      return true;
+    }
+    function reveal(ids,value){
+      if(!changeProgress(next=>ids.forEach(id=>{if(value)next.revealed[id]=true;else delete next.revealed[id]})))return false;
+      render();return true;
+    }
+    function toggleFavorite(card){
+      return changeProgress(next=>{if(next.favorites[card.id])delete next.favorites[card.id];else next.favorites[card.id]=true});
+    }
+    function discoverRandom(){
+      const pool=catalog.cards.filter(c=>!isRevealed(c));
+      const candidates=pool.length?pool:catalog.cards;
+      if(!candidates.length)return;
+      const chosen=candidates[Math.floor(Math.random()*candidates.length)];
+      if(!changeProgress(next=>{next.revealed[chosen.id]=true}))return;
+      navigate('album',pageFor(chosen.id));
+      notify('Descoberto: '+chosen.number+' · '+chosen.name);
+    }
     // O modal mantém foco dentro, desativa temporariamente a navegação de fundo
     // e devolve o foco ao cromo, sem tocar no progresso nem na identidade.
     function modalBackground(inert){
@@ -454,8 +476,7 @@
     function handleCardClick(card, btn, event){
       if(!isRevealed(card)){
         cancelPendingCardTap();
-        state.revealed[card.id]=true;
-        save();
+        if(!changeProgress(next=>{next.revealed[card.id]=true}))return;
         btn.classList.add('is-flipped');
         btn.setAttribute('aria-pressed','true');
         btn.setAttribute('aria-label','Um toque para ampliar, dois toques para tapar cromo '+(card.number||''));
@@ -472,8 +493,7 @@
       }
       if(pendingCardTap && pendingCardTap.id===card.id){
         cancelPendingCardTap();
-        delete state.revealed[card.id];
-        save();
+        if(!changeProgress(next=>{delete next.revealed[card.id]}))return;
         btn.classList.remove('is-flipped');
         btn.setAttribute('aria-pressed','false');
         btn.setAttribute('aria-label','Virar cromo '+(card.number||''));
@@ -539,11 +559,11 @@
         if(navigator.clipboard?.writeText)navigator.clipboard.writeText(prompt).then(()=>notify('Pedido copiado. Cola-o no ChatGPT.')).catch(()=>window.prompt('Copia o pedido:',prompt));
         else window.prompt('Copia o pedido:',prompt);
       }
-    }else if(action==='jump-category'){if(portalSearch){portalSearch='';render()}const group=app.querySelector('#group-'+btn.dataset.category);if(group){group.open=true;group.scrollIntoView({behavior:scrollBehavior(),block:'start'})}}else if(action==='portal')navigate('portal');else if(action==='collection')selectCollection(btn.dataset.collection);else if(action==='scroll-collections'){app.querySelector('#collection-grid')?.scrollIntoView({behavior:scrollBehavior()})}else if(!activeCollectionId)return;else if(action==='index')navigate('index');else if(action==='album')navigate('album');else if(action==='favorites')navigate('favorites');else if(action==='section'){const idx=pages.findIndex(p=>p.section.slug===btn.dataset.slug);navigate('album',idx>=0?idx:0)}else if(action==='jump'&&card){navigate('album',pageFor(card.id));const el=app.querySelector('[data-card="'+CSS.escape(card.id)+'"]');if(el){el.scrollIntoView({block:'center',behavior:scrollBehavior()});el.classList.add('spotlight')}}else if(action==='prev')navigate('album',currentPage-1);else if(action==='next')navigate('album',currentPage+1);else if(action==='flip'&&card){handleCardClick(card,btn,event)}else if(action==='favorite'&&card){if(isFavorite(card))delete state.favorites[card.id];else state.favorites[card.id]=true;save();if(modalCard)zoom(card);else render()}else if(action==='reveal-page'){reveal(pages[currentPage].cards.map(c=>c.id),true);notify('Todos os cromos desta página revelados.')}else if(action==='hide-page'){reveal(pages[currentPage].cards.map(c=>c.id),false);notify('Cromos desta página novamente tapados.')}else if(action==='reveal-all'){reveal(catalog.cards.map(c=>c.id),true);notify('Toda a coleção foi revelada.')}else if(action==='hide-all'){if(confirm('Voltar a tapar todos os cromos? Os favoritos serão preservados.')){state.revealed={};save();render();notify('Todos os cromos ficaram tapados.')}}else if(action==='random'){const pool=catalog.cards.filter(c=>!isRevealed(c));const candidates=pool.length?pool:catalog.cards;if(!candidates.length)return;const chosen=candidates[Math.floor(Math.random()*candidates.length)];state.revealed[chosen.id]=true;save();navigate('album',pageFor(chosen.id));notify('Descoberto: '+chosen.number+' · '+chosen.name)}else if(action==='export')exportProgress();else if(action==='import')document.getElementById('import-file').click()});
-    document.getElementById('modal-root').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;if(b.dataset.action==='close-modal' && b.classList.contains('modal-backdrop') && e.target!==b)return;if(b.dataset.action==='close-modal')closeModal();else if(b.dataset.action==='favorite'){const c=cardById(b.dataset.id);if(c){if(isFavorite(c))delete state.favorites[c.id];else state.favorites[c.id]=true;save();zoom(c)}}});
+    }else if(action==='jump-category'){if(portalSearch){portalSearch='';render()}const group=app.querySelector('#group-'+btn.dataset.category);if(group){group.open=true;group.scrollIntoView({behavior:scrollBehavior(),block:'start'})}}else if(action==='portal')navigate('portal');else if(action==='collection')selectCollection(btn.dataset.collection);else if(action==='scroll-collections'){app.querySelector('#collection-grid')?.scrollIntoView({behavior:scrollBehavior()})}else if(!activeCollectionId)return;else if(action==='index')navigate('index');else if(action==='album')navigate('album');else if(action==='favorites')navigate('favorites');else if(action==='section'){const idx=pages.findIndex(p=>p.section.slug===btn.dataset.slug);navigate('album',idx>=0?idx:0)}else if(action==='jump'&&card){navigate('album',pageFor(card.id));const el=app.querySelector('[data-card="'+CSS.escape(card.id)+'"]');if(el){el.scrollIntoView({block:'center',behavior:scrollBehavior()});el.classList.add('spotlight')}}else if(action==='prev')navigate('album',currentPage-1);else if(action==='next')navigate('album',currentPage+1);else if(action==='flip'&&card){handleCardClick(card,btn,event)}else if(action==='favorite'&&card){if(!toggleFavorite(card))return;if(modalCard)zoom(card);else render()}else if(action==='reveal-page'){if(reveal(pages[currentPage].cards.map(c=>c.id),true))notify('Todos os cromos desta página revelados.')}else if(action==='hide-page'){if(reveal(pages[currentPage].cards.map(c=>c.id),false))notify('Cromos desta página novamente tapados.')}else if(action==='reveal-all'){if(reveal(catalog.cards.map(c=>c.id),true))notify('Toda a coleção foi revelada.')}else if(action==='hide-all'){if(confirm('Voltar a tapar todos os cromos? Os favoritos serão preservados.')){if(!changeProgress(next=>{next.revealed={}}))return;render();notify('Todos os cromos ficaram tapados.')}}else if(action==='random'){discoverRandom()}else if(action==='export')exportProgress();else if(action==='import')document.getElementById('import-file').click()});
+    document.getElementById('modal-root').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;if(b.dataset.action==='close-modal' && b.classList.contains('modal-backdrop') && e.target!==b)return;if(b.dataset.action==='close-modal')closeModal();else if(b.dataset.action==='favorite'){const c=cardById(b.dataset.id);if(c){if(!toggleFavorite(c))return;zoom(c)}}});
     app.addEventListener('change',e=>{if(e.target.id==='jump-select'){const idx=pages.findIndex(p=>p.section.slug===e.target.value);if(idx>=0)navigate('album',idx)}});
     app.addEventListener('input',e=>{if(e.target.id==='portal-search'){const pos=e.target.selectionStart;portalSearch=e.target.value;render();const input=document.getElementById('portal-search');if(input){input.focus();input.setSelectionRange(pos,pos)}}else if(e.target.id==='search'){const pos=e.target.selectionStart;query=e.target.value;render();const input=document.getElementById('search');input.focus();input.setSelectionRange(pos,pos)}});
-    document.querySelector('header.app-top').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;if(a==='portal')navigate('portal');if(!activeCollectionId)return;if(a==='index')navigate('index');if(a==='album')navigate('album');if(a==='favorites')navigate('favorites');if(a==='random'){const pool=catalog.cards.filter(c=>!isRevealed(c));const a=pool.length?pool:catalog.cards;if(a.length){const c=a[Math.floor(Math.random()*a.length)];state.revealed[c.id]=true;save();navigate('album',pageFor(c.id));notify('Descoberto: '+c.number+' · '+c.name)}}});
+    document.querySelector('header.app-top').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const a=b.dataset.action;if(a==='portal')navigate('portal');if(!activeCollectionId)return;if(a==='index')navigate('index');if(a==='album')navigate('album');if(a==='favorites')navigate('favorites');if(a==='random'){discoverRandom()}});
     document.getElementById('import-file').addEventListener('change',e=>{importProgress(e.target.files[0]);e.target.value=''});
     document.addEventListener('keydown',e=>{
       if(modalCard){

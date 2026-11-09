@@ -11,6 +11,19 @@ async function openAlbum(page){
 const horizontalOverflow=page=>page.evaluate(()=>
   document.documentElement.scrollWidth>document.documentElement.clientWidth+2);
 
+test('falha de armazenamento mantém cromos tapados e não anuncia sucesso',async({portal})=>{
+  const {page}=portal;
+  await openAlbum(page);
+  const before=await page.evaluate(()=>JSON.stringify({...localStorage}));
+  await page.evaluate(()=>{Storage.prototype.setItem=()=>{throw new DOMException('Quota exceeded','QuotaExceededError')};});
+  await page.locator('[data-action="reveal-page"]').click();
+  await expect(page.locator('#toast')).toContainText('Não foi possível guardar');
+  await expect(page.locator('.flip-card[aria-pressed="true"]')).toHaveCount(0);
+  await page.locator('.flip-card').first().click();
+  await expect(page.locator('.flip-card').first()).toHaveAttribute('aria-pressed','false');
+  expect(await page.evaluate(()=>JSON.stringify({...localStorage}))).toBe(before);
+});
+
 test('portal: quatro categorias com contagens, anos decrescentes e sem overflow',async({portal},info)=>{
   const {page}=portal;
   const categories=[

@@ -29,7 +29,7 @@ function proxyHarness(initialPassword = password) {
   const sandbox = {
     accessStatus, BASIC_CHALLENGE, Buffer, Response,
     process: { env: initialPassword === null ? {} : { FUT_ALBUM_PASSWORD: initialPassword } },
-    next: () => { passed++; return new Response('next: passed', { status: 200 }); }
+    next: (init) => { passed++; return new Response('next: passed', { status: 200,...init }); }
   };
   const code = proxySource.replace(/^import [^\n]*;\s*$/gm, '')
     .replace('export default function proxy', 'function proxy')
@@ -460,4 +460,10 @@ test('Drive com bytes divergentes responde erro 502 sem fallback externo',async(
   assert.equal(reply.status,502);
   assert.equal(reply.headers.location,undefined);
   assertPrivate(reply);
+});
+
+test('authenticated proxy identifies exact commit; anonymous reveals no commit',async()=>{
+ const h=proxyHarness();h.sandbox.process.env.VERCEL_GIT_COMMIT_SHA='a'.repeat(40);
+ assert.equal((await h.call('/','GET',authorization)).headers.get('x-fut-commit'),'a'.repeat(40));
+ assert.equal((await h.call('/')).headers.get('x-fut-commit'),null);
 });

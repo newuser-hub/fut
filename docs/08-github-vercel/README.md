@@ -47,3 +47,7 @@ A documentação gerada pode ser atualizada de forma controlada com `python3 scr
 ## Histórico identificado
 
 O [PR #1](https://github.com/newuser-hub/fut/pull/1) referia o SHA `4fc739b7` e 29 coleções; os antigos erros de quota `HTTP 402` e o deployment de 29 são **história**, não diagnóstico de hoje. O [checkpoint de cada lote](../../ops/) preserva esses eventos sem os reescrever. Esta documentação não faz merge nem envia deploy.
+
+## Seguimento de 09/11/2026
+
+O [checkpoint corrente](../../ops/followup-2026-11-09.md) regista a continuação da release. Browser e auditoria profunda são agora verificações permanentes de PR/main. Os quatro importadores exigem execução explícita (`workflow_dispatch`); mudanças de código/workflow não lançam importações. A prova autenticada de release usa exclusivamente o ambiente protegido do próprio projeto Vercel, com destinos limitados e sem registar segredos.

@@ -12,6 +12,7 @@ from difflib import SequenceMatcher
 import json
 from pathlib import Path
 import re
+import subprocess
 import unicodedata
 
 
@@ -45,6 +46,7 @@ def finding(kind, severity, path, card=None, detail="", other=None):
 
 def audit_data(library, catalogues):
     issues = []
+    findings = []
     by_kind = Counter()
     samples = defaultdict(list)
     catalogs_metrics = []
@@ -61,6 +63,7 @@ def audit_data(library, catalogues):
     potential_near_pairs = 0
 
     def record(row):
+        findings.append(row)
         by_kind[row["kind"]] += 1
         if len(samples[row["kind"]]) < 12:
             samples[row["kind"]].append(row)
@@ -240,7 +243,7 @@ def audit_data(library, catalogues):
         "same_image_within_catalogue_groups":within_hash_groups,
         "same_image_across_catalogues_groups":cross_hash_groups
     }
-    return {"summary":summary,"counts_by_kind":dict(sorted(by_kind.items())),
+    return {"findings":findings,"summary":summary,"counts_by_kind":dict(sorted(by_kind.items())),
             "examples":{kind:values for kind,values in sorted(samples.items())},
             "catalogues":catalogs_metrics,"critical_findings":issues}
 
@@ -257,9 +260,23 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--root",type=Path,default=Path(__file__).resolve().parent.parent)
     parser.add_argument("--output",type=Path)
+    parser.add_argument("--baseline-ref", default="", help="SHA de base para comparar alertas, sem alterar dados")
     parser.add_argument("--strict",action="store_true",help="Falhar em invariantes críticos")
     args=parser.parse_args()
     report=audit_data(*load_repository(args.root))
+    if args.baseline_ref and args.baseline_ref != '0'*40:
+        if not re.fullmatch(r'[a-f0-9]{40}',args.baseline_ref):
+            raise SystemExit('SHA de base inválido')
+        def old_json(path):
+            return json.loads(subprocess.check_output(['git','show',args.baseline_ref+':'+path],cwd=args.root))
+        old_library=old_json('public/library.json')
+        old_cats={x['id']:old_json('public/data/'+x['id']+'.json') for x in old_library if x['status']=='active'}
+        baseline=audit_data(old_library,old_cats)
+        report['baseline_sha']=args.baseline_ref
+        report['counts_delta']={k:report['counts_by_kind'].get(k,0)-baseline['counts_by_kind'].get(k,0) for k in sorted(set(report['counts_by_kind'])|set(baseline['counts_by_kind']))}
+        report['new_findings']=[x for x in report['findings'] if x not in baseline['findings']]
+        print('AUDIT_DELTA_JSON='+json.dumps(report['counts_delta'],sort_keys=True))
+        print('AUDIT_NEW_FINDINGS='+str(len(report['new_findings'])))
     if args.output:
         args.output.parent.mkdir(parents=True,exist_ok=True)
         args.output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf8")

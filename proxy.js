@@ -7,7 +7,7 @@ export default function proxy(request) {
     process.env.FUT_ALBUM_PASSWORD);
 
   if (state === 'authorized') {
-    if (request.method === 'GET' || request.method === 'HEAD') return next();
+    if (request.method === 'GET' || request.method === 'HEAD') return next({headers:{'X-FUT-Commit':process.env.VERCEL_GIT_COMMIT_SHA||'local'}});
     return new Response('Método não permitido.', {
       status: 405,
       headers: {

@@ -1,11 +1,6 @@
 name: FUT - Integrar Premier League 2026-27
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/ingest-premier-league.yml"
-      - "scripts/ingest_premier_league.py"
   workflow_dispatch:
 
 permissions:

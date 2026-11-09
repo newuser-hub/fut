@@ -1,12 +1,6 @@
 name: FUT - Integrar próximo lote de duas coleções
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "requests/next-batch.json"
-      - "scripts/ingest_batch.py"
-      - ".github/workflows/ingest-next-batch.yml"
   workflow_dispatch:
 
 permissions:

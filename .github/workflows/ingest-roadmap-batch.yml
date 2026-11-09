@@ -1,10 +1,6 @@
 name: FUT - Integrar lote autorizado do roteiro de 20 coleções
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "requests/roadmap-batch.json"
   workflow_dispatch:
 
 permissions:

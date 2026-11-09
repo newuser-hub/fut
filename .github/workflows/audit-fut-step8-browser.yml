@@ -1,15 +1,9 @@
-name: FUT - Etapa 8 - browser automatizado (sem deploy)
+name: FUT - Browser e acessibilidade
 on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
-    branches: [audit/fut-2026-11-08]
-    paths:
-      - .github/workflows/audit-fut-step8-browser.yml
-      - playwright.config.mjs
-      - scripts/portal-browser-fixture.mjs
-      - scripts/test-portal-baseline.spec.mjs
-      - scripts/test-portal-browser.spec.mjs
-      - src/index.html
-      - public/index.html
+    branches: [main, audit/fut-2026-11-08]
   workflow_dispatch:
     inputs:
       suite:
@@ -21,6 +15,7 @@ permissions:
   contents: read
 jobs:
   browser:
+    name: FUT / browser
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     env:

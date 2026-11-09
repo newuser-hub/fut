@@ -24,6 +24,7 @@ class CatalogWorkflowTests(unittest.TestCase):
                 self.assertIn("scripts/catalog-publish-batch.sh "+mode,text)
                 self.assertIn("contents: write",text)
                 self.assertIn("workflow_dispatch:",text)
+                self.assertNotIn("  push:",text,"Importadores exigem execução explícita")
                 self.assertNotIn("concurrency:\n  group:",text)
                 self.assertNotIn("cancel-in-progress: true",text)
                 self.assertNotIn("git push origin",text)
