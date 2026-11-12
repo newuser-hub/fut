@@ -358,6 +358,8 @@ test('lote14: progresso e favoritos independentes nas duas coleções',async({po
   const ids=['ucl-topps-2023-24','champions-of-europe-1955-2005'];
   const firstCards=[];
   for(const slug of ids){
+    await page.locator('.category-shortcut[data-category="champions"]').click();
+    await expect(page.locator('#group-champions')).toHaveAttribute('open','');
     await page.locator('[data-action="collection"][data-collection="'+slug+'"]').click();
     await expect(page.locator('.index-grid')).toBeVisible();
     await page.locator('.hero-actions [data-action="album"]').click();
