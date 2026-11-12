@@ -11,6 +11,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 BASE = "8869f58406ceac184685e95c9c4495c7bc1ce3c5"
 MAIN = "7b51023f6767a807786ecf2d03fcf7086a39712c"
 REQUEST = "requests/lote14-2026-11-12.json"
