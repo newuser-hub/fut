@@ -1,7 +1,7 @@
 {
   "version": 1,
   "createdAt": "2026-11-07",
-  "goal": 34,
+  "goal": 36,
   "batchSize": 2,
   "origin": "https://www.cromos.pt/collections",
   "policy": {
@@ -922,6 +922,36 @@
         "sections": 27,
         "evidence": "https://github.com/newuser-hub/fut/actions/runs/43317632082"
       }
+    },
+    {
+      "priority": 35,
+      "id": "futebol-2013-14",
+      "sourceId": 38,
+      "sourceSlug": "futebol-2013-14-panini",
+      "title": "Futebol 2013/14 — Panini",
+      "subtitle": "Futebol 2013–14 · Panini",
+      "year": "13/14",
+      "publisher": "Panini",
+      "category": "Portugal · Liga portuguesa",
+      "declaredMainCount": 418,
+      "description": "Futebol 2013–14 · Panini; 418 cromos principais e 54 extras previstos. Auditoria integral de imagens, números e variantes.",
+      "sourceUrl": "https://www.cromos.pt/collection/38/futebol-2013-14-panini",
+      "imageAudit": "pending"
+    },
+    {
+      "priority": 36,
+      "id": "futebol-2012-13",
+      "sourceId": 57,
+      "sourceSlug": "futebol-2012-2013-panini",
+      "title": "Futebol 2012/13 — Panini",
+      "subtitle": "Futebol 2012–2013 · Panini",
+      "year": "12/13",
+      "publisher": "Panini",
+      "category": "Portugal · Liga portuguesa",
+      "declaredMainCount": 426,
+      "description": "Futebol 2012–2013 · Panini; 426 cromos principais previstos. Imagens, secções e extras sujeitos a auditoria integral.",
+      "sourceUrl": "https://www.cromos.pt/collection/57/futebol-2012-2013-panini",
+      "imageAudit": "pending"
     }
   ],
   "lastReviewedAt": "2026-11-12",
