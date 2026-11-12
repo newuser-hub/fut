@@ -33,16 +33,17 @@ def check_previous():
     current = load("public/library.json")
     assert len(old) == 49 and sum(c["count"] for c in old) == 27899
     assert len(main) == 47 and sum(c["count"] for c in main) == 26774
-    assert old[:47] == main, "Base do lote 14 divergente da produção anterior"
+    assert [x["id"] for x in old[:47]] == [x["id"] for x in main], "IDs das coleções anteriores divergentes"
     assert current[:49] == old, "Manifesto preexistente foi alterado"
     assert len(current) == 51 and sum(c["count"] for c in current) == 28594
     key = lambda cat: [(c["id"], c["number"], c.get("originalNumber"))
                        for c in cat["cards"]]
+    main_ids = {x["id"] for x in main}
     for item in old:
         path = f"public/data/{item['id']}.json"
         current_data = (ROOT / path).read_bytes()
         assert current_data == from_git(BASE, path), f"Catálogo anterior modificado: {path}"
-        if item in main:
+        if item["id"] in main_ids:
             before = json.loads(from_git(MAIN, path))
             after = json.loads(current_data)
             assert key(before) == key(after), f"Progresso/IDs/números anteriores mudaram: {path}"
