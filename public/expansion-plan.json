@@ -936,7 +936,17 @@
       "declaredMainCount": 418,
       "description": "Futebol 2013–14 · Panini; 418 cromos principais e 54 extras previstos. Auditoria integral de imagens, números e variantes.",
       "sourceUrl": "https://www.cromos.pt/collection/38/futebol-2013-14-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-12",
+        "positions": 472,
+        "principal": 418,
+        "principalWithImage": 418,
+        "verifiedImages": 472,
+        "missingImages": 0,
+        "sections": 25,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/43321943485"
+      }
     },
     {
       "priority": 36,
@@ -951,7 +961,17 @@
       "declaredMainCount": 426,
       "description": "Futebol 2012–2013 · Panini; 426 cromos principais previstos. Imagens, secções e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/57/futebol-2012-2013-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-12",
+        "positions": 426,
+        "principal": 426,
+        "principalWithImage": 426,
+        "verifiedImages": 426,
+        "missingImages": 0,
+        "sections": 19,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/43321943485"
+      }
     }
   ],
   "lastReviewedAt": "2026-11-12",
@@ -1430,6 +1450,42 @@
           "missingImages": 0,
           "sections": 27,
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/43317632082"
+        }
+      ]
+    },
+    {
+      "batch": "lote-16",
+      "authorized": [
+        38,
+        57
+      ],
+      "integrated": [
+        "futebol-2013-14",
+        "futebol-2012-13"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/43321943485",
+      "details": [
+        {
+          "id": "futebol-2013-14",
+          "auditedAt": "2026-11-12",
+          "positions": 472,
+          "principal": 418,
+          "principalWithImage": 418,
+          "verifiedImages": 472,
+          "missingImages": 0,
+          "sections": 25,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/43321943485"
+        },
+        {
+          "id": "futebol-2012-13",
+          "auditedAt": "2026-11-12",
+          "positions": 426,
+          "principal": 426,
+          "principalWithImage": 426,
+          "verifiedImages": 426,
+          "missingImages": 0,
+          "sections": 19,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/43321943485"
         }
       ]
     }

@@ -1,0 +1,297 @@
+{
+  "batch": "lote-16",
+  "checkedAt": "2026-11-12T22:41:16.598480+00:00",
+  "baselineLote15": "8320e996470332388f4ed956e0a11984d3ff6e60",
+  "baselineMain": "7b51023f6767a807786ecf2d03fcf7086a39712c",
+  "runId": "43321943485",
+  "legacyCollectionsUnchanged": 51,
+  "legacyPositionsUnchanged": 28594,
+  "totals": {
+    "collections": 53,
+    "positions": 29492
+  },
+  "collections": [
+    {
+      "id": "futebol-2013-14",
+      "sourceId": 38,
+      "sourceUrl": "https://www.cromos.pt/collection/38/futebol-2013-14-panini",
+      "positions": 472,
+      "principal": 418,
+      "extras": 54,
+      "principalWithImage": 418,
+      "extrasWithImage": 54,
+      "verifiedImages": 472,
+      "missingImages": 0,
+      "sections": 25,
+      "emptyNamesOrSections": 0,
+      "duplicatedCardIds": 0,
+      "duplicatedNavigationNumbers": 0,
+      "missingOriginalNumbersExtras": [],
+      "duplicateOriginalNumbers": {},
+      "duplicateNames": {
+        "Adrien Silva": [
+          "futebol-2013-14-17225",
+          "futebol-2013-14-17307"
+        ],
+        "Alex Sandro": [
+          "futebol-2013-14-17180",
+          "futebol-2013-14-17297"
+        ],
+        "André Martins": [
+          "futebol-2013-14-17228",
+          "futebol-2013-14-17308"
+        ],
+        "Artur": [
+          "futebol-2013-14-17006",
+          "futebol-2013-14-17100"
+        ],
+        "Buval": [
+          "futebol-2013-14-16957",
+          "futebol-2013-14-42243"
+        ],
+        "Caetano": [
+          "futebol-2013-14-17167",
+          "futebol-2013-14-42234"
+        ],
+        "Danilo": [
+          "futebol-2013-14-17175",
+          "futebol-2013-14-17295"
+        ],
+        "Del Valle": [
+          "futebol-2013-14-17208",
+          "futebol-2013-14-42244"
+        ],
+        "Diego Capel": [
+          "futebol-2013-14-17229",
+          "futebol-2013-14-17309"
+        ],
+        "Eliaquim Mangala": [
+          "futebol-2013-14-17176",
+          "futebol-2013-14-17296"
+        ],
+        "Emblema": [
+          "futebol-2013-14-16940",
+          "futebol-2013-14-16961",
+          "futebol-2013-14-16982",
+          "futebol-2013-14-17003",
+          "futebol-2013-14-17024",
+          "futebol-2013-14-17045",
+          "futebol-2013-14-17066",
+          "futebol-2013-14-17087",
+          "futebol-2013-14-17108",
+          "futebol-2013-14-17129",
+          "futebol-2013-14-17150",
+          "futebol-2013-14-17171",
+          "futebol-2013-14-17192",
+          "futebol-2013-14-17213",
+          "futebol-2013-14-17234",
+          "futebol-2013-14-17255"
+        ],
+        "Enzo Pérez": [
+          "futebol-2013-14-17016",
+          "futebol-2013-14-17289"
+        ],
+        "Equipa": [
+          "futebol-2013-14-16941",
+          "futebol-2013-14-16962",
+          "futebol-2013-14-16983",
+          "futebol-2013-14-17004",
+          "futebol-2013-14-17025",
+          "futebol-2013-14-17046",
+          "futebol-2013-14-17067",
+          "futebol-2013-14-17088",
+          "futebol-2013-14-17109",
+          "futebol-2013-14-17130",
+          "futebol-2013-14-17151",
+          "futebol-2013-14-17172",
+          "futebol-2013-14-17193",
+          "futebol-2013-14-17214",
+          "futebol-2013-14-17235",
+          "futebol-2013-14-17256"
+        ],
+        "Eric Dier": [
+          "futebol-2013-14-17218",
+          "futebol-2013-14-17304"
+        ],
+        "Ezequiel Garay": [
+          "futebol-2013-14-17010",
+          "futebol-2013-14-17286"
+        ],
+        "Fernando": [
+          "futebol-2013-14-17181",
+          "futebol-2013-14-17298"
+        ],
+        "Helton": [
+          "futebol-2013-14-17174",
+          "futebol-2013-14-17294"
+        ],
+        "Jackson Martínez": [
+          "futebol-2013-14-17190",
+          "futebol-2013-14-17302"
+        ],
+        "Jefferson": [
+          "futebol-2013-14-17222",
+          "futebol-2013-14-17305"
+        ],
+        "Josué": [
+          "futebol-2013-14-17185",
+          "futebol-2013-14-17239"
+        ],
+        "Juan Quintero": [
+          "futebol-2013-14-17184",
+          "futebol-2013-14-17301"
+        ],
+        "Lazar Markovic": [
+          "futebol-2013-14-17019",
+          "futebol-2013-14-17287"
+        ],
+        "Licá": [
+          "futebol-2013-14-17188",
+          "futebol-2013-14-17300"
+        ],
+        "Lima": [
+          "futebol-2013-14-17022",
+          "futebol-2013-14-17293"
+        ],
+        "Lucho González": [
+          "futebol-2013-14-17183",
+          "futebol-2013-14-17299"
+        ],
+        "Luisão": [
+          "futebol-2013-14-17009",
+          "futebol-2013-14-17285"
+        ],
+        "Luís Silva": [
+          "futebol-2013-14-17037",
+          "futebol-2013-14-42233"
+        ],
+        "Moreno": [
+          "futebol-2013-14-17241",
+          "futebol-2013-14-42229"
+        ],
+        "Nemanja Matic": [
+          "futebol-2013-14-17013",
+          "futebol-2013-14-17288"
+        ],
+        "Nicolas Gaitán": [
+          "futebol-2013-14-17017",
+          "futebol-2013-14-17292"
+        ],
+        "Ricardo": [
+          "futebol-2013-14-16943",
+          "futebol-2013-14-17132",
+          "futebol-2013-14-17156",
+          "futebol-2013-14-42217"
+        ],
+        "Rui Patrício": [
+          "futebol-2013-14-17216",
+          "futebol-2013-14-17303"
+        ],
+        "Rúben Amorim": [
+          "futebol-2013-14-17015",
+          "futebol-2013-14-17290"
+        ],
+        "Rúben Ribeiro": [
+          "futebol-2013-14-17164",
+          "futebol-2013-14-42246"
+        ],
+        "Salin": [
+          "futebol-2013-14-17195",
+          "futebol-2013-14-42236"
+        ],
+        "Salvador Agra": [
+          "futebol-2013-14-17041",
+          "futebol-2013-14-42223"
+        ],
+        "Salvio": [
+          "futebol-2013-14-17018",
+          "futebol-2013-14-17291"
+        ],
+        "William Carvalho": [
+          "futebol-2013-14-17223",
+          "futebol-2013-14-17306"
+        ],
+        "Wilson Eduardo": [
+          "futebol-2013-14-17230",
+          "futebol-2013-14-17310"
+        ]
+      },
+      "duplicateImageHashes": {},
+      "missing": []
+    },
+    {
+      "id": "futebol-2012-13",
+      "sourceId": 57,
+      "sourceUrl": "https://www.cromos.pt/collection/57/futebol-2012-2013-panini",
+      "positions": 426,
+      "principal": 426,
+      "extras": 0,
+      "principalWithImage": 426,
+      "extrasWithImage": 0,
+      "verifiedImages": 426,
+      "missingImages": 0,
+      "sections": 19,
+      "emptyNamesOrSections": 0,
+      "duplicatedCardIds": 0,
+      "duplicatedNavigationNumbers": 0,
+      "missingOriginalNumbersExtras": [],
+      "duplicateOriginalNumbers": {},
+      "duplicateNames": {
+        "Emblema": [
+          "futebol-2012-13-25045",
+          "futebol-2012-13-25066",
+          "futebol-2012-13-25086",
+          "futebol-2012-13-25110",
+          "futebol-2012-13-25132",
+          "futebol-2012-13-25152",
+          "futebol-2012-13-25174",
+          "futebol-2012-13-25196",
+          "futebol-2012-13-25216",
+          "futebol-2012-13-25238",
+          "futebol-2012-13-25259",
+          "futebol-2012-13-25279",
+          "futebol-2012-13-25300",
+          "futebol-2012-13-25321",
+          "futebol-2012-13-25344",
+          "futebol-2012-13-25366"
+        ],
+        "Equipa": [
+          "futebol-2012-13-25044",
+          "futebol-2012-13-25065",
+          "futebol-2012-13-25085",
+          "futebol-2012-13-25109",
+          "futebol-2012-13-25131",
+          "futebol-2012-13-25151",
+          "futebol-2012-13-25173",
+          "futebol-2012-13-25195",
+          "futebol-2012-13-25215",
+          "futebol-2012-13-25237",
+          "futebol-2012-13-25258",
+          "futebol-2012-13-25278",
+          "futebol-2012-13-25299",
+          "futebol-2012-13-25320",
+          "futebol-2012-13-25343",
+          "futebol-2012-13-25365"
+        ],
+        "Keita": [
+          "futebol-2012-13-25056",
+          "futebol-2012-13-25235"
+        ],
+        "Nivaldo": [
+          "futebol-2012-13-25049",
+          "futebol-2012-13-25305"
+        ],
+        "Ricardo": [
+          "futebol-2012-13-25046",
+          "futebol-2012-13-25239",
+          "futebol-2012-13-25263",
+          "futebol-2012-13-25361"
+        ]
+      },
+      "duplicateImageHashes": {},
+      "missing": []
+    }
+  ],
+  "individualImageChecks": "HTTP GET, MIME, bytes and SHA-256 persisted on every available card",
+  "imageVisualMatching": "Not an exhaustive visual identification of photographed players"
+}
