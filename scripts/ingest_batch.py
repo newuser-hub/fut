@@ -133,24 +133,29 @@ def fetch_catalog(item:dict, fixture_dir:Path|None=None, prefetched:Path|None=No
 
     def verify(c):
         if not c["image"]:
-            return None
+            return {"ok":False,"error":"NO_SOURCE_IMAGE_PATH"}
         try:
             data,mime=request_bytes(c["image"])
             if not mime.startswith("image/") or len(data)<1500:
-                return None
-            return len(data),hashlib.sha256(data).hexdigest()
-        except Exception:
-            # Um catálogo pode incluir cartas extra sem fotografia pública.
-            # Preservamos o registo e assinalamos a ausência da imagem.
-            return None
+                return {"ok":False,"httpStatus":200,"mime":mime,
+                        "error":f"INVALID_MIME_OR_SIZE ({len(data)} bytes)"}
+            return {"ok":True,"httpStatus":200,"mime":mime,
+                    "bytes":len(data),"sha256":hashlib.sha256(data).hexdigest()}
+        except Exception as exc:
+            # Preservar a lacuna e a sua origem; nunca publicar bytes não verificados.
+            return {"ok":False,"error":str(exc)[:180]}
     print(f"Validating {len(cards)} images for {slug}...",flush=True)
     with ThreadPoolExecutor(max_workers=5) as pool:
         for c,result in zip(cards,pool.map(verify,cards)):
-            if result:
-                size,digest=result
-                c.update(available=True,bytes=size,sha256=digest)
+            if result["ok"]:
+                c.update(available=True,bytes=result["bytes"],sha256=result["sha256"],
+                         mime=result["mime"],httpStatus=result["httpStatus"])
             else:
-                c.update(available=False,bytes=0,sha256=None,image=None)
+                if c["image"]:
+                    c["sourceImage"]=c["image"]
+                c.update(available=False,bytes=0,sha256=None,image=None,
+                         httpStatus=result.get("httpStatus"),mime=result.get("mime"),
+                         imageAuditError=result["error"])
     principal=[c for c in cards if not c["optional"]]
     principal_with_image=sum(c["available"] for c in principal)
     # O Cromos.pt não publica imagens de todas as cartas de raridade elevada.
