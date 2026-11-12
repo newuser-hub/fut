@@ -104,11 +104,11 @@ def metrics() -> dict:
     assert totals["positions"] == totals["cardsWithSHA"] + totals["previewLinksUnverified"] + totals["missingImagePositions"]
     assert totals["cardsWithImageURL"] == totals["cardsWithSHA"] + totals["previewLinksUnverified"]
     assert totals["totalCoversWithURL"] == len(manifest), "Uma das capas não tem URL"
-    assert len(manifest) == 51 and totals["positions"] == 28594, "Inventário do lote 15 incompatível"
-    assert totals["cardsWithSHA"] >= 25835 and totals["previewLinksUnverified"] == 0 and totals["missingImagePositions"] <= 2064 + 695, "Metadados de imagens do lote 15 inválidos"
+    assert len(manifest) == 53 and totals["positions"] == 29492, "Inventário do lote 16 incompatível"
+    assert totals["cardsWithSHA"] >= 26529 and totals["previewLinksUnverified"] == 0 and totals["missingImagePositions"] <= 2065 + 898, "Metadados de imagens do lote 16 inválidos"
     distribution = {key: sum(row["category"] == key for row in records) for key, _ in CATEGORIES}
-    assert distribution == dict(portugal=12, selecoes=25, champions=7, outros=7)
-    assert len(plan["collections"]) == plan["goal"] == 34
+    assert distribution == dict(portugal=14, selecoes=25, champions=7, outros=7)
+    assert len(plan["collections"]) == plan["goal"] == 36
     return {
         "version": 2, "snapshotAt": SNAPSHOT, "referenceMainCommit": BASE_MAIN,
         "origin": ["public/library.json", "public/data/*.json", "public/expansion-plan.json"],
