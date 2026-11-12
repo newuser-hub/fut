@@ -379,6 +379,8 @@ test('lote14: progresso e favoritos independentes nas duas coleções',async({po
   const keys=await page.evaluate(()=>Object.keys(localStorage).filter(k=>k.endsWith('.progress.v1')));
   expect(keys).toContain('fut.album.'+ids[0]+'.progress.v1');
   expect(keys).toContain('fut.album.'+ids[1]+'.progress.v1');
+  await page.locator('.category-shortcut[data-category="champions"]').click();
+  await expect(page.locator('#group-champions')).toHaveAttribute('open','');
   await page.locator('[data-action="collection"][data-collection="'+ids[0]+'"]').click();
   await page.locator('.hero-actions [data-action="album"]').click();
   await expect(page.locator('.flip-card').first()).toHaveAttribute('aria-pressed','true');
