@@ -1,0 +1,60 @@
+name: FUT - Browser e acessibilidade
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main, audit/fut-2026-11-08]
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: 'baseline ou regression'
+        type: choice
+        options: [baseline, regression]
+        default: regression
+permissions:
+  contents: read
+jobs:
+  browser:
+    name: FUT / browser
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      FUT_STORAGE_BACKEND: ''
+      FUT_DRIVE_OAUTH_CLIENT_ID: ''
+      FUT_DRIVE_SERVICE_ACCOUNT_JSON: ''
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Instalação reproduzível
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Build local sem publicação
+        run: |
+          npm run build
+          cmp src/index.html public/index.html
+          git diff --exit-code -- public/index.html
+      - name: Instalar Chromium e WebKit de automação
+        run: npx playwright install --with-deps chromium webkit
+      - name: Testar as seis combinações de motor e largura
+        shell: bash
+        env:
+          SUITE: ${{ inputs.suite || 'regression' }}
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          if [[ "$SUITE" == "regression" ]]; then
+            npx playwright test scripts/test-portal-browser.spec.mjs
+          else
+            npx playwright test scripts/test-portal-baseline.spec.mjs
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fut-stage8-browser-artifacts
+          path: artifacts/
+          retention-days: 14

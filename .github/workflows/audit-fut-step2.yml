@@ -1,0 +1,72 @@
+name: FUT - Auditoria 2026-11-08 etapa 2 (sem deploy)
+on:
+  push:
+    branches:
+      - audit/fut-2026-11-08
+    paths:
+      - .github/workflows/audit-fut-step2.yml
+      - src/index.html
+      - public/index.html
+      - scripts/test-frontend-progress.mjs
+permissions:
+  contents: read
+jobs:
+  frontend-progress:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validar base e isolamento de dados
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor d5fb60eec0801808ec2946385a14c8c9226df54d HEAD
+          git diff --quiet 94ad1452696eebe70e87dc3e5812b6bdeac0fef5 HEAD -- public/data/ public/library.json public/expansion-plan.json archives/ requests/
+          echo 'PASS: catálogos, manifestos e pedidos imutáveis desde etapa 7; preservada correção Salis da etapa 4'
+      - name: Build e igualdade dos HTML
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run build
+          cmp src/index.html public/index.html
+          git diff --exit-code -- public/index.html
+          echo 'PASS: build determinístico e frontend sincronizado'
+      - name: Regressões de concorrência e importação de progresso
+        run: node --test scripts/test-frontend-progress.mjs
+      - name: Testes de grupos e progresso por colecao
+        run: node scripts/verify-portal-groups.mjs
+      - name: Integridade dos 47 catálogos
+        run: python3 scripts/verify_catalogs.py
+      - name: Validar roteiro e lote 13
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_expansion_plan.py
+          python3 scripts/verify_audited_batch.py requests/roadmap-batch.json
+      - name: Regressão do backend Drive com mocks
+        run: node --test scripts/test-drive-storage.mjs
+      - name: Check final de conservação
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          manifest=json.loads(Path('public/library.json').read_text(encoding='utf-8'))
+          active=[x for x in manifest if x['status']=='active']
+          assert len(active)==47
+          assert sum(x['count'] for x in active)==26774
+          assert len({x['id'] for x in manifest})==len(manifest)
+          print('PASS: 47 coleções, 26.774 posições, IDs únicos')
+          PY
+          git status --porcelain
+          echo 'PASS: nenhum merge, deploy ou escrita em catálogos'

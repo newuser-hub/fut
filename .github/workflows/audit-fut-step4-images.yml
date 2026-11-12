@@ -1,0 +1,181 @@
+name: FUT - Auditoria 2026-11-08 etapa 4 (HTTP read-only)
+on:
+  push:
+    branches:
+      - audit/fut-2026-11-08
+    paths:
+      - .github/workflows/audit-fut-step4-images.yml
+      - scripts/audit_images_http.py
+      - scripts/test_audit_images.py
+  workflow_dispatch:
+    inputs:
+      shard:
+        description: 'Numero do shard 0-9, ou all para todos (2500 URLs/shard)'
+        required: false
+        default: all
+        type: string
+      resume_run_id:
+        description: 'ID do run anterior para recuperar JSONL (opcional)'
+        required: false
+        default: ''
+        type: string
+      retry_transient:
+        description: 'Repetir erros de rede e HTTP transitórios do checkpoint'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  validate:
+    name: Build, integridade, testes e preservacao
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build e frontend
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run build
+          cmp src/index.html public/index.html
+          git diff --exit-code -- public/index.html
+      - name: Scanner e testes de integridade
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -m unittest scripts.test_audit_images scripts.test_audit_catalogues -v
+          python3 scripts/verify_catalogs.py
+          python3 scripts/verify_expansion_plan.py
+          python3 scripts/verify_audited_batch.py requests/roadmap-batch.json
+          node scripts/verify-portal-groups.mjs
+          node --test scripts/test-frontend-progress.mjs
+          node --test scripts/test-drive-storage.mjs
+          python3 scripts/audit_images_http.py --inventory-only
+      - name: Integridade da base e da correcao de Salis
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          library=json.loads(Path("public/library.json").read_text())
+          active=[x for x in library if x["status"]=="active"]
+          assert len(active)==47 and sum(x["count"] for x in active)==26774
+          cat=json.loads(Path("public/data/ligue-1-foot-2025-26.json").read_text())
+          salis=next(x for x in cat["cards"] if x["id"]=="ligue-1-foot-2025-26-1355840")
+          kojo=next(x for x in cat["cards"] if x["id"]=="ligue-1-foot-2025-26-1355839")
+          assert (salis["number"],salis["name"],salis["sourceId"])==("383","Salis Abdul Samed",1355840)
+          assert not salis["available"] and salis["image"] is None and salis["sha256"] is None and salis["bytes"]==0
+          assert kojo["available"] and kojo["sha256"]=="333af17f87bbb8d3574bd001840f9faf69965f3dd5218373b1bb6eaa553d851b"
+          assert cat["imageAudit"]["available"]==547 and cat["imageAudit"]["missing"]==9
+          print("PASS: 47/26774 e cromo Salis preservado sem imagem errada")
+          PY
+          git diff --exit-code -- .
+          test -z "$(git status --porcelain --untracked-files=no)"
+
+  priority:
+    name: Oito pares regionais, cinco previews e 47 capas
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: GET prioritario, sem alterar catalogos
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/fut-image-priority"
+          python3 scripts/audit_images_http.py --priority \
+            --output "$RUNNER_TEMP/fut-image-priority/results.jsonl" \
+            --workers 4 --timeout 9 --retries 2 --max-seconds 1080
+      - name: Guardar resultados mesmo apos erro ou timeout
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fut-etapa4-priority
+          path: |
+            ${{ runner.temp }}/fut-image-priority/results.jsonl
+            ${{ runner.temp }}/fut-image-priority/summary.json
+          if-no-files-found: warn
+          retention-days: 30
+
+  bulk:
+    name: Shard ${{ matrix.shard }} / 9 — GET MIME bytes SHA-256
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 43
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recuperar checkpoint anterior quando especificado
+        if: ${{ (github.event_name == 'push' || inputs.shard == 'all' || inputs.shard == format('{0}', matrix.shard)) && inputs.resume_run_id != '' }}
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ inputs.resume_run_id }}
+          github-token: ${{ github.token }}
+          name: fut-etapa4-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/previous-shard
+      - name: Preparar argumentos de retoma
+        if: ${{ github.event_name == 'push' || inputs.shard == 'all' || inputs.shard == format('{0}', matrix.shard) }}
+        id: resume
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/fut-image-shard"
+          if test -f "$RUNNER_TEMP/previous-shard/results.jsonl"; then
+            echo "resume=--resume $RUNNER_TEMP/previous-shard/results.jsonl" >> "$GITHUB_OUTPUT"
+          else
+            echo "resume=" >> "$GITHUB_OUTPUT"
+          fi
+      - name: GET HTTP de 2500 referencias, estado retomavel
+        if: ${{ github.event_name == 'push' || inputs.shard == 'all' || inputs.shard == format('{0}', matrix.shard) }}
+        shell: bash
+        env:
+          RETRY_TRANSIENT: ${{ inputs.retry_transient }}
+        run: |
+          set -euo pipefail
+          args=()
+          if test -n "${{ steps.resume.outputs.resume }}"; then
+            args=(${{ steps.resume.outputs.resume }})
+          fi
+          if test "${RETRY_TRANSIENT:-false}" = "true"; then
+            args+=(--retry-transient)
+          fi
+          python3 scripts/audit_images_http.py \
+            --offset "$(( ${{ matrix.shard }} * 2500 ))" --limit 2500 \
+            --workers 4 --timeout 9 --retries 2 --max-seconds 2250 \
+            --output "$RUNNER_TEMP/fut-image-shard/results.jsonl" "${args[@]}"
+      - name: Guardar checkpoint JSONL mesmo incompleto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fut-etapa4-shard-${{ matrix.shard }}
+          path: |
+            ${{ runner.temp }}/fut-image-shard/results.jsonl
+            ${{ runner.temp }}/fut-image-shard/summary.json
+          if-no-files-found: warn
+          retention-days: 30

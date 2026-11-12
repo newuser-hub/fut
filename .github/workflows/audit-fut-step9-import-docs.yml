@@ -1,0 +1,79 @@
+name: FUT - Etapa 9 - importar estrutura documental histórica e recalcular
+on:
+  push:
+    branches: [audit/fut-2026-11-08]
+    paths:
+      - .github/workflows/audit-fut-step9-import-docs.yml
+permissions:
+  contents: write
+jobs:
+  docs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: audit/fut-2026-11-08
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verificar PR #1 e importar APENAS documentação
+        shell: bash
+        run: |
+          set -euo pipefail
+          PR1_SHA='88276ade9db577e9f81df9252f5adf56f85a163a'
+          git fetch --no-tags origin docs/reorganizacao-categorias-2026-11-08
+          test "$(git rev-parse FETCH_HEAD)" = "$PR1_SHA"
+          while IFS= read -r file; do
+            test -n "$file" || continue
+            mkdir -p "$(dirname "$file")"
+            git show "$PR1_SHA:$file" > "$file"
+          done <<'FILES'
+          README.md
+          docs/01-gestao/README-original-2026-11-08.md
+          docs/01-gestao/README.md
+          docs/01-gestao/CHECKPOINT.md
+          docs/01-gestao/DECISOES.md
+          docs/02-colecoes/README.md
+          docs/03-catalogos/README.md
+          docs/04-imagens/README.md
+          docs/05-funcionalidades/README.md
+          docs/06-arquitetura/README.md
+          docs/07-seguranca/README.md
+          docs/08-github-vercel/README.md
+          docs/09-auditorias/README.md
+          docs/10-backlog/README.md
+          docs/CLASSIFICACAO.md
+          docs/HISTORICO.md
+          docs/MANUTENCAO.md
+          docs/README.md
+          docs/index.json
+          docs/source-map.json
+          FILES
+          # O README original de 29 coleções e source-map antigo são HISTÓRICOS,
+          # preservados integralmente antes das atualizações editoriais.
+          git diff --quiet 75b56532a4d95230366e68db3e7241029c7c1e52 HEAD -- \
+            public/data public/library.json public/expansion-plan.json src/index.html \
+            public/index.html proxy.js api lib
+          echo 'PASS: material documental PR #1 preservado; dados intactos'
+      - name: Recalcular inventário e métricas sem rede
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/refresh_documentation.py --write
+          python3 scripts/refresh_documentation.py --check
+          python3 scripts/verify_catalogs.py
+          python3 scripts/verify_expansion_plan.py
+      - name: Commit exclusivo da documentação na branch de auditoria
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md docs/
+          test -z "$(git diff --cached --name-only | grep -Ev '^(README.md|docs/)' || true)"
+          test -f docs/01-gestao/README-original-2026-11-08.md
+          test -f docs/metrics-current.json
+          git commit -m 'docs(audit): aproveitar organização PR1 e gerar inventário atual de 47 coleções'
+          git push origin HEAD:refs/heads/audit/fut-2026-11-08

@@ -1,161 +1,233 @@
 #!/usr/bin/env node
 /**
- * FUT -> arquivo privado Google Drive. Execute a partir da raiz do repositório.
+ * FUT -> Drive, geração imutável.
  *
- * 1) Sem --images: arquiva os catálogos JSON no Drive, mas NÃO publica o manifesto.
- * 2) Com --images: copia todas as imagens disponíveis, verifica hash, publica
- *    os 29 catálogos e só no fim publica library.json como ponto de ativação.
+ * --plan                    Só lê os JSON locais; sem rede e sem credenciais.
+ * --prepare --generation X  Escreve apenas staging e checkpoints isolados.
+ * --validate --generation X Relê e valida staging, hashes e TODOS os bytes.
+ * --promote --generation X --expected-active none|Y
+ *                           Só altera fut-active.json depois de revalidar.
+ * --resume --generation X   Continua checkpoints ou valida geração selada.
  *
- * Requer FUT_DRIVE_SERVICE_ACCOUNT_JSON, FUT_DRIVE_CATALOGS_FOLDER_ID e
- * FUT_DRIVE_IMAGES_FOLDER_ID. O folder precisa de permissão de escrita para
- * o client_email da conta de serviço. Não comita segredos ou imagens.
+ * Escritas exigem --confirm-drive-write. Nunca define FUT_STORAGE_BACKEND.
+ * Nunca executar na auditoria com credenciais ou dados reais.
  */
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { basename, join } from 'node:path';
+import { URL, pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
 import {
-  driveConfigured, folderIds, findFile, readRawFile, putFile, ensureFolder
+  driveConfigured, folderIds, findFile, readJson, readImage, putFile, ensureFolder
 } from '../lib/drive-store.js';
+import {
+  assertGeneration, digest, prepareGeneration, validateGeneration,
+  promoteGeneration, recoverGeneration, readActivePointer
+} from '../lib/drive-migration.js';
 
-const withImages=process.argv.includes('--images');
-const onlySlugArg=process.argv.indexOf('--slug');
-const onlySlug=onlySlugArg>=0 ? process.argv[onlySlugArg+1] : null;
-if(!driveConfigured()){
-  throw Error('Defina FUT_DRIVE_SERVICE_ACCOUNT_JSON, FUT_DRIVE_CATALOGS_FOLDER_ID e FUT_DRIVE_IMAGES_FOLDER_ID');
-}
-if(onlySlug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(onlySlug))throw Error('Slug inválido');
-const folder=folderIds();
-const library=JSON.parse(await readFile('public/library.json','utf8'));
-const active=library.filter(x=>x.status==='active');
-if(active.length<2||new Set(active.map(x=>x.id)).size!==active.length)
-  throw Error('Manifesto local inválido');
-
-const allowedHosts = new Set([
+const hostAllowlist = new Set([
   'www.cromos.pt','cromos.pt','www.stickersone.com','stickersone.com',
   'www.topps.com','topps.com','images.topps.com','cdn.shopify.com',
   'www.paniniamerica.net','paniniamerica.net'
 ]);
-function remoteUrl(value){
-  const url=new URL(value);
-  if(url.protocol!=='https:'||!allowedHosts.has(url.hostname)||
-     url.username||url.password||url.port) throw Error('Origem de imagem não autorizada: '+url.hostname);
+
+// Exceção EXATA, somente para a capa Premier League 2026/27. Não permite
+// outras páginas ou imagens de blogger.googleusercontent.com.
+export const PREMIER_LEAGUE_COVER =
+  'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhGPRMcAjAJmxKel9GctoPMiKq-TLsHLjgZutUo4IRtPrjHP8GyMbIU90CzYfhtQa8JwnuI2pmQ53uDti8To5yrRz3mVN-IO8xChpVWsbLtDS8bkskMTBt6ff-gNg6pr0IVPd1DwQ7lozwwrGFe3xrmkirnRfhdgT7wCcVXVhuYfTdyCAADi_BqP0zV9Fs/s1600/2026-27%20Topps%20PL%20Flagship%20-%20Binder1aa.jpg';
+
+const MIME_EXT = Object.freeze({
+  'image/jpeg':'.jpg','image/png':'.png','image/webp':'.webp',
+  'image/gif':'.gif','image/avif':'.avif'
+});
+const transient = new Set([408,425,429,500,502,503,504]);
+
+export function authorizeSource(address,{kind,collection}) {
+  let url;
+  try{url=new URL(address);}catch{throw Error('URL de origem inválido');}
+  if(url.protocol!=='https:'||url.username||url.password||url.port||
+     url.hash)throw Error('URL de origem não autorizado');
+  const standard=hostAllowlist.has(url.hostname);
+  const exactCover=(kind==='cover'&&
+    collection==='premier-league-flagship-2026-27'&&
+    url.href===PREMIER_LEAGUE_COVER);
+  if(!standard&&!exactCover)
+    throw Error('Host ou caminho de origem não autorizado');
   return url.href;
 }
-function contentType(value){
-  const t=value.split(';')[0].toLowerCase();
-  if(!['image/jpeg','image/png','image/webp','image/gif','image/avif'].includes(t))
-    throw Error('Content-Type inesperado: '+t);
-  return t;
+
+export function assertImageType(rawType) {
+  const mime=String(rawType||'').toLowerCase().split(';')[0].trim();
+  if(!Object.hasOwn(MIME_EXT,mime))throw Error('MIME de imagem não permitido');
+  return mime;
 }
-async function downloadImage(address,hash){
-  const url=remoteUrl(address);
-  for(let attempt=0;attempt<4;attempt++){
+
+export async function boundedImage(response,maxBytes=6_000_000) {
+  const header=response.headers?.get('content-length');
+  if(header!==null&&header!==undefined) {
+    const n=Number(header);
+    if(!Number.isSafeInteger(n)||n<0||n>maxBytes)
+      throw Error('Imagem: content-length inválido ou excessivo');
+  }
+  if(!response.body?.getReader)throw Error('Imagem sem corpo streaming');
+  const reader=response.body.getReader();
+  const parts=[];
+  let len=0;
+  try{
+    while(true){
+      const {done,value}=await reader.read();
+      if(done)break;
+      len+=value.byteLength;
+      if(len>maxBytes)throw Error('Imagem excede limite de leitura');
+      parts.push(Buffer.from(value));
+    }
+  }catch(e){
+    await reader.cancel().catch(()=>{});
+    throw e;
+  }finally{reader.releaseLock();}
+  if(len<1200)throw Error('Imagem demasiado pequena ou placeholder');
+  return Buffer.concat(parts,len);
+}
+
+export async function downloadImage(address,ctx,{
+  fetcher=fetch,retries=2,pause=ms=>new Promise(r=>setTimeout(r,ms))
+}={}) {
+  const original=authorizeSource(address,ctx);
+  for(let attempt=0;attempt<=retries;attempt++){
+    let status=null;
     try{
-      const r=await fetch(url,{headers:{'User-Agent':'Mozilla/5.0'},redirect:'follow',
-        signal:AbortSignal.timeout(25000)});
-      if(!r.ok)throw Error('HTTP '+r.status+' '+url);
-      const finalUrl=new URL(r.url);
-      if(!allowedHosts.has(finalUrl.hostname))throw Error('Redirecionamento não permitido');
-      const mime=contentType(r.headers.get('Content-Type')||'');
-      const bytes=Buffer.from(await r.arrayBuffer());
-      if(bytes.length<1200||bytes.length>6_000_000)throw Error('Tamanho de imagem inválido');
-      const digest=createHash('sha256').update(bytes).digest('hex');
-      if(hash && /^[a-f0-9]{64}$/i.test(hash) && hash.toLowerCase()!==digest)
-        throw Error('SHA-256 diferente do catálogo: '+url);
-      return {bytes,mime,digest};
-    }catch(e){
-      if(attempt===3)throw e;
-      await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)));
+      let current=original;
+      let hops=0;
+      while(true){
+        const r=await fetcher(current,{
+          method:'GET',redirect:'manual',
+          headers:{'Accept':'image/jpeg,image/png,image/webp,image/gif,image/avif'},
+          signal:AbortSignal.timeout(16000)
+        });
+        status=r.status;
+        if([301,302,303,307,308].includes(status)){
+          if(++hops>4)throw Error('Imagem: demasiados redirecionamentos');
+          const location=r.headers.get('location');
+          if(!location)throw Error('Imagem: redirecionamento sem destino');
+          const next=new URL(location,current).href;
+          current=authorizeSource(next,ctx); // validar CADA salto
+          await r.body?.cancel?.();
+          continue;
+        }
+        if(!r.ok){
+          await r.body?.cancel?.();
+          throw Error('Imagem: HTTP '+r.status);
+        }
+        const mime=assertImageType(r.headers.get('content-type'));
+        const bytes=await boundedImage(r);
+        return {bytes,mime,sha256:digest(bytes),urlFinal:current};
+      }
+    }catch(e) {
+      const retry=(status!==null?transient.has(status):
+        /fetch|abort|timeout|network/i.test(String(e?.message||'')));
+      if(!retry||attempt===retries)throw e;
+      await pause(300*(attempt+1));
     }
   }
+  throw Error('Imagem não obtida');
 }
-async function currentCatalog(slug){
-  const file=await findFile(folder.catalog,slug+'.json',{optional:true});
-  if(!file)return null;
-  try{
-    const raw=await readRawFile(file.id,3_000_000);
-    return JSON.parse(raw.bytes.toString('utf8'));
-  }catch{return null}
-}
-const manifest=structuredClone(library);
-let ready=0,totalImages=0;
-for(const entry of active){
-  if(onlySlug && onlySlug!==entry.id)continue;
-  const catalog=JSON.parse(await readFile(join('public','data',entry.id+'.json'),'utf8'));
-  if(catalog.id!==entry.id || catalog.cards.length!==entry.count)
-    throw Error('Catálogo incoerente: '+entry.id);
-  const prior=await currentCatalog(entry.id);
-  const previousIds=new Map((prior?.cards||[]).filter(c=>c.driveFileId).map(c=>[c.id,c.driveFileId]));
-  if(!withImages){
-    await putFile(folder.catalog,entry.id+'.json',
-      Buffer.from(JSON.stringify(catalog)), 'application/json');
-    console.log('Arquivado JSON sem imagens:',entry.id,entry.count);
-    continue;
-  }
-  const imageFolder=await ensureFolder(folder.images,entry.id);
-  const copy=structuredClone(catalog);
-  for(let i=0;i<copy.cards.length;i++){
-    const card=copy.cards[i];
-    if(card.available===false||!card.image)continue;
-    if(previousIds.has(card.id)){
-      card.driveFileId=previousIds.get(card.id);
+
+function argumentsFrom(argv){
+  const flags=new Set(), options=new Map();
+  for(let i=0;i<argv.length;i++){
+    const token=argv[i];
+    if(['--plan','--prepare','--validate','--promote','--resume',
+      '--confirm-drive-write'].includes(token)){
+      if(flags.has(token))throw Error('Opção duplicada');
+      flags.add(token);
       continue;
     }
-    const image=await downloadImage(card.image,card.sha256);
-    const ext={'image/jpeg':'.jpg','image/png':'.png','image/webp':'.webp',
-      'image/gif':'.gif','image/avif':'.avif'}[image.mime];
-    const uploaded=await putFile(imageFolder,card.id+ext,image.bytes,image.mime);
-    if(!uploaded.id)throw Error('Drive não confirmou a imagem '+card.id);
-    card.driveFileId=uploaded.id;
-    totalImages++;
-    if((i+1)%50===0){
-      await putFile(folder.catalog,entry.id+'.json',
-        Buffer.from(JSON.stringify(copy)), 'application/json');
-      console.log('Checkpoint:',entry.id,i+1+'/'+copy.cards.length);
+    if(['--generation','--slug','--expected-active'].includes(token)){
+      if(options.has(token)||!argv[i+1]||argv[i+1].startsWith('--'))
+        throw Error('Parâmetro ausente ou duplicado: '+token);
+      options.set(token,argv[++i]);
+      continue;
     }
+    throw Error('Opção de migração desconhecida: '+token);
   }
-  const incomplete=copy.cards.filter(x=>x.available!==false&&x.image&&!x.driveFileId);
-  if(incomplete.length)throw Error('Imagens não migradas: '+entry.id+' ('+incomplete.length+')');
-  const manifestEntry=manifest.find(x=>x.id===entry.id);
-  if(manifestEntry.cover){
-    const previousCover=prior?.coverDriveFileId;
-    if(previousCover){
-      manifestEntry.coverDriveFileId=previousCover;
-      manifestEntry.coverSha256=prior?.coverSha256 || '';
-    }else{
-      const image=await downloadImage(manifestEntry.cover,null);
-      const ext={'image/jpeg':'.jpg','image/png':'.png','image/webp':'.webp',
-        'image/gif':'.gif','image/avif':'.avif'}[image.mime];
-      const saved=await putFile(imageFolder,'_cover'+ext,image.bytes,image.mime);
-      manifestEntry.coverDriveFileId=saved.id;
-      manifestEntry.coverSha256=image.digest;
-    }
+  const modes=['--plan','--prepare','--validate','--promote','--resume']
+    .filter(x=>flags.has(x));
+  if(modes.length>1)throw Error('Selecionar apenas uma fase');
+  const mode=modes[0]||'--plan';
+  if(mode!=='--plan'){
+    assertGeneration(options.get('--generation'));
+    if(!driveConfigured())throw Error('Google Drive não está configurado');
   }
-  copy.coverDriveFileId=manifestEntry.coverDriveFileId||null;
-  copy.coverSha256=manifestEntry.coverSha256||null;
-  await putFile(folder.catalog,entry.id+'.json',
-    Buffer.from(JSON.stringify(copy)),'application/json');
-  // Ler do Drive e verificar a contagem antes de concluir cada coleção.
-  const stored=await currentCatalog(entry.id);
-  if(!stored||stored.cards.length!==entry.count ||
-     stored.cards.some(x=>x.available!==false&&x.image&&!x.driveFileId))
-    throw Error('Verificação pós-upload falhou: '+entry.id);
-  ready++;
-  console.log('Drive:',entry.id,'OK',entry.count,'posições');
+  if(['--prepare','--promote','--resume'].includes(mode)&&
+    !flags.has('--confirm-drive-write'))
+    throw Error('Esta operação exige --confirm-drive-write');
+  if(options.has('--slug')&&mode!=='--prepare')
+    throw Error('--slug só é permitido em --prepare');
+  if(mode==='--promote'&&!options.has('--expected-active'))
+    throw Error('Promoção exige --expected-active none|ID');
+  if(mode==='--plan'&&options.size>0)
+    throw Error('--plan não aceita identificadores remotos');
+  return {mode,options};
 }
-if(withImages && !onlySlug){
-  if(ready!==active.length)throw Error('Nem todas as coleções estão prontas');
-  const plan=await readFile('public/expansion-plan.json');
-  await putFile(folder.catalog,'expansion-plan.json',plan,'application/json');
-  // Manter library.json por último: nunca expor um manifesto incompleto.
-  await putFile(folder.catalog,'library.json',
-    Buffer.from(JSON.stringify(manifest)),'application/json');
-  const registered=await findFile(folder.catalog,'library.json');
-  if(!registered)throw Error('Manifesto Drive não publicado');
-  console.log('MIGRAÇÃO COMPLETA:',ready,'coleções;',totalImages,'novas imagens');
-  console.log('Só agora é seguro ativar FUT_STORAGE_BACKEND=drive no Vercel.');
-}else if(!withImages){
-  console.log('Arquivo dos catálogos concluído; o portal NÃO foi alterado.');
-}else{
-  console.log('Coleção concluída; manifesto global será publicado após migrar todas.');
+
+async function loadLocal(){
+  const library=JSON.parse(await readFile('public/library.json','utf8'));
+  const plan=JSON.parse(await readFile('public/expansion-plan.json','utf8'));
+  const catalogs={};
+  for(const e of library.filter(e=>e.status==='active'))
+    catalogs[e.id]=JSON.parse(await readFile('public/data/'+e.id+'.json','utf8'));
+  return {library,plan,catalogs};
+}
+
+export async function runCli(argv=process.argv.slice(2)){
+  const {mode,options}=argumentsFrom(argv);
+  const source=['--plan','--prepare','--resume'].includes(mode)?
+    await loadLocal():null;
+  if(mode==='--plan'){
+    const active=source.library.filter(x=>x.status==='active');
+    const missing=active.flatMap(x=>source.catalogs[x.id].cards)
+      .filter(x=>x.available===false||!x.image).length;
+    console.log(JSON.stringify({mode:'plan-only',network:false,
+      writes:false,collections:active.length,
+      positions:active.reduce((sum,x)=>sum+x.count,0),withoutImages:missing,
+      instruction:'Usar fases prepare, validate, promote separadas; NUNCA activar backend automaticamente'}));
+    return;
+  }
+  const store={
+    folder:folderIds(),
+    findFile,readJson,readImage,putFile,ensureFolder,
+    fetchImage:downloadImage
+  };
+  const generation=options.get('--generation');
+  // Não logar IDs Drive, segredos, URLs de tokens nem objetos de erro internos.
+  let result;
+  if(mode==='--prepare')result=await prepareGeneration({
+    store,source,generation,onlySlug:options.get('--slug')||null
+  });
+  else if(mode==='--validate')result=await validateGeneration({store,generation});
+  else if(mode==='--resume')result=await recoverGeneration({store,source,generation});
+  else if(mode==='--promote'){
+    const requested=options.get('--expected-active');
+    const expectedActive=requested==='none'?null:assertGeneration(requested);
+    result=await promoteGeneration({store,generation,expectedActive});
+  }
+  console.log(JSON.stringify(result));
+}
+
+const isMain=process.argv[1]&&
+  pathToFileURL(resolve(process.argv[1])).href===import.meta.url;
+if(isMain){
+  runCli().catch(error=>{
+    // Erros operacionais genéricos; não incluir dados de credenciais.
+    const acceptable=[
+      /Opção/,/Parâmetro/,/Selecionar/,/exige/,/Google Drive não está/,
+      /Geração/,/Catálogo/,/Coleção/,/Manifesto/,/Imagem/,/SHA-256/,
+      /Promocão/,/promoção/,/Checkpoint/,/Faltam/,/JSON/,/Tamanho/,
+      /Ficheiro/,/Host/,/URL/,/MIME/
+    ];
+    const message=String(error?.message||'');
+    console.error('FUT Drive migração:',
+      acceptable.some(re=>re.test(message))?message.slice(0,140):
+      'operação falhou; consultar o estado de staging sem credenciais');
+    process.exitCode=1;
+  });
 }

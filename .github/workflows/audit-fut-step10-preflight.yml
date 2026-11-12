@@ -1,0 +1,136 @@
+name: FUT - Etapa 10 - preflight integral BLOQUEANTE, sem deploy
+on:
+  push:
+    branches: [audit/fut-2026-11-08]
+    paths: ['.github/workflows/audit-fut-step10-preflight.yml']
+permissions:
+  contents: read
+jobs:
+  preflight:
+    name: FUT / final-preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      FUT_STORAGE_BACKEND: ''
+      FUT_DRIVE_SERVICE_ACCOUNT_JSON: ''
+      FUT_DRIVE_OAUTH_CLIENT_ID: ''
+      FUT_DRIVE_OAUTH_CLIENT_SECRET: ''
+      FUT_DRIVE_OAUTH_REFRESH_TOKEN: ''
+      FUT_DRIVE_CATALOGS_FOLDER_ID: ''
+      FUT_DRIVE_IMAGES_FOLDER_ID: ''
+      FUT_DRIVE_SHARED_DRIVE_ID: ''
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dados íntegros e alteração EXATA da imagem Salis
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE=d5fb60eec0801808ec2946385a14c8c9226df54d
+          test "$(git merge-base "$BASE" HEAD)" = "$BASE"
+          test -z "$(git diff --name-only "$BASE" HEAD -- public/data/ | grep -v '^public/data/ligue-1-foot-2025-26.json$' || true)"
+          test -z "$(git diff --name-only "$BASE" HEAD -- public/library.json public/expansion-plan.json requests/ archives/ || true)"
+          git show "$BASE:public/data/ligue-1-foot-2025-26.json" > /tmp/fut-salis-base.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          original=json.loads(Path('/tmp/fut-salis-base.json').read_text())
+          current=json.loads(Path('public/data/ligue-1-foot-2025-26.json').read_text())
+          assert len(original['cards'])==len(current['cards'])==556
+          for i,(old,new) in enumerate(zip(original['cards'],current['cards'])):
+              assert old['id']==new['id'] and old['number']==new['number'],i
+              if old['id']!='ligue-1-foot-2025-26-1355840':
+                  assert old==new,old['id']
+              else:
+                  for key in set(old)|set(new):
+                      if key not in {'image','available','bytes','sha256'}:
+                          assert old.get(key)==new.get(key),(old['id'],key)
+                  assert new['image'] is None and new['available'] is False
+                  assert new['bytes']==0 and new['sha256'] is None
+          assert original['sections']==current['sections']
+          assert current['imageAudit']['available']==547
+          assert current['imageAudit']['missing']==9
+          print('PASS: ÚNICA mudança nos dados é remoção de imagem falsa de Salis; 47 IDs e progresso inalterados')
+          PY
+          cmp src/index.html public/index.html
+      - name: npm ci, build, verificadores catálogos, imagens, roadmap, documentação
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm run build
+          cmp src/index.html public/index.html
+          git diff --exit-code -- public/index.html
+          python3 -B scripts/verify_catalogs.py
+          python3 -B scripts/verify_expansion_plan.py
+          python3 -B scripts/verify_audited_batch.py requests/roadmap-batch.json
+          python3 -B scripts/audit_images_http.py --inventory-only
+          python3 -B scripts/refresh_documentation.py --check
+          node scripts/verify-portal-groups.mjs
+          node scripts/migrate-drive.mjs --plan
+      - name: Testes Node completos de progresso, API/segurança, Drive e verificador de deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test scripts/test-frontend-progress.mjs scripts/test-access-security.mjs \
+            scripts/test-drive-storage.mjs scripts/test-drive-migration.mjs \
+            scripts/test-drive-store-safety.mjs scripts/test-verify-fut-deployment.mjs
+      - name: Testes Python de imagens, duplicados, writers e documentação
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B -m unittest scripts.test_audit_catalogues \
+            scripts.test_audit_images scripts.test_catalog_transaction \
+            scripts.test_catalog_lock scripts.test_workflow_writers \
+            scripts.test_documentation -v
+      - name: Instalar Chromium e WebKit Linux para ensaio, sem dispositivo iOS
+        run: npx playwright install --with-deps chromium webkit
+      - name: Playwright — 78 cenários de portal e acessibilidade
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts
+          npx playwright test scripts/test-portal-browser.spec.mjs
+      - name: Produção anterior — GET 401 anónimo nos dois domínios, sem credenciais
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import {HOSTS,PATHS,identifyChallenge} from './scripts/verify-fut-deployment.mjs';
+          const records=[];
+          for(const host of HOSTS)for(const path of PATHS){
+            const url='https://'+host+path;
+            let state='network_unverified',status=null;
+            try{
+              const res=await fetch(url,{method:'GET',redirect:'manual',
+                signal:AbortSignal.timeout(15000),headers:{Accept:'*/*'}});
+              status=res.status;
+              state=identifyChallenge(status,res.headers);
+              await res.body?.cancel?.().catch(()=>{});
+            }catch{}
+            records.push({host,path,status,kind:state});
+          }
+          const counts={};
+          for(const r of records)counts[r.kind]=(counts[r.kind]||0)+1;
+          console.log('FUT_STAGE10_OLD_PRODUCTION_ANON_JSON='+JSON.stringify({
+            checked:records.length,aliases:HOSTS,counts,
+            expectedDeployedSha:'d5fb60eec0801808ec2946385a14c8c9226df54d',
+            inspectedBranchIsNotProduction:true,
+            authenticatedReads:'NOT_EXECUTED_NO_CREDENTIALS'}));
+          if(records.some(x=>x.kind!=='application_basic_401'))process.exitCode=1;
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fut-stage10-preflight-artifacts
+          path: artifacts/
+          retention-days: 7

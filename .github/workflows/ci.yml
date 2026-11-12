@@ -1,0 +1,125 @@
+name: FUT - CI de integridade (PR e alterações)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches:
+      - main
+      - audit/fut-2026-11-08
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# CI apenas lê e testa. O lock exclusivo é exclusivamente para workflows
+# que PUBLICAM catálogos; não impedir testes paralelos de outros PRs.
+jobs:
+  validate:
+    name: FUT / validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      FUT_STORAGE_BACKEND: ''
+      FUT_DRIVE_SERVICE_ACCOUNT_JSON: ''
+      FUT_DRIVE_OAUTH_CLIENT_ID: ''
+      FUT_DRIVE_OAUTH_CLIENT_SECRET: ''
+      FUT_DRIVE_OAUTH_REFRESH_TOKEN: ''
+      FUT_DRIVE_CATALOGS_FOLDER_ID: ''
+      FUT_DRIVE_IMAGES_FOLDER_ID: ''
+      FUT_DRIVE_SHARED_DRIVE_ID: ''
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Instalação reproduzível pelo package-lock.json
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Sintaxe de código, configuração e scripts de escrita
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e "let p=require('./package.json'),l=require('./package-lock.json'); if(l.lockfileVersion!==3||p.dependencies['@vercel/functions']!==l.packages[''].dependencies['@vercel/functions'])process.exit(1)"
+          for file in proxy.js api/*.js lib/*.js scripts/*.mjs; do
+            node --check "$file"
+          done
+          bash -n scripts/catalog-write-lock.sh scripts/catalog-publish-batch.sh
+          python3 -B scripts/verify_catalog_transaction.py --help >/dev/null
+          node -e "let v=require('./vercel.json');if(v.proxy?.entrypoint!=='proxy.js')process.exit(1)"
+      - name: Build determinístico e progresso por coleção
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run build
+          cmp src/index.html public/index.html
+          git diff --exit-code -- public/index.html
+          node scripts/verify-portal-groups.mjs
+      - name: Frontend, autenticação, API, Drive e deployment (mocks)
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test \
+            scripts/test-frontend-progress.mjs \
+            scripts/test-access-security.mjs \
+            scripts/test-drive-storage.mjs \
+            scripts/test-drive-migration.mjs \
+            scripts/test-drive-store-safety.mjs \
+            scripts/test-verify-fut-deployment.mjs \
+            scripts/test-live-release-safety.mjs
+      - name: Verificar integridade total dos catálogos e roteiro
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B scripts/verify_catalogs.py
+          python3 -B scripts/verify_expansion_plan.py
+          python3 -B scripts/verify_audited_batch.py requests/roadmap-batch.json
+          python3 -B -m unittest \
+            scripts.test_audit_catalogues \
+            scripts.test_audit_images \
+            scripts.test_catalog_transaction \
+            scripts.test_catalog_lock \
+            scripts.test_workflow_writers -v
+          python3 -B scripts/audit_images_http.py --inventory-only
+          node scripts/migrate-drive.mjs --plan
+      - name: Auditoria profunda dos catálogos reais e novos alertas
+        env:
+          FUT_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: python3 -B scripts/audit_catalogues_deep.py --strict --baseline-ref "$FUT_BASE_SHA" --output /tmp/fut-deep-audit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fut-deep-audit
+          path: /tmp/fut-deep-audit.json
+          retention-days: 30
+      - name: Documentação reproduzível, links e arquivo histórico do PR #1
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B scripts/refresh_documentation.py --check
+          python3 -B -m unittest scripts.test_documentation -v
+      - name: Dados e progresso preservados
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          manifest=json.loads(Path('public/library.json').read_text())
+          assert len(manifest)==47
+          assert sum(x['count'] for x in manifest)==26774
+          assert len({x['id'] for x in manifest})==47
+          html=Path('src/index.html').read_text()
+          assert 'fut.album.' in html and '.progress.v1' in html
+          salis=json.loads(Path('public/data/ligue-1-foot-2025-26.json').read_text())
+          c=next(x for x in salis['cards'] if x['id']=='ligue-1-foot-2025-26-1355840')
+          assert c['available'] is False and c['image'] is None
+          print('PASS: 47 coleções, 26774 posições e progresso preservado')
+          PY
+          git diff --exit-code -- .

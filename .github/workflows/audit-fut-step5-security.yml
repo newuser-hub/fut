@@ -1,0 +1,99 @@
+name: FUT - Auditoria etapa 5 (seguranca, sem deploy)
+# Evidência histórica de uma etapa isolada; a CI permanente cobre os testes atuais.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  security-regressions:
+    name: Proxy, API, metodos, credenciais sinteticas e cache
+    runs-on: ubuntu-latest
+    timeout-minutes: 17
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Confirmar branch e preservar dados de todas as colecoes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor d5fb60eec0801808ec2946385a14c8c9226df54d HEAD
+          git merge-base --is-ancestor 7f18d53607c746bd7b32e709411becf6037c3ab7 HEAD
+          git diff --quiet 7f18d53607c746bd7b32e709411becf6037c3ab7 HEAD -- \
+            public/data public/library.json public/expansion-plan.json \
+            src/index.html public/index.html archives requests
+          echo 'PASS: 47 colecoes, ids, progresso e fonte preservados na etapa 5'
+      - name: Analise sintatica, JSON e build deterministico
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check proxy.js
+          node --check api/storage.js
+          node --check lib/access-control.js
+          node --check scripts/test-access-security.mjs
+          node -e "const c=require('./vercel.json');if(c.proxy?.entrypoint!=='proxy.js')process.exit(1)"
+          npm run build
+          cmp src/index.html public/index.html
+          git diff --exit-code -- public/index.html
+      - name: Testes de seguranca, backend Drive e estado frontend
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test scripts/test-access-security.mjs \
+            scripts/test-drive-storage.mjs scripts/test-frontend-progress.mjs
+          node scripts/verify-portal-groups.mjs
+      - name: Verificadores de dados, lote e integridade do plano
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B scripts/verify_catalogs.py
+          python3 -B scripts/verify_expansion_plan.py
+          python3 -B scripts/verify_audited_batch.py requests/roadmap-batch.json
+          python3 -B -m unittest scripts.test_audit_catalogues scripts.test_audit_images -v
+          python3 -B scripts/audit_images_http.py --inventory-only
+      - name: Preservar a correção de Salis e a identidade dos catalogos
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          lib=json.loads(Path('public/library.json').read_text())
+          assert len(lib)==47 and sum(x['count'] for x in lib)==26774
+          data=json.loads(Path('public/data/ligue-1-foot-2025-26.json').read_text())
+          card=next(x for x in data['cards'] if x['id']=='ligue-1-foot-2025-26-1355840')
+          assert card['number']=='383' and card['name']=='Salis Abdul Samed'
+          assert card['available'] is False and card['image'] is None
+          assert data['imageAudit']['available']==547 and data['imageAudit']['missing']==9
+          print('PASS: 47 coleções, 26774 cromos e Salis sem foto incorreta')
+          PY
+          git diff --exit-code -- .
+          test -z "$(git status --porcelain --untracked-files=no)"
+
+  production-readonly:
+    name: GET em producao sem credenciais, apenas observacao
+    needs: security-regressions
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar 11 endpoints com GET sem credenciais
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/check-production-unauth.mjs
+          echo 'Sem password real: acesso autenticado em producao fica pendente'
