@@ -81,6 +81,7 @@ jobs:
           python3 -B scripts/verify_expansion_plan.py
           python3 -B scripts/verify_audited_batch.py requests/roadmap-batch.json
           python3 -B scripts/verify_audited_batch.py requests/lote14-2026-11-12.json
+          python3 -B scripts/verify_audited_batch.py requests/lote15-2026-11-12.json
           python3 -B -m unittest \
             scripts.test_audit_catalogues \
             scripts.test_audit_images \
@@ -113,15 +114,15 @@ jobs:
           from pathlib import Path
           import json
           manifest=json.loads(Path('public/library.json').read_text())
-          assert len(manifest)==49
-          assert sum(x['count'] for x in manifest)==27899
-          assert len({x['id'] for x in manifest})==49
+          assert len(manifest)==51
+          assert sum(x['count'] for x in manifest)==28594
+          assert len({x['id'] for x in manifest})==51
           html=Path('src/index.html').read_text()
           assert 'fut.album.' in html and '.progress.v1' in html
           salis=json.loads(Path('public/data/ligue-1-foot-2025-26.json').read_text())
           c=next(x for x in salis['cards'] if x['id']=='ligue-1-foot-2025-26-1355840')
           assert c['available'] and c['sha256'] == '8a8a95331734a697b5f8017792a8b0152f59d09de274e6dd27400daaa6282e14'
           assert c['sha256'] != next(x for x in salis['cards'] if x['number']=='382')['sha256']
-          print('PASS: 49 coleções, 27899 posições e progresso preservado')
+          print('PASS: 51 coleções, 28594 posições e progresso preservado')
           PY
           git diff --exit-code -- .
