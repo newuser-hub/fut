@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "outputDirectory": "public",
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build && node scripts/test-live-release.mjs --host=fut-rosy.vercel.app --host=fut-pjr-s-projects.vercel.app --sha=7b51023f6767a807786ecf2d03fcf7086a39712c",
   "proxy": {
     "entrypoint": "proxy.js"
   },
