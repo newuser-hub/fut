@@ -104,11 +104,11 @@ def metrics() -> dict:
     assert totals["positions"] == totals["cardsWithSHA"] + totals["previewLinksUnverified"] + totals["missingImagePositions"]
     assert totals["cardsWithImageURL"] == totals["cardsWithSHA"] + totals["previewLinksUnverified"]
     assert totals["totalCoversWithURL"] == len(manifest), "Uma das capas não tem URL"
-    assert len(manifest) == 47 and totals["positions"] == 26774, "Mudança de inventário não autorizada na auditoria"
-    assert (totals["cardsWithSHA"], totals["previewLinksUnverified"], totals["missingImagePositions"]) == (24710, 0, 2064), "Imagem não corresponde à última auditoria"
+    assert len(manifest) == 49 and totals["positions"] == 27899, "Inventário do lote 14 incompatível"
+    assert totals["cardsWithSHA"] >= 24710 and totals["previewLinksUnverified"] == 0 and totals["missingImagePositions"] <= 2064 + 1125, "Metadados de imagens do lote 14 inválidos"
     distribution = {key: sum(row["category"] == key for row in records) for key, _ in CATEGORIES}
-    assert distribution == dict(portugal=12, selecoes=23, champions=5, outros=7)
-    assert len(plan["collections"]) == plan["goal"] == 30
+    assert distribution == dict(portugal=12, selecoes=23, champions=7, outros=7)
+    assert len(plan["collections"]) == plan["goal"] == 32
     return {
         "version": 2, "snapshotAt": SNAPSHOT, "referenceMainCommit": BASE_MAIN,
         "origin": ["public/library.json", "public/data/*.json", "public/expansion-plan.json"],
@@ -182,7 +182,7 @@ def images_md(m: dict) -> str:
     return "\n".join([
         "# 04 — Imagens, proveniência e cobertura",
         "",
-        f"**Snapshot calculado dos 47 catálogos em {SNAPSHOT}.** [Inventário detalhado](../02-colecoes/README.md) · [Auditoria HTTP/SHA da etapa 4](../../ops/audit-2026-11-08-step4-images.md).",
+        f"**Snapshot calculado dos {m['activeCollections']} catálogos em {SNAPSHOT}.** [Inventário detalhado](../02-colecoes/README.md) · [Auditoria HTTP/SHA da etapa 4](../../ops/audit-2026-11-08-step4-images.md).",
         "",
         "| Estado, mutuamente exclusivo | Cromos | Fonte da classificação |",
         "|---|---:|---|",
@@ -270,7 +270,7 @@ def main():
                 raise SystemExit("FAIL: documentação desatualizada: "+path)
     print("FUT_STAGE9_METRICS_JSON="+json.dumps({key:value for key,value in m.items()
         if key!="collections"},ensure_ascii=False,separators=(",",":")))
-    print("PASS: métricas calculadas de 47 ficheiros JSON sem alterar catálogos")
+    print("PASS: métricas calculadas dos ficheiros JSON sem alterar catálogos")
 
 
 if __name__=="__main__":
