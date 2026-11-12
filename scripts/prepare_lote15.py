@@ -134,7 +134,20 @@ def main():
     req = load(REQUEST)
     assert req["batch"] == "lote-15" and req["authorizedSourceIds"] == [10, 9]
     assert tuple(x["id"] for x in req["collections"]) == SLUGS
-    assert len(load("public/library.json")) == 49
+    existing_count=len(load("public/library.json"))
+    if existing_count==51:
+        check_previous()
+        previous_report=load("ops/lote15-2026-11-12-audit.json")
+        assert len(previous_report["collections"])==2
+        assert sum(x["verifiedImages"] for x in previous_report["collections"])>=0.8*695
+        md=ROOT/"ops/lote15-2026-11-12-audit.md"
+        old=md.read_text(encoding="utf-8")
+        md.write_text(old.replace("# FUT — Auditoria do lote 14 (preparação, não publicação)",
+                                  "# FUT — Auditoria do lote 15 (preparação, não publicação)"),
+                      encoding="utf-8")
+        print("PASS: lote 15 já auditado; relatório e preservação revalidados",flush=True)
+        return
+    assert existing_count == 49
     assert load("public/expansion-plan.json")["goal"] == 34
     subprocess.run([sys.executable, "-u", "scripts/ingest_batch.py", REQUEST], cwd=ROOT, check=True)
     check_previous()
@@ -166,7 +179,7 @@ def main():
     (ROOT / "ops/lote15-2026-11-12-audit.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     lines = [
-        "# FUT — Auditoria do lote 14 (preparação, não publicação)",
+        "# FUT — Auditoria do lote 15 (preparação, não publicação)",
         "", f"Auditoria em {report['checkedAt']}; base lote 14 {BASE}; main {MAIN}.",
         "", "Fonte: Cromos.pt; todas as posições percorridas. Por imagem disponível:",
         "GET 200, MIME image/*, tamanho mínimo 1.500 bytes, SHA-256 persistido no JSON.",
