@@ -1,0 +1,89 @@
+name: FUT - Lote 14 (auditoria integral e PR, sem publicação)
+
+on:
+  push:
+    branches: [expansion/lote14-2026-11-12]
+    paths:
+      - ".github/workflows/lote14-prepare.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    name: FUT / lote14-audit-and-stage
+    if: github.ref == 'refs/heads/expansion/lote14-2026-11-12'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 110
+    env:
+      FUT_STORAGE_BACKEND: ''
+      FUT_DRIVE_SERVICE_ACCOUNT_JSON: ''
+      FUT_DRIVE_OAUTH_CLIENT_ID: ''
+      FUT_DRIVE_OAUTH_CLIENT_SECRET: ''
+      FUT_DRIVE_OAUTH_REFRESH_TOKEN: ''
+      FUT_DRIVE_CATALOGS_FOLDER_ID: ''
+      FUT_DRIVE_IMAGES_FOLDER_ID: ''
+      FUT_DRIVE_SHARED_DRIVE_ID: ''
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Validar branch isolada e sintaxe
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor 8869f58406ceac184685e95c9c4495c7bc1ce3c5 HEAD
+          python3 -m py_compile scripts/ingest_batch.py scripts/prepare_lote14.py
+          python3 -m json.tool requests/lote14-2026-11-12.json >/dev/null
+          python3 -m json.tool public/expansion-plan.json >/dev/null
+      - name: Auditar todas as imagens, integrar apenas nesta branch, preservar os existentes
+        run: python3 -u scripts/prepare_lote14.py
+      - name: Instalar dependências e construir portal
+        run: |
+          set -euo pipefail
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm run build
+          cmp src/index.html public/index.html
+      - name: Validar 49 catálogos, auditoria individual e roteiro
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_catalogs.py
+          python3 scripts/verify_expansion_plan.py
+          python3 scripts/verify_audited_batch.py requests/lote14-2026-11-12.json
+          python3 scripts/verify_audited_batch.py requests/roadmap-batch.json
+          python3 scripts/refresh_documentation.py --check
+          python3 -m unittest scripts.test_documentation -v
+          node scripts/verify-portal-groups.mjs
+          node --test scripts/test-frontend-progress.mjs scripts/test-access-security.mjs scripts/test-drive-storage.mjs scripts/test-drive-migration.mjs scripts/test-drive-store-safety.mjs scripts/test-verify-fut-deployment.mjs scripts/test-live-release-safety.mjs
+          python3 -m unittest scripts.test_audit_catalogues scripts.test_audit_images scripts.test_catalog_transaction scripts.test_catalog_lock scripts.test_workflow_writers -v
+          python3 scripts/audit_catalogues_deep.py --strict --baseline-ref 8869f58406ceac184685e95c9c4495c7bc1ce3c5 --output /tmp/fut-lote14-deep-audit.json
+          git diff --check
+      - name: Commit apenas do lote 14 na branch isolada
+        run: |
+          set -euo pipefail
+          git config user.name "fut-lote14[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/library.json public/expansion-plan.json public/data/ucl-topps-2023-24.json public/data/champions-of-europe-1955-2005.json
+          git add ops/lote14-2026-11-12-audit.md ops/lote14-2026-11-12-audit.json
+          git add README.md docs/02-colecoes/README.md docs/04-imagens/README.md docs/index.json docs/metrics-current.json
+          git diff --cached --check
+          git diff --cached --quiet && { echo "Nenhum dado auditado gerado"; exit 1; }
+          git commit -m "feat(lote14): integrar duas coleções auditadas apenas na branch"
+          git push origin HEAD:refs/heads/expansion/lote14-2026-11-12
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fut-lote14-audit
+          path: |
+            ops/lote14-2026-11-12-audit.md
+            ops/lote14-2026-11-12-audit.json
+            /tmp/fut-lote14-deep-audit.json
+          if-no-files-found: warn
+          retention-days: 30
