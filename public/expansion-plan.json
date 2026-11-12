@@ -836,7 +836,17 @@
       "declaredMainCount": 741,
       "description": "Edição UEFA Champions League 2023–2024 · Topps; 741 cromos principais previstos. Imagens e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/352/uefa-champions-league-2023-2024-topps",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-12",
+        "positions": 741,
+        "principal": 741,
+        "principalWithImage": 741,
+        "verifiedImages": 741,
+        "missingImages": 0,
+        "sections": 42,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/43296074922"
+      }
     },
     {
       "priority": 32,
@@ -851,10 +861,20 @@
       "declaredMainCount": 384,
       "description": "Edição Champions of Europe 1955–2005 · Panini; 384 cromos principais previstos. Imagens e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/346/champions-of-europe-1955-2005-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-12",
+        "positions": 384,
+        "principal": 384,
+        "principalWithImage": 384,
+        "verifiedImages": 384,
+        "missingImages": 0,
+        "sections": 22,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/43296074922"
+      }
     }
   ],
-  "lastReviewedAt": "2026-11-08",
+  "lastReviewedAt": "2026-11-12",
   "executionLog": [
     {
       "batch": "roadmap-2",
@@ -1258,6 +1278,42 @@
           "missingImages": 0,
           "sections": 25,
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/42482442878"
+        }
+      ]
+    },
+    {
+      "batch": "lote-14",
+      "authorized": [
+        352,
+        346
+      ],
+      "integrated": [
+        "ucl-topps-2023-24",
+        "champions-of-europe-1955-2005"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/43296074922",
+      "details": [
+        {
+          "id": "ucl-topps-2023-24",
+          "auditedAt": "2026-11-12",
+          "positions": 741,
+          "principal": 741,
+          "principalWithImage": 741,
+          "verifiedImages": 741,
+          "missingImages": 0,
+          "sections": 42,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/43296074922"
+        },
+        {
+          "id": "champions-of-europe-1955-2005",
+          "auditedAt": "2026-11-12",
+          "positions": 384,
+          "principal": 384,
+          "principalWithImage": 384,
+          "verifiedImages": 384,
+          "missingImages": 0,
+          "sections": 22,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/43296074922"
         }
       ]
     }

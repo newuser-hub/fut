@@ -1,8 +1,8 @@
 # 02 — Inventário atual de coleções
 
-**Snapshot documental:** 2026-11-12, calculado de [`public/library.json`](../../public/library.json) e dos **47 JSON** em [`public/data/`](../../public/data/). Este documento é gerado automaticamente com `python3 scripts/refresh_documentation.py --write` e não altera os catálogos.
+**Snapshot documental:** 2026-11-12, calculado de [`public/library.json`](../../public/library.json) e dos **49 JSON** em [`public/data/`](../../public/data/). Este documento é gerado automaticamente com `python3 scripts/refresh_documentation.py --write` e não altera os catálogos.
 
-**47 coleções ativas; 26.774 posições; 24.710 imagens de cromos com hash; 0 ligações não verificadas; 2.064 posições sem URL de fotografia.**
+**49 coleções ativas; 27.899 posições; 25.835 imagens de cromos com hash; 0 ligações não verificadas; 2.064 posições sem URL de fotografia.**
 
 A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à classificação real do portal. Cada categoria e época são vistas de navegação, não diretórios físicos ou novos IDs.
 
@@ -51,7 +51,7 @@ A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à
 | Euro Suécia 1992 | 1992 | Panini | 261 | 12 | 257 | 0 | 4 | [JSON](../../public/data/euro-1992.json) |
 | Mundial Itália 1990 | 1990 | Panini | 448 | 27 | 448 | 0 | 0 | [JSON](../../public/data/world-cup-1990.json) |
 
-## Champions League — 5 coleções
+## Champions League — 7 coleções
 
 | Coleção | Ano | Editora | Posições | Secções | Com SHA | Link sem SHA | Sem URL | Catálogo |
 |---|---|---|---:|---:|---:|---:|---:|---|
@@ -60,6 +60,8 @@ A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à
 | Champions League · Match Attax 2025/26 | 25/26 | Topps | 738 | 77 | 662 | 0 | 76 | [JSON](../../public/data/match-attax-2025-26.json) |
 | Match Attax Extra 2025/26 | 25/26 | Topps | 445 | 71 | 416 | 0 | 29 | [JSON](../../public/data/match-attax-extra-2025-26.json) |
 | Champions League 2024/25 — Topps | 24/25 | Topps | 663 | 46 | 553 | 0 | 110 | [JSON](../../public/data/ucl-topps-2024-25.json) |
+| Champions League 2023/24 — Topps | 23/24 | Topps | 741 | 42 | 741 | 0 | 0 | [JSON](../../public/data/ucl-topps-2023-24.json) |
+| Champions of Europe 1955–2005 | 1955–2005 | Panini | 384 | 22 | 384 | 0 | 0 | [JSON](../../public/data/champions-of-europe-1955-2005.json) |
 
 ## Outros — 7 coleções
 
@@ -81,4 +83,4 @@ A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à
 - **Capa:** cada coleção tem URL de capa; a auditoria HTTP das 47 capas está [documentada separadamente](../../ops/audit-2026-11-08-step4-images.md).
 - **Histórico:** a tabela do [PR #1](../01-gestao/README-original-2026-11-08.md) corresponde a 29 coleções e foi preservada como arquivo, não como estado presente.
 
-**Roteiro separado:** 26/30 candidatos integrados, 4 bloqueados, 0 pendentes. Fonte: [expansion-plan.json](../../public/expansion-plan.json).
+**Roteiro separado:** 28/32 candidatos integrados, 4 bloqueados, 0 pendentes. Fonte: [expansion-plan.json](../../public/expansion-plan.json).
