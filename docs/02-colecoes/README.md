@@ -1,8 +1,8 @@
 # 02 — Inventário atual de coleções
 
-**Snapshot documental:** 2026-11-12, calculado de [`public/library.json`](../../public/library.json) e dos **49 JSON** em [`public/data/`](../../public/data/). Este documento é gerado automaticamente com `python3 scripts/refresh_documentation.py --write` e não altera os catálogos.
+**Snapshot documental:** 2026-11-12, calculado de [`public/library.json`](../../public/library.json) e dos **51 JSON** em [`public/data/`](../../public/data/). Este documento é gerado automaticamente com `python3 scripts/refresh_documentation.py --write` e não altera os catálogos.
 
-**49 coleções ativas; 27.899 posições; 25.835 imagens de cromos com hash; 0 ligações não verificadas; 2.064 posições sem URL de fotografia.**
+**51 coleções ativas; 28.594 posições; 26.529 imagens de cromos com hash; 0 ligações não verificadas; 2.065 posições sem URL de fotografia.**
 
 A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à classificação real do portal. Cada categoria e época são vistas de navegação, não diretórios físicos ou novos IDs.
 
@@ -23,7 +23,7 @@ A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à
 | Liga Portugal 2016/17 | 16/17 | Panini | 442 | 20 | 442 | 0 | 0 | [JSON](../../public/data/liga-portugal-2016-17.json) |
 | Liga Portugal 2014/15 | 14/15 | Panini | 496 | 25 | 496 | 0 | 0 | [JSON](../../public/data/liga-portugal-2014-15.json) |
 
-## Seleções — 23 coleções
+## Seleções — 25 coleções
 
 | Coleção | Ano | Editora | Posições | Secções | Com SHA | Link sem SHA | Sem URL | Catálogo |
 |---|---|---|---:|---:|---:|---:|---:|---|
@@ -50,6 +50,8 @@ A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à
 | Mundial EUA 1994 | 1994 | Panini | 444 | 26 | 444 | 0 | 0 | [JSON](../../public/data/world-cup-1994.json) |
 | Euro Suécia 1992 | 1992 | Panini | 261 | 12 | 257 | 0 | 4 | [JSON](../../public/data/euro-1992.json) |
 | Mundial Itália 1990 | 1990 | Panini | 448 | 27 | 448 | 0 | 0 | [JSON](../../public/data/world-cup-1990.json) |
+| Euro 1988 — Alemanha Ocidental | 1988 | Panini | 268 | 14 | 267 | 0 | 1 | [JSON](../../public/data/euro-1988.json) |
+| Mundial México 1986 | 1986 | Panini | 427 | 27 | 427 | 0 | 0 | [JSON](../../public/data/world-cup-1986.json) |
 
 ## Champions League — 7 coleções
 
@@ -83,4 +85,4 @@ A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à
 - **Capa:** cada coleção tem URL de capa; a auditoria HTTP das 47 capas está [documentada separadamente](../../ops/audit-2026-11-08-step4-images.md).
 - **Histórico:** a tabela do [PR #1](../01-gestao/README-original-2026-11-08.md) corresponde a 29 coleções e foi preservada como arquivo, não como estado presente.
 
-**Roteiro separado:** 28/32 candidatos integrados, 4 bloqueados, 0 pendentes. Fonte: [expansion-plan.json](../../public/expansion-plan.json).
+**Roteiro separado:** 30/34 candidatos integrados, 4 bloqueados, 0 pendentes. Fonte: [expansion-plan.json](../../public/expansion-plan.json).

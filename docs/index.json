@@ -8,12 +8,12 @@
     "roadmap": "public/expansion-plan.json"
   },
   "summary": {
-    "activeCollections": 49,
-    "positions": 27899,
-    "imagesWithSHA": 25835,
+    "activeCollections": 51,
+    "positions": 28594,
+    "imagesWithSHA": 26529,
     "previewLinksUnverified": 0,
-    "missingImages": 2064,
-    "roadmapIntegrated": 28,
+    "missingImages": 2065,
+    "roadmapIntegrated": 30,
     "roadmapBlocked": 4,
     "roadmapPending": 0
   },

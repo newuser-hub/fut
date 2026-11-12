@@ -886,7 +886,17 @@
       "declaredMainCount": 268,
       "description": "UEFA Euro 1988 · Panini; 268 cromos principais previstos, incluindo uma imagem não declarada pela fonte. Auditoria integral obrigatória.",
       "sourceUrl": "https://www.cromos.pt/collection/10/uefa-euro-west-germany-1988-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-12",
+        "positions": 268,
+        "principal": 268,
+        "principalWithImage": 267,
+        "verifiedImages": 267,
+        "missingImages": 1,
+        "sections": 14,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/43317632082"
+      }
     },
     {
       "priority": 34,
@@ -901,7 +911,17 @@
       "declaredMainCount": 427,
       "description": "FIFA World Cup Mexico 1986 · Panini; 427 cromos principais previstos. Imagens e extras sujeitos a auditoria integral.",
       "sourceUrl": "https://www.cromos.pt/collection/9/fifa-world-cup-mexico-1986-panini",
-      "imageAudit": "pending"
+      "imageAudit": "verified",
+      "auditSummary": {
+        "auditedAt": "2026-11-12",
+        "positions": 427,
+        "principal": 427,
+        "principalWithImage": 427,
+        "verifiedImages": 427,
+        "missingImages": 0,
+        "sections": 27,
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/43317632082"
+      }
     }
   ],
   "lastReviewedAt": "2026-11-12",
@@ -1344,6 +1364,42 @@
           "missingImages": 0,
           "sections": 22,
           "evidence": "https://github.com/newuser-hub/fut/actions/runs/43296074922"
+        }
+      ]
+    },
+    {
+      "batch": "lote-15",
+      "authorized": [
+        10,
+        9
+      ],
+      "integrated": [
+        "euro-1988",
+        "world-cup-1986"
+      ],
+      "auditRun": "https://github.com/newuser-hub/fut/actions/runs/43317632082",
+      "details": [
+        {
+          "id": "euro-1988",
+          "auditedAt": "2026-11-12",
+          "positions": 268,
+          "principal": 268,
+          "principalWithImage": 267,
+          "verifiedImages": 267,
+          "missingImages": 1,
+          "sections": 14,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/43317632082"
+        },
+        {
+          "id": "world-cup-1986",
+          "auditedAt": "2026-11-12",
+          "positions": 427,
+          "principal": 427,
+          "principalWithImage": 427,
+          "verifiedImages": 427,
+          "missingImages": 0,
+          "sections": 27,
+          "evidence": "https://github.com/newuser-hub/fut/actions/runs/43317632082"
         }
       ]
     }

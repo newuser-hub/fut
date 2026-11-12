@@ -537,5 +537,27 @@
     "status": "active",
     "cover": "https://www.cromos.pt/storage/uploads/collections/QKnMEPnMlUA559Jo5AqLxsOh0muRja5FHQsQaRR5.jpeg",
     "description": "Edição Champions of Europe 1955–2005 · Panini; 384 cromos principais previstos. Imagens e extras sujeitos a auditoria integral."
+  },
+  {
+    "id": "euro-1988",
+    "title": "Euro 1988 — Alemanha Ocidental",
+    "year": "1988",
+    "count": 268,
+    "sections": 14,
+    "category": "Seleções · Europeu",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/6cx1Gece9V7IA2tKqsBhSi6neag9fJSLZ1Dga8Zb.png",
+    "description": "UEFA Euro 1988 · Panini; 268 cromos principais previstos, incluindo uma imagem não declarada pela fonte. Auditoria integral obrigatória."
+  },
+  {
+    "id": "world-cup-1986",
+    "title": "Mundial México 1986",
+    "year": "1986",
+    "count": 427,
+    "sections": 27,
+    "category": "Seleções · Mundial",
+    "status": "active",
+    "cover": "https://www.cromos.pt/storage/uploads/collections/wSuURKccm7fRZt5Tts0y736YBzLvUTUR6d6M7ROp.jpg",
+    "description": "FIFA World Cup Mexico 1986 · Panini; 427 cromos principais previstos. Imagens e extras sujeitos a auditoria integral."
   }
 ]

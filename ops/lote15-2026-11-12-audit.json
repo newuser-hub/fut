@@ -1,0 +1,152 @@
+{
+  "batch": "lote-15",
+  "checkedAt": "2026-11-12T22:13:47.962428+00:00",
+  "baselineLote14": "a19b56ea03ad1873a247cc664ad96e3e3ff67b98",
+  "baselineMain": "7b51023f6767a807786ecf2d03fcf7086a39712c",
+  "runId": "43317632082",
+  "legacyCollectionsUnchanged": 49,
+  "legacyPositionsUnchanged": 27899,
+  "totals": {
+    "collections": 51,
+    "positions": 28594
+  },
+  "collections": [
+    {
+      "id": "euro-1988",
+      "sourceId": 10,
+      "sourceUrl": "https://www.cromos.pt/collection/10/uefa-euro-west-germany-1988-panini",
+      "positions": 268,
+      "principal": 268,
+      "extras": 0,
+      "principalWithImage": 267,
+      "verifiedImages": 267,
+      "missingImages": 1,
+      "sections": 14,
+      "emptyNamesOrSections": 0,
+      "duplicatedCardIds": 0,
+      "duplicatedNavigationNumbers": 0,
+      "duplicateOriginalNumbers": {},
+      "duplicateNames": {
+        "Berni": [
+          "euro-1988-3047",
+          "euro-1988-3048"
+        ],
+        "Berni Mascots": [
+          "euro-1988-3083",
+          "euro-1988-3084",
+          "euro-1988-3085",
+          "euro-1988-3086",
+          "euro-1988-3087",
+          "euro-1988-3088",
+          "euro-1988-3089",
+          "euro-1988-3090"
+        ],
+        "Deutschland-BRD": [
+          "euro-1988-3057",
+          "euro-1988-3062"
+        ],
+        "Emblem": [
+          "euro-1988-3096",
+          "euro-1988-3123",
+          "euro-1988-3150",
+          "euro-1988-3177",
+          "euro-1988-3204",
+          "euro-1988-3231",
+          "euro-1988-3258",
+          "euro-1988-3286"
+        ],
+        "Gelsenkirchen": [
+          "euro-1988-3073",
+          "euro-1988-3074"
+        ],
+        "Hamburg": [
+          "euro-1988-3075",
+          "euro-1988-3076"
+        ],
+        "Hannover": [
+          "euro-1988-3077",
+          "euro-1988-3078"
+        ],
+        "Sjaak Troost": [
+          "euro-1988-3266",
+          "euro-1988-3267"
+        ],
+        "Team\n1": [
+          "euro-1988-3091",
+          "euro-1988-3118",
+          "euro-1988-3145",
+          "euro-1988-3172",
+          "euro-1988-3199",
+          "euro-1988-3226",
+          "euro-1988-3253",
+          "euro-1988-3281"
+        ],
+        "Team\n2": [
+          "euro-1988-3092",
+          "euro-1988-3119",
+          "euro-1988-3146",
+          "euro-1988-3173",
+          "euro-1988-3200",
+          "euro-1988-3227",
+          "euro-1988-3254",
+          "euro-1988-3282"
+        ],
+        "Team\n3": [
+          "euro-1988-3093",
+          "euro-1988-3120",
+          "euro-1988-3147",
+          "euro-1988-3174",
+          "euro-1988-3201",
+          "euro-1988-3228",
+          "euro-1988-3255",
+          "euro-1988-3283"
+        ],
+        "Team\n4": [
+          "euro-1988-3094",
+          "euro-1988-3121",
+          "euro-1988-3148",
+          "euro-1988-3175",
+          "euro-1988-3202",
+          "euro-1988-3229",
+          "euro-1988-3256",
+          "euro-1988-3284"
+        ]
+      },
+      "duplicateImageHashes": {},
+      "missing": [
+        {
+          "id": "euro-1988-3267",
+          "name": "Sjaak Troost",
+          "originalNumber": "220u",
+          "section": "NED",
+          "optional": false,
+          "sourceImage": null,
+          "httpStatus": null,
+          "mime": null,
+          "error": "NO_SOURCE_IMAGE_PATH"
+        }
+      ]
+    },
+    {
+      "id": "world-cup-1986",
+      "sourceId": 9,
+      "sourceUrl": "https://www.cromos.pt/collection/9/fifa-world-cup-mexico-1986-panini",
+      "positions": 427,
+      "principal": 427,
+      "extras": 0,
+      "principalWithImage": 427,
+      "verifiedImages": 427,
+      "missingImages": 0,
+      "sections": 27,
+      "emptyNamesOrSections": 0,
+      "duplicatedCardIds": 0,
+      "duplicatedNavigationNumbers": 0,
+      "duplicateOriginalNumbers": {},
+      "duplicateNames": {},
+      "duplicateImageHashes": {},
+      "missing": []
+    }
+  ],
+  "individualImageChecks": "HTTP GET, MIME, bytes and SHA-256 persisted on every available card",
+  "imageVisualMatching": "Not an exhaustive visual identification of photographed players"
+}
