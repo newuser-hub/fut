@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "batch": "lote-14",
+  "authorizedSourceIds": [
+    352,
+    346
+  ],
+  "auditPipelineVersion": 2,
+  "collections": [
+    {
+      "id": "ucl-topps-2023-24",
+      "sourceId": 352,
+      "sourceSlug": "uefa-champions-league-2023-2024-topps",
+      "title": "Champions League 2023/24 — Topps",
+      "subtitle": "UEFA Champions League 2023–2024 · Topps",
+      "year": "23/24",
+      "publisher": "Topps",
+      "category": "Clubes · Champions League",
+      "description": "Edição UEFA Champions League 2023–2024 · Topps; 741 cromos principais previstos. Imagens e extras sujeitos a auditoria integral.",
+      "requireAllImages": false
+    },
+    {
+      "id": "champions-of-europe-1955-2005",
+      "sourceId": 346,
+      "sourceSlug": "champions-of-europe-1955-2005-panini",
+      "title": "Champions of Europe 1955–2005",
+      "subtitle": "Champions of Europe 1955–2005 · Panini",
+      "year": "1955–2005",
+      "publisher": "Panini",
+      "category": "Clubes · Champions League",
+      "description": "Edição Champions of Europe 1955–2005 · Panini; 384 cromos principais previstos. Imagens e extras sujeitos a auditoria integral.",
+      "requireAllImages": false
+    }
+  ],
+  "testRevision": 1
+}
