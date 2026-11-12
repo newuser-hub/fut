@@ -50,7 +50,9 @@ export function authorizeSource(address,{kind,collection}) {
   const exactCover=(kind==='cover'&&
     collection==='premier-league-flagship-2026-27'&&
     url.href===PREMIER_LEAGUE_COVER);
-  if(!standard&&!exactCover)
+  const frenchSticker = kind === 'card' && collection === 'ligue-1-foot-2025-26' &&
+    /^https:\/\/www\.laststicker\.com\/i\/cards\/11771\/[0-9]+\.jpg$/.test(url.href);
+  if(!standard&&!exactCover&&!frenchSticker)
     throw Error('Host ou caminho de origem não autorizado');
   return url.href;
 }

@@ -14,6 +14,7 @@ import hashlib
 import json
 from pathlib import Path
 import ssl
+import re
 import sys
 import time
 from urllib.error import HTTPError, URLError
@@ -90,6 +91,8 @@ def is_valid_host(url,allow_local_test=False):
     if parsed.username or parsed.password or parsed.fragment:
         return False
     if allow_local_test and parsed.scheme=="http" and parsed.hostname in {"127.0.0.1","localhost"}:
+        return True
+    if re.fullmatch(r"https://www\.laststicker\.com/i/cards/11771/[0-9]+\.jpg",url):
         return True
     return parsed.scheme=="https" and parsed.hostname in ALLOWED_HOSTS and parsed.port in {None,443}
 

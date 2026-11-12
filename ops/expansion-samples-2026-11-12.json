@@ -1,0 +1,192 @@
+{
+  "checkedAt": "2026-11-12",
+  "samplesPerCollection": 3,
+  "candidates": [
+    {
+      "id": 352,
+      "name": "UEFA Champions League 2023-2024 Topps",
+      "url": "https://www.cromos.pt/collection/352/uefa-champions-league-2023-2024-topps",
+      "main": 741,
+      "total": 741,
+      "paths": 741,
+      "samples": [
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/352/contents/1-bwhorn.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 36507,
+          "sha256": "2399104a58d69b00be4fbed55b02dbb9ef7d241cf848624cdd05f212d4bb7200"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/352/rb-leipzig/371-chjja1.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 22937,
+          "sha256": "e7b031648b6510d071c0e5de69021d816ae5f70551a40f02719c3a20f3fda01b"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/352/uyl-top-goal-scorer/741-q0djoa.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 22807,
+          "sha256": "80cb160b029c5412cb57ac8043ce2606da4b34251fde58602e30ceefddabcb64"
+        }
+      ]
+    },
+    {
+      "id": 346,
+      "name": "Champions of Europe 1955-2005 Panini",
+      "url": "https://www.cromos.pt/collection/346/champions-of-europe-1955-2005-panini",
+      "main": 384,
+      "total": 384,
+      "paths": 384,
+      "samples": [
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/346/special/1-aylwym.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 25671,
+          "sha256": "7536592d875f8f910ced06d3f1598a5ae4d949a7361887300c1b3ff1d8790355"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/346/liverpool-fc/193-ql8oux.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 22101,
+          "sha256": "5b1cc99450f0df11ec93103dacafcecabc8e66b4b6241bdef8a366a4d9e9865c"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/346/special/384-cfqied.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 35266,
+          "sha256": "192cb7da011b484354e42984391ed9ef26045b0be213977f0706f726875225d6"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "UEFA Euro West Germany 1988 Panini",
+      "url": "https://www.cromos.pt/collection/10/uefa-euro-west-germany-1988-panini",
+      "main": 268,
+      "total": 268,
+      "paths": 267,
+      "samples": [
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/10/intro/1-krqkfa.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 31438,
+          "sha256": "0a3e37577d988fd751c1868aa6e79844321a345646c2559b0b3b558c846776c3"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/10/esp/134-ilsylu.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 26935,
+          "sha256": "c1775c3d2587d8f278fe76a783e092cdd850844c492e7d3bdb17fca8e9b19e8b"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/10/referee/267-7eohlr.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 26629,
+          "sha256": "703190c5558c12d9517aa5ebb4e2b63347df32fbb501fc12544ca2010a6e472d"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "FIFA World Cup Mexico 1986 Panini",
+      "url": "https://www.cromos.pt/collection/9/fifa-world-cup-mexico-1986-panini",
+      "main": 427,
+      "total": 427,
+      "paths": 427,
+      "samples": [
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/9/special/1-ehercb.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 28962,
+          "sha256": "8d1da2160c4d46b7aceeed17d1b8b360a683417653c564255b8384f81f970372"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/9/hungary/214-j6phty.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 26842,
+          "sha256": "0171dc265c59c4fbff85ca0e401c64a4f5581588ad2a2f22dcde0af4b3217f7d"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/9/morocco/427-mnvbjr.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 24854,
+          "sha256": "13ed8b6a7e33232ddb066371175d139beff4e2abaefb167c7e9553663e8e3322"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "name": "Futebol 2013-14 Panini",
+      "url": "https://www.cromos.pt/collection/38/futebol-2013-14-panini",
+      "main": 418,
+      "total": 472,
+      "paths": 472,
+      "samples": [
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/38/indice/1-4qw654.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 16721,
+          "sha256": "e72f6d17161ca4fdde0b808c230b2adef590473f83c19c9600ea7ade517b1e80"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/38/porto/237-srfxxo.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 19350,
+          "sha256": "31e921107ba5fdc36e81e12c5db7964a59235b147f1502fdeeeaef9e5a84f099"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/38/ultimas-aquisicoes/472-27enea.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 22729,
+          "sha256": "5e2cd0634d6d51b83b851561ae4f8232f6752047a42f8b827ca40e9afdf7ff1e"
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "name": "Futebol 2012-2013 Panini",
+      "url": "https://www.cromos.pt/collection/57/futebol-2012-2013-panini",
+      "main": 426,
+      "total": 426,
+      "paths": 426,
+      "samples": [
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/57/academica/1-ggxdip.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 24137,
+          "sha256": "81eee257e5cdf021b65e3447be285ebf6e3c2f51de00d11f0f7116df079a80c1"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/57/olhanense/200-yplgsm.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 16665,
+          "sha256": "c7acea319a94699f1bf81a998baa5345ca1f295ddb2721619e297b0ff39f62e6"
+        },
+        {
+          "url": "https://www.cromos.pt/storage/uploads/stickers/57/ultimas-aquisicoes/404-yabqaj.jpg",
+          "status": 200,
+          "mime": "image/jpeg",
+          "bytes": 20598,
+          "sha256": "186bf0e8ddb8b7124f89fb81833c34829b79f004b88b71777bf3570412b844a6"
+        }
+      ]
+    }
+  ]
+}

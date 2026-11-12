@@ -108,10 +108,11 @@
         "positions": 313,
         "principal": 252,
         "principalWithImage": 252,
-        "verifiedImages": 301,
-        "missingImages": 12,
+        "verifiedImages": 302,
+        "missingImages": 11,
         "sections": 29,
-        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42419643838"
+        "evidence": "https://github.com/newuser-hub/fut/actions/runs/42419643838",
+        "lastPartialCheck": "2026-11-12"
       }
     },
     {

@@ -28,7 +28,7 @@ PROMO={
  "8B 11":"https://images.topps.com/v3/assets/bltc7206971cb4b2bfc/blt90b22202db3facad/6a60d7e89e4a6b7d3af52d49/26PRML_8BIT_BALLERS_CRF_2508.jpg",
  "FF 24":"https://images.topps.com/v3/assets/bltc7206971cb4b2bfc/blt6d9cb874b191eef3/6a60d8187bf5f64b8143132c/26PRML_FLYING_THE_FLAG_CRF_2223.jpg",
  "FSA-MD":"https://images.topps.com/v3/assets/bltc7206971cb4b2bfc/blt1a6086964ad0bdf8/6a60d7e8a66b92bc018134a1/26PRML_FUTURE_STARS_AUTO_CRF_8110.jpg",
- "MA 3":"https://images.topps.com/v3/assets/bltc7206971cb4b2bfc/blt21ad0e7c89a5989f/6a60d7e88a87c87eaf5e83a1/26PRML_MAYHEM_CRF_3312.jpg",
+ "MA 20":"https://images.topps.com/v3/assets/bltc7206971cb4b2bfc/blt21ad0e7c89a5989f/6a60d7e88a87c87eaf5e83a1/26PRML_MAYHEM_CRF_3312.jpg",
  "RT 21":"https://images.topps.com/v3/assets/bltc7206971cb4b2bfc/blt3b617fe390575cb6/6a60d7e7b93259893cb2730c/26PRML_RETRO_THREADS_CRF_2653.jpg",
 }
 SECTION={
@@ -47,7 +47,7 @@ SECTION={
 AUTOS={
  "CC":"Chrome Classics Autograph Cards","PT":"Perfect 10 Autograph Cards",
  "VI":"Vibes Autograph Cards","MA":"Mayhem Autograph Cards",
- "OF":"On Fire Autograph Cards","GB":"Golden Boot On-Card Autographs",
+ "OF":"On Fire Autograph Cards","GB":"Golden Boot On Card Autographs",
  "BE":"Black Edge Autograph Cards",
 }
 
@@ -168,7 +168,7 @@ def main():
                 return
     entry={"id":SLUG,"title":cat["title"],"year":"26/27","count":len(items),
            "sections":len(sections),"category":"Clubes · Premier League","status":"active",
-           "cover":None,"description":"Checklist oficial completa. Cinco ligações diretas a imagens promocionais Topps (não auditadas por hash, disponibilidade variável); restantes cartas sem imagem."}
+           "cover":None,"description":"Checklist oficial completa com imagens promocionais da Topps."}
     if existing:existing.update(entry)
     else:library.append(entry)
     target=ROOT/"public/data";target.mkdir(exist_ok=True,parents=True)

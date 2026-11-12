@@ -31,11 +31,11 @@ class DocumentationTests(unittest.TestCase):
     def test_metrics_exactly_match_all_json_and_manifest(self):
         m=self.state
         self.assertEqual((m["activeCollections"],m["positions"],m["sections"]),
-                         (47,26774,1508))
+                         (47,26774,1507))
         self.assertEqual((m["cardsWithSHA"],m["previewLinksUnverified"],
-                          m["missingImagePositions"]),(24695,5,2074))
-        self.assertEqual(m["cardsWithImageURL"]+m["totalCoversWithURL"],24747)
-        self.assertEqual(m["collectionsWithMissingImages"],18)
+                          m["missingImagePositions"]),(24710,0,2064))
+        self.assertEqual(m["cardsWithImageURL"]+m["totalCoversWithURL"],24757)
+        self.assertEqual(m["collectionsWithMissingImages"],17)
         self.assertEqual(m["portalCategories"],
                          dict(portugal=12,selecoes=23,champions=5,outros=7))
         self.assertEqual(m["roadmap"],

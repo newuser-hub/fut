@@ -1,0 +1,171 @@
+{
+  "checkedAt": "2026-11-12",
+  "method": "GET with production Referer, successful JPEG decoding and comparison with independent GET and visual inspection.",
+  "images": [
+    {
+      "collection": "premier-league-flagship-2026-27",
+      "id": "premier-league-flagship-2026-27-225f5e138a94",
+      "number": "FF 24",
+      "player": "Pedro Porro",
+      "url": "https://images.topps.com/v3/assets/bltc7206971cb4b2bfc/blt6d9cb874b191eef3/6a60d8187bf5f64b8143132c/26PRML_FLYING_THE_FLAG_CRF_2223.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 2187850,
+      "sha256": "f4217aeb028d3153b22c8b221c5f94af438e740875fc2d1d637ced64a32d36c5"
+    },
+    {
+      "collection": "premier-league-flagship-2026-27",
+      "id": "premier-league-flagship-2026-27-cce879c12555",
+      "number": "RT 21",
+      "player": "Ryan Giggs",
+      "url": "https://images.topps.com/v3/assets/bltc7206971cb4b2bfc/blt3b617fe390575cb6/6a60d7e7b93259893cb2730c/26PRML_RETRO_THREADS_CRF_2653.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 1869326,
+      "sha256": "969c66467b568e77ebe038a7c5fd8856ab1cb592b47b4079875bf76ac5c1923b"
+    },
+    {
+      "collection": "premier-league-flagship-2026-27",
+      "id": "premier-league-flagship-2026-27-3cdcf40af223",
+      "number": "8B 11",
+      "player": "Clint Dempsey",
+      "url": "https://images.topps.com/v3/assets/bltc7206971cb4b2bfc/blt90b22202db3facad/6a60d7e89e4a6b7d3af52d49/26PRML_8BIT_BALLERS_CRF_2508.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 2103071,
+      "sha256": "74853b63bab9690a9bab8c1c50c47047cfb35099beac5eaa7ba5be029a9a08ac"
+    },
+    {
+      "collection": "premier-league-flagship-2026-27",
+      "id": "premier-league-flagship-2026-27-660f2c25caee",
+      "number": "MA 20",
+      "player": "Haji Wright",
+      "url": "https://images.topps.com/v3/assets/bltc7206971cb4b2bfc/blt21ad0e7c89a5989f/6a60d7e88a87c87eaf5e83a1/26PRML_MAYHEM_CRF_3312.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 2100814,
+      "sha256": "348f7ddd0eecf5c1a885c81bdd716fba01484ec28820f4273f05e0f1e6b09274"
+    },
+    {
+      "collection": "premier-league-flagship-2026-27",
+      "id": "premier-league-flagship-2026-27-8c80eec4ac5b",
+      "number": "FSA-MD",
+      "player": "Max Dowman",
+      "url": "https://images.topps.com/v3/assets/bltc7206971cb4b2bfc/blt1a6086964ad0bdf8/6a60d7e8a66b92bc018134a1/26PRML_FUTURE_STARS_AUTO_CRF_8110.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 2487244,
+      "sha256": "2a4b2f6a2726dd9df88ff889355c027f7dd109e40705d7ce1403c18d40969daa"
+    },
+    {
+      "collection": "ligue-1-foot-2025-26",
+      "id": "ligue-1-foot-2025-26-1355574",
+      "number": "117",
+      "player": "Rassoul Ndiaye",
+      "url": "https://www.laststicker.com/i/cards/11771/117.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 27346,
+      "sha256": "1b71d4b5a43bc4100a5ebd3301108b3f265d1f786cc39c7cfb1389447a0f7e1d"
+    },
+    {
+      "collection": "ligue-1-foot-2025-26",
+      "id": "ligue-1-foot-2025-26-1355637",
+      "number": "180",
+      "player": "Hamza Igamane",
+      "url": "https://www.laststicker.com/i/cards/11771/180.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 28191,
+      "sha256": "bd43c8083f1a78f39cb91fe5e2516a01bf204495585b04f072793e208f21801b"
+    },
+    {
+      "collection": "ligue-1-foot-2025-26",
+      "id": "ligue-1-foot-2025-26-1355655",
+      "number": "198",
+      "player": "Arsène Kouassi",
+      "url": "https://www.laststicker.com/i/cards/11771/198.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 29616,
+      "sha256": "7dfbd031663ab742870a6dbe48cf3cfc79fb8ff80d6ab079423413fafa5705e5"
+    },
+    {
+      "collection": "ligue-1-foot-2025-26",
+      "id": "ligue-1-foot-2025-26-1355744",
+      "number": "287",
+      "player": "Maxime Colin",
+      "url": "https://www.laststicker.com/i/cards/11771/287.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 27531,
+      "sha256": "0ec25a449fcffe66f79b03ffae78e1409db98e88319035283dbbfaf8d81e7390"
+    },
+    {
+      "collection": "ligue-1-foot-2025-26",
+      "id": "ligue-1-foot-2025-26-1355785",
+      "number": "328",
+      "player": "Denis Zakaria",
+      "url": "https://www.laststicker.com/i/cards/11771/328.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 30396,
+      "sha256": "64cde2ffd0e03df05893ff91cc1f64c355b61132e5965ce48a09d04a093a4e77"
+    },
+    {
+      "collection": "ligue-1-foot-2025-26",
+      "id": "ligue-1-foot-2025-26-1355811",
+      "number": "354",
+      "player": "Junior Mwanga",
+      "url": "https://www.laststicker.com/i/cards/11771/354.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 27467,
+      "sha256": "916a6807bcb67ec933e826694511e4fdc06e1d1679b488918e06d79b6ab2dea3"
+    },
+    {
+      "collection": "ligue-1-foot-2025-26",
+      "id": "ligue-1-foot-2025-26-1355840",
+      "number": "383",
+      "player": "Salis Abdul Samed",
+      "url": "https://www.laststicker.com/i/cards/11771/383.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 30241,
+      "sha256": "8a8a95331734a697b5f8017792a8b0152f59d09de274e6dd27400daaa6282e14"
+    },
+    {
+      "collection": "ligue-1-foot-2025-26",
+      "id": "ligue-1-foot-2025-26-1355866",
+      "number": "409",
+      "player": "Nhoa Sangui",
+      "url": "https://www.laststicker.com/i/cards/11771/409.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 28728,
+      "sha256": "0f51d7dd4a1f5391c9a66dc02a6a5b57605e929a4a7d17ff2ca5b9c3b9e62ae4"
+    },
+    {
+      "collection": "ligue-1-foot-2025-26",
+      "id": "ligue-1-foot-2025-26-1355887",
+      "number": "430",
+      "player": "Lucas Chevalier",
+      "url": "https://www.laststicker.com/i/cards/11771/430.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 29382,
+      "sha256": "767d760dddcb6c1a3ba00c76e7ec7ae3cdcd76e00e98671dd06d15045e2f0755"
+    },
+    {
+      "collection": "idolos-pt-2026-27",
+      "id": "idolos-pt-2026-27-86867",
+      "number": "AU1",
+      "player": "Aursnes",
+      "url": "https://www.cromos.pt/storage/uploads/stickers/335/autografos/au1-yjd3hv.jpg",
+      "http": 200,
+      "mime": "image/jpeg",
+      "bytes": 29177,
+      "sha256": "b3e3fd51c6275575f0f0c719fc3f071a5ed1fe5e62aec80935e4b79b0351db6f"
+    }
+  ]
+}

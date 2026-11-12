@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "snapshotAt": "2026-11-08",
-  "referenceMainCommit": "d5fb60eec0801808ec2946385a14c8c9226df54d",
+  "snapshotAt": "2026-11-12",
+  "referenceMainCommit": "7b51023f6767a807786ecf2d03fcf7086a39712c",
   "origin": [
     "public/library.json",
     "public/data/*.json",
@@ -10,11 +10,11 @@
   "note": "SHA persistido nos JSON não implica disponibilidade HTTP atual; rede verificada separadamente na etapa 4.",
   "activeCollections": 47,
   "positions": 26774,
-  "cardsWithSHA": 24695,
-  "previewLinksUnverified": 5,
-  "missingImagePositions": 2074,
-  "cardsWithImageURL": 24700,
-  "sections": 1508,
+  "cardsWithSHA": 24710,
+  "previewLinksUnverified": 0,
+  "missingImagePositions": 2064,
+  "cardsWithImageURL": 24710,
+  "sections": 1507,
   "totalCoversWithURL": 47,
   "portalCategories": {
     "portugal": 12,
@@ -29,7 +29,7 @@
     "blocked": 4,
     "pending": 0
   },
-  "collectionsWithMissingImages": 18,
+  "collectionsWithMissingImages": 17,
   "collections": [
     {
       "id": "club-world-cup-2025",
@@ -236,9 +236,9 @@
       "publisher": "Topps",
       "status": "active",
       "count": 1138,
-      "sections": 63,
-      "cardsWithSHA": 0,
-      "previewLinksUnverified": 5,
+      "sections": 62,
+      "cardsWithSHA": 5,
+      "previewLinksUnverified": 0,
       "missingImagePositions": 1133
     },
     {
@@ -293,9 +293,9 @@
       "status": "active",
       "count": 556,
       "sections": 20,
-      "cardsWithSHA": 547,
+      "cardsWithSHA": 556,
       "previewLinksUnverified": 0,
-      "missingImagePositions": 9
+      "missingImagePositions": 0
     },
     {
       "id": "euro-poland-ukraine-2012",
@@ -363,9 +363,9 @@
       "status": "active",
       "count": 313,
       "sections": 29,
-      "cardsWithSHA": 301,
+      "cardsWithSHA": 302,
       "previewLinksUnverified": 0,
-      "missingImagePositions": 12
+      "missingImagePositions": 11
     },
     {
       "id": "world-cup-adrenalyn-2026",

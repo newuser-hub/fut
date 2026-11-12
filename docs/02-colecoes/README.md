@@ -1,8 +1,8 @@
 # 02 — Inventário atual de coleções
 
-**Snapshot documental:** 2026-11-08, calculado de [`public/library.json`](../../public/library.json) e dos **47 JSON** em [`public/data/`](../../public/data/). Este documento é gerado automaticamente com `python3 scripts/refresh_documentation.py --write` e não altera os catálogos.
+**Snapshot documental:** 2026-11-12, calculado de [`public/library.json`](../../public/library.json) e dos **47 JSON** em [`public/data/`](../../public/data/). Este documento é gerado automaticamente com `python3 scripts/refresh_documentation.py --write` e não altera os catálogos.
 
-**47 coleções ativas; 26.774 posições; 24.695 imagens de cromos com hash; 5 ligações não verificadas; 2.074 posições sem URL de fotografia.**
+**47 coleções ativas; 26.774 posições; 24.710 imagens de cromos com hash; 0 ligações não verificadas; 2.064 posições sem URL de fotografia.**
 
 A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à classificação real do portal. Cada categoria e época são vistas de navegação, não diretórios físicos ou novos IDs.
 
@@ -10,7 +10,7 @@ A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à
 
 | Coleção | Ano | Editora | Posições | Secções | Com SHA | Link sem SHA | Sem URL | Catálogo |
 |---|---|---|---:|---:|---:|---:|---:|---|
-| Ídolos do Futebol Português 2026/27 | 26/27 | Panini | 313 | 29 | 301 | 0 | 12 | [JSON](../../public/data/idolos-pt-2026-27.json) |
+| Ídolos do Futebol Português 2026/27 | 26/27 | Panini | 313 | 29 | 302 | 0 | 11 | [JSON](../../public/data/idolos-pt-2026-27.json) |
 | Liga Portugal 2025/26 | 25/26 | Panini | 497 | 26 | 486 | 0 | 11 | [JSON](../../public/data/liga-portugal-2025-26.json) |
 | Liga Portugal 2024/25 | 24/25 | Panini | 528 | 27 | 528 | 0 | 0 | [JSON](../../public/data/liga-2024-25.json) |
 | Liga Portugal 2023/24 | 23/24 | Panini | 527 | 26 | 525 | 0 | 2 | [JSON](../../public/data/liga-portugal-2023-24.json) |
@@ -68,9 +68,9 @@ A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à
 | FIFA 365 2026 | 2026 | Panini | 524 | 31 | 524 | 0 | 0 | [JSON](../../public/data/fifa-365-2026.json) |
 | LaLiga ESTE 2026/27 | 26/27 | Panini | 743 | 34 | 623 | 0 | 120 | [JSON](../../public/data/laliga-este-2026-27.json) |
 | LaLiga Megacracks 2026/27 | 26/27 | Panini | 534 | 33 | 451 | 0 | 83 | [JSON](../../public/data/laliga-megacracks-2026-27.json) |
-| Premier League · Topps Flagship 2026/27 | 26/27 | Topps | 1138 | 63 | 0 | 5 | 1133 | [JSON](../../public/data/premier-league-flagship-2026-27.json) |
+| Premier League · Topps Flagship 2026/27 | 26/27 | Topps | 1138 | 62 | 5 | 0 | 1133 | [JSON](../../public/data/premier-league-flagship-2026-27.json) |
 | Serie A · Calciatori 2026/27 | 26/27 | Panini | 827 | 35 | 640 | 0 | 187 | [JSON](../../public/data/serie-a-calciatori-2026-27.json) |
-| Ligue 1 · Foot 2025/26 | 25/26 | Panini | 556 | 20 | 547 | 0 | 9 | [JSON](../../public/data/ligue-1-foot-2025-26.json) |
+| Ligue 1 · Foot 2025/26 | 25/26 | Panini | 556 | 20 | 556 | 0 | 0 | [JSON](../../public/data/ligue-1-foot-2025-26.json) |
 | Mundial de Clubes 2025 | 2025 | Panini | 550 | 33 | 550 | 0 | 0 | [JSON](../../public/data/club-world-cup-2025.json) |
 
 ## Como interpretar
