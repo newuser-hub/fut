@@ -47,9 +47,9 @@ assert(source.includes('const stateKey = id => "fut.album."+id+".progress.v1"'))
 console.log('PASS: agrupamento e anos de '+library.length+' coleções; '+JSON.stringify(counts));
 console.log('PASS: pesquisa, IDs e progresso independente');
 const expansion=JSON.parse(readFileSync(new URL('../public/expansion-plan.json',import.meta.url),'utf8'));
-assert.equal(expansion.goal,34);
-assert.equal(expansion.collections.length,34);
-assert.equal(expansion.collections.slice(20).length,14);
+assert.equal(expansion.goal,36);
+assert.equal(expansion.collections.length,36);
+assert.equal(expansion.collections.slice(20).length,16);
 assert(expansion.collections.slice(20).every(x=>['pending','verified','blocked'].includes(x.imageAudit)),'A fase 2 deve aceitar alterações de estado após cada lote');
 assert(source.includes("plan.collections.length===plan.goal"));
 for(const id of ['ucl-topps-2023-24','champions-of-europe-1955-2005']){
@@ -61,5 +61,9 @@ for(const id of ['euro-1988','world-cup-1986']){
  assert(library.some(x=>x.id===id&&x.status==='active'),'Nova coleção ausente: '+id);
  assert.equal(t.group(library.find(x=>x.id===id)),'selecoes');
 }
-console.log('PASS: roteiro contínuo de 34 candidatas, duas novas seleções, lote 14 e botões dinâmicos');
+for(const id of ['futebol-2013-14','futebol-2012-13']){
+ assert(library.some(x=>x.id===id&&x.status==='active'),'Nova coleção ausente: '+id);
+ assert.equal(t.group(library.find(x=>x.id===id)),'portugal');
+}
+console.log('PASS: roteiro contínuo de 36 candidatas, duas novas épocas portuguesas, anteriores lotes e botões dinâmicos');
 

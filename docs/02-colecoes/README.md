@@ -1,12 +1,12 @@
 # 02 — Inventário atual de coleções
 
-**Snapshot documental:** 2026-11-12, calculado de [`public/library.json`](../../public/library.json) e dos **51 JSON** em [`public/data/`](../../public/data/). Este documento é gerado automaticamente com `python3 scripts/refresh_documentation.py --write` e não altera os catálogos.
+**Snapshot documental:** 2026-11-12, calculado de [`public/library.json`](../../public/library.json) e dos **53 JSON** em [`public/data/`](../../public/data/). Este documento é gerado automaticamente com `python3 scripts/refresh_documentation.py --write` e não altera os catálogos.
 
-**51 coleções ativas; 28.594 posições; 26.529 imagens de cromos com hash; 0 ligações não verificadas; 2.065 posições sem URL de fotografia.**
+**53 coleções ativas; 29.492 posições; 27.427 imagens de cromos com hash; 0 ligações não verificadas; 2.065 posições sem URL de fotografia.**
 
 A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à classificação real do portal. Cada categoria e época são vistas de navegação, não diretórios físicos ou novos IDs.
 
-## Portugal — 12 coleções
+## Portugal — 14 coleções
 
 | Coleção | Ano | Editora | Posições | Secções | Com SHA | Link sem SHA | Sem URL | Catálogo |
 |---|---|---|---:|---:|---:|---:|---:|---|
@@ -22,6 +22,8 @@ A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à
 | Liga Portugal 2017/18 | 17/18 | Panini | 398 | 22 | 397 | 0 | 1 | [JSON](../../public/data/liga-portugal-2017-18.json) |
 | Liga Portugal 2016/17 | 16/17 | Panini | 442 | 20 | 442 | 0 | 0 | [JSON](../../public/data/liga-portugal-2016-17.json) |
 | Liga Portugal 2014/15 | 14/15 | Panini | 496 | 25 | 496 | 0 | 0 | [JSON](../../public/data/liga-portugal-2014-15.json) |
+| Futebol 2013/14 — Panini | 13/14 | Panini | 472 | 25 | 472 | 0 | 0 | [JSON](../../public/data/futebol-2013-14.json) |
+| Futebol 2012/13 — Panini | 12/13 | Panini | 426 | 19 | 426 | 0 | 0 | [JSON](../../public/data/futebol-2012-13.json) |
 
 ## Seleções — 25 coleções
 
@@ -85,4 +87,4 @@ A divisão em **Portugal, Seleções, Champions League e Outros** corresponde à
 - **Capa:** cada coleção tem URL de capa; a auditoria HTTP das 47 capas está [documentada separadamente](../../ops/audit-2026-11-08-step4-images.md).
 - **Histórico:** a tabela do [PR #1](../01-gestao/README-original-2026-11-08.md) corresponde a 29 coleções e foi preservada como arquivo, não como estado presente.
 
-**Roteiro separado:** 30/34 candidatos integrados, 4 bloqueados, 0 pendentes. Fonte: [expansion-plan.json](../../public/expansion-plan.json).
+**Roteiro separado:** 32/36 candidatos integrados, 4 bloqueados, 0 pendentes. Fonte: [expansion-plan.json](../../public/expansion-plan.json).

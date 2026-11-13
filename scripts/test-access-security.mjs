@@ -421,8 +421,8 @@ test('chave de progresso e dados de cromos não são tocados pelo gate de segura
   const source=readFileSync(new URL('../src/index.html',import.meta.url),'utf8');
   assert(source.includes('const stateKey = id => "fut.album."+id+".progress.v1"'));
   const manifest=JSON.parse(readFileSync(new URL('../public/library.json',import.meta.url),'utf8'));
-  assert.equal(manifest.length,51);
-  assert.equal(manifest.reduce((a,x)=>a+x.count,0),28594);
+  assert.equal(manifest.length,53);
+  assert.equal(manifest.reduce((a,x)=>a+x.count,0),29492);
 });
 
 test('Drive não serve catálogo ou imagens sem pointer promovido',async()=>{

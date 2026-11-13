@@ -1,8 +1,8 @@
 # FUT — Arquivo de Cadernetas Digitais
 
-Portal privado de cromos de futebol. **Estado dos JSON em 12/11/2026: 51 coleções ativas, 28.594 posições e quatro categorias — Portugal, Seleções, Champions League e Outros.** A [contagem é calculada diretamente](docs/metrics-current.json) dos ficheiros do repositório, não de um README histórico.
+Portal privado de cromos de futebol. **Estado dos JSON em 12/11/2026: 53 coleções ativas, 29.492 posições e quatro categorias — Portugal, Seleções, Champions League e Outros.** A [contagem é calculada diretamente](docs/metrics-current.json) dos ficheiros do repositório, não de um README histórico.
 
-**[Documentação por dez categorias](docs/README.md)** · [Inventário das 51 coleções](docs/02-colecoes/README.md) · [Imagens e auditoria](docs/04-imagens/README.md) · [Operação e recuperação](docs/08-github-vercel/README.md) · [Checkpoint da auditoria](ops/audit-2026-11-08.md).
+**[Documentação por dez categorias](docs/README.md)** · [Inventário das 53 coleções](docs/02-colecoes/README.md) · [Imagens e auditoria](docs/04-imagens/README.md) · [Operação e recuperação](docs/08-github-vercel/README.md) · [Checkpoint da auditoria](ops/audit-2026-11-08.md).
 
 As correções técnicas da auditoria estão em produção desde 12/11. [Publicação e provas de acesso](https://github.com/newuser-hub/fut/pull/2) · [Revisão editorial posterior](ops/editorial-2026-11-12.md) · [Próximas expansões](ops/next-expansions-2026-11-12.md).
 
@@ -10,13 +10,13 @@ As correções técnicas da auditoria estão em produção desde 12/11. [Publica
 
 | Indicador | Valor |
 |---|---:|
-| Coleções ativas / posições | **51 / 28.594** |
-| Secções | **1.612** |
-| Cromos com URL, bytes e SHA-256 persistidos | **26.529** |
+| Coleções ativas / posições | **53 / 29.492** |
+| Secções | **1.656** |
+| Cromos com URL, bytes e SHA-256 persistidos | **27.427** |
 | Ligações oficiais Topps sem hash validado | **0** |
 | Posições sem URL de imagem | **2.065** |
-| Capas (URLs separadas dos cromos) | **51** |
-| Roteiro editorial | **34 candidatas; 30 integradas, 4 bloqueadas, 0 outras pendentes** |
+| Capas (URLs separadas dos cromos) | **53** |
+| Roteiro editorial | **36 candidatas; 32 integradas, 4 bloqueadas, 0 outras pendentes** |
 
 A [auditoria HTTP da etapa 4](ops/audit-2026-11-08-step4-images.md) confirmou **24.742 URLs de imagem** por GET/MIME/bytes/SHA-256 em 08/11/2026 (24.695 cromos e 47 capas). Os cinco links Topps responderam HTTP 403 no runner. Uma imagem com hash histórico não está necessariamente disponível hoje; não inventar fotografias nem apagar posições incompletas.
 
@@ -51,7 +51,7 @@ Os testes de browser usam um servidor local e uma API simulada, sem credenciais 
 ## Arquitetura
 
 - **Frontend:** `src/index.html`, compilado em `public/index.html`; portal, índice, pesquisa, páginas, revelação e favoritos.
-- **Dados:** `public/library.json` (manifesto), `public/data/*.json` (51 catálogos), `public/expansion-plan.json` (roteiro de 34 candidatas). Não editar IDs para adaptar documentação.
+- **Dados:** `public/library.json` (manifesto), `public/data/*.json` (53 catálogos), `public/expansion-plan.json` (roteiro de 36 candidatas). Não editar IDs para adaptar documentação.
 - **Autenticação:** `proxy.js` e `lib/access-control.js` exigem HTTP Basic com `FUT_ALBUM_PASSWORD` no ambiente; a API `api/storage.js` verifica a autorização independentemente. Na ausência de configuração, falha fechado. **A proteção do site não torna privados os ficheiros de um repositório GitHub público.**
 - **Armazenamento:** Vercel/JSON estáticos por defeito; `lib/drive-store.js`, `lib/drive-migration.js` e `scripts/migrate-drive.mjs` preparam um backend Google Drive **não ativado e sem migração real**. [Procedimento e limites](docs/GOOGLE_DRIVE_STORAGE.md).
 - **Publicação:** Vercel com `vercel.json` e GitHub Actions. As alterações desta auditoria estão na branch isolada; o último deployment de produção revalidado corresponde a `main` em `d5fb60eec0801808ec2946385a14c8c9226df54d`, **READY**. Não aceitar READY de outro SHA como prova de publicação nova.

@@ -30,6 +30,8 @@ on:
       - "public/data/champions-of-europe-1955-2005.json"
       - "public/data/euro-1988.json"
       - "public/data/world-cup-1986.json"
+      - "public/data/futebol-2013-14.json"
+      - "public/data/futebol-2012-13.json"
       - "scripts/verify_audited_batch.py"
       - "src/index.html"
       - "scripts/verify-portal-groups.mjs"
