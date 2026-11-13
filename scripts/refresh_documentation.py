@@ -15,8 +15,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SHA256 = re.compile(r"^[0-9a-f]{64}$", re.IGNORECASE)
-BASE_MAIN = "d5fb60eec0801808ec2946385a14c8c9226df54d"
-SNAPSHOT = "2026-11-08"
+BASE_MAIN = "7b51023f6767a807786ecf2d03fcf7086a39712c"
+SNAPSHOT = "2026-11-12"
 CATEGORIES = [
     ("portugal", "Portugal"),
     ("selecoes", "Seleções"),
@@ -105,7 +105,7 @@ def metrics() -> dict:
     assert totals["cardsWithImageURL"] == totals["cardsWithSHA"] + totals["previewLinksUnverified"]
     assert totals["totalCoversWithURL"] == len(manifest), "Uma das capas não tem URL"
     assert len(manifest) == 47 and totals["positions"] == 26774, "Mudança de inventário não autorizada na auditoria"
-    assert (totals["cardsWithSHA"], totals["previewLinksUnverified"], totals["missingImagePositions"]) == (24695, 5, 2074), "Imagem não corresponde à última auditoria"
+    assert (totals["cardsWithSHA"], totals["previewLinksUnverified"], totals["missingImagePositions"]) == (24710, 0, 2064), "Imagem não corresponde à última auditoria"
     distribution = {key: sum(row["category"] == key for row in records) for key, _ in CATEGORIES}
     assert distribution == dict(portugal=12, selecoes=23, champions=5, outros=7)
     assert len(plan["collections"]) == plan["goal"] == 30
@@ -187,7 +187,7 @@ def images_md(m: dict) -> str:
         "| Estado, mutuamente exclusivo | Cromos | Fonte da classificação |",
         "|---|---:|---|",
         f"| URL e SHA-256 persistido com bytes positivos | **{x['cardsWithSHA']:,}** | Campos `image`, `sha256`, `bytes` |".replace(",","."),
-        f"| URL oficial sem SHA-256 auditado | **{x['previewLinksUnverified']}** | Cinco previews Topps, HTTP 403 na última auditoria |",
+        f"| URL oficial sem SHA-256 auditado | **{x['previewLinksUnverified']}** | Previews com URL e sem bytes confirmados |",
         f"| Sem URL de imagem | **{x['missingImagePositions']:,}** | `image` ausente ou nulo; posições mantidas |".replace(",","."),
         f"| **Total de posições** | **{x['positions']:,}** | `public/library.json` e `public/data/*.json` |".replace(",","."),
         "",
@@ -200,7 +200,7 @@ def images_md(m: dict) -> str:
         "- O varrimento da [etapa 4](../../ops/audit-2026-11-08-step4-images.md) cobriu 24.747 URLs e comprovou **24.742 GET 200** com tipo MIME de imagem, tamanho e SHA (24.695 cromos + 47 capas), sem divergência de hash confirmada. Os outros **5 URLs** devolveram HTTP 403.",
         "- O hash persistido no JSON é evidência histórica de bytes, **não** uma nova descarga e **não** garante que o URL responda hoje.",
         "- A capa Premier League num URL específico de `blogger.googleusercontent.com` foi verificada por GET; o pipeline Drive permite apenas essa URL exata como exceção de host.",
-        "- O cromo **Salis Abdul Samed**, Ligue 1 #383, tinha os mesmos bytes de uma fotografia de outro jogador. A associação errada foi retirada; preservaram-se identidade, número e progresso, mantendo a fotografia pendente.",
+        "- O cromo **Salis Abdul Samed**, Ligue 1 #383, tinha os mesmos bytes de uma fotografia de outro jogador. A associação errada foi retirada; preservaram-se identidade, número e progresso, e a nova fotografia foi verificada em 12/11.",
         "- Oito pares de cromos regionais Coca-Cola partilham imagens legitimamente. Não foram apagados nem alterados.",
         "",
         "## Regras de qualidade",

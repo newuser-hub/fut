@@ -102,6 +102,10 @@ def fetch_catalog(item:dict, fixture_dir:Path|None=None, prefetched:Path|None=No
             optional=is_optional,order=int(raw.get("order_in_collection") or 0),
             available=False
         ))
+        if (item["sourceId"] == 49 and 21536 <= raw["id"] <= 21545
+                and re.fullmatch(r"RS(?:[1-9]|10)", raw_number) and raw["name"].endswith(")200")):
+            cards[-1]["sourceName"] = raw["name"]
+            cards[-1]["name"] = raw["name"][:-3]
     cards.sort(key=lambda c:(c["order"],c["sourceId"]))
     if len(cards)<col["stickers_count"] or len(cards)<100:
         raise ValueError("Coleção incompleta")

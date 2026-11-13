@@ -35,8 +35,12 @@ for entry in active:
     permitted_prefix=('https://images.topps.com/' if official else
         ('https://stickersone.com/images/figurine/', 'https://www.stickersone.com/images/figurine/') if stickersone else
         'https://www.cromos.pt/storage/uploads/stickers/')
-    assert all(c.get('bytes',0)>1000 and (c.get('image') or '').startswith(
-        permitted_prefix) for c in verified),(entry['id'],'image audit invalid')
+    for c in verified:
+        url = c.get('image') or ''
+        alternate = (entry['id'] == 'ligue-1-foot-2025-26'
+                     and url == f"https://www.laststicker.com/i/cards/11771/{c['number']}.jpg"
+                     and c.get('imageSourcePage') == f"https://www.laststicker.com/cards/panini_foot_2025-2026/{c['number']}/")
+        assert c.get('bytes',0)>1000 and (url.startswith(permitted_prefix) or alternate), (entry['id'],c['id'],'image audit invalid')
     assert all(not c.get('image') and not c.get('sha256') for c in unavailable),(entry['id'],'unavailable image metadata')
     required=[c for c in cards if not c.get('optional')]
     if official:

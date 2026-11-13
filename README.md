@@ -1,18 +1,20 @@
 # FUT — Arquivo de Cadernetas Digitais
 
-Portal privado de cromos de futebol. **Estado dos JSON em 08/11/2026: 47 coleções ativas, 26.774 posições e quatro categorias — Portugal, Seleções, Champions League e Outros.** A [contagem é calculada diretamente](docs/metrics-current.json) dos ficheiros do repositório, não de um README histórico.
+Portal privado de cromos de futebol. **Estado dos JSON em 12/11/2026: 47 coleções ativas, 26.774 posições e quatro categorias — Portugal, Seleções, Champions League e Outros.** A [contagem é calculada diretamente](docs/metrics-current.json) dos ficheiros do repositório, não de um README histórico.
 
 **[Documentação por dez categorias](docs/README.md)** · [Inventário das 47 coleções](docs/02-colecoes/README.md) · [Imagens e auditoria](docs/04-imagens/README.md) · [Operação e recuperação](docs/08-github-vercel/README.md) · [Checkpoint da auditoria](ops/audit-2026-11-08.md).
+
+As correções técnicas da auditoria estão em produção desde 12/11. [Publicação e provas de acesso](https://github.com/newuser-hub/fut/pull/2) · [Revisão editorial posterior](ops/editorial-2026-11-12.md) · [Próximas expansões](ops/next-expansions-2026-11-12.md).
 
 ## Estado dos dados e imagens
 
 | Indicador | Valor |
 |---|---:|
 | Coleções ativas / posições | **47 / 26.774** |
-| Secções | **1.508** |
-| Cromos com URL, bytes e SHA-256 persistidos | **24.695** |
-| Ligações oficiais Topps sem hash validado | **5** |
-| Posições sem URL de imagem | **2.074** |
+| Secções | **1.507** |
+| Cromos com URL, bytes e SHA-256 persistidos | **24.710** |
+| Ligações oficiais Topps sem hash validado | **0** |
+| Posições sem URL de imagem | **2.064** |
 | Capas (URLs separadas dos cromos) | **47** |
 | Roteiro editorial | **30 candidatas; 26 integradas, 4 bloqueadas, 0 outras pendentes** |
 

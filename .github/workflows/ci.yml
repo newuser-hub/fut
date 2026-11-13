@@ -119,7 +119,8 @@ jobs:
           assert 'fut.album.' in html and '.progress.v1' in html
           salis=json.loads(Path('public/data/ligue-1-foot-2025-26.json').read_text())
           c=next(x for x in salis['cards'] if x['id']=='ligue-1-foot-2025-26-1355840')
-          assert c['available'] is False and c['image'] is None
+          assert c['available'] and c['sha256'] == '8a8a95331734a697b5f8017792a8b0152f59d09de274e6dd27400daaa6282e14'
+          assert c['sha256'] != next(x for x in salis['cards'] if x['number']=='382')['sha256']
           print('PASS: 47 coleções, 26774 posições e progresso preservado')
           PY
           git diff --exit-code -- .

@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "at": "2026-11-08",
-  "baseCommit": "d5fb60eec0801808ec2946385a14c8c9226df54d",
+  "at": "2026-11-12",
+  "baseCommit": "7b51023f6767a807786ecf2d03fcf7086a39712c",
   "sourceOfTruth": {
     "manifest": "public/library.json",
     "catalogs": "public/data/",
@@ -10,9 +10,9 @@
   "summary": {
     "activeCollections": 47,
     "positions": 26774,
-    "imagesWithSHA": 24695,
-    "previewLinksUnverified": 5,
-    "missingImages": 2074,
+    "imagesWithSHA": 24710,
+    "previewLinksUnverified": 0,
+    "missingImages": 2064,
     "roadmapIntegrated": 26,
     "roadmapBlocked": 4,
     "roadmapPending": 0
