@@ -1,0 +1,51 @@
+name: FUT - Prova HTTP 401 anonima (release 2026-11-13)
+on:
+  push:
+    branches: [ops/verify-anonymous-production-2026-11-13]
+permissions:
+  contents: read
+jobs:
+  anonymous-auth:
+    name: HTTP 401 Basic da aplicacao (sem credenciais)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar GET anonimo em ambos os domínios, sem VERCEL_TOKEN
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          const hosts=['fut-rosy.vercel.app','fut-pjr-s-projects.vercel.app'];
+          const paths=['/','/index.html','/library.json','/expansion-plan.json',
+            '/data/euro-1988.json','/data/world-cup-1986.json','/api/storage?kind=library'];
+          const results=[];
+          for(const host of hosts){
+            for(const path of paths){
+              let result={host,path,status:null,basicRealm:false,noStore:false,pass:false};
+              try{
+                const response=await fetch('https://'+host+path,{
+                  method:'GET',redirect:'manual',headers:{Accept:'*/*'},
+                  signal:AbortSignal.timeout(12000)
+                });
+                const challenge=response.headers.get('www-authenticate')||'';
+                const cache=response.headers.get('cache-control')||'';
+                result.status=response.status;
+                result.basicRealm=/^Basic realm="FUT - Cadernetas"(?:,|$)/i.test(challenge);
+                result.noStore=/\bno-store\b/i.test(cache);
+                result.pass=result.status===401 && result.basicRealm && result.noStore;
+                await response.body?.cancel?.();
+              }catch(error){result.error=String(error?.cause?.code||error?.name||'network_error')}
+              results.push(result);
+              console.log('FUT_401_EVIDENCE='+JSON.stringify(result));
+            }
+          }
+          const ok=results.every(x=>x.pass);
+          console.log('FUT_401_SUMMARY='+JSON.stringify({
+            hosts:hosts.length,pathsPerHost:paths.length,checks:results.length,
+            http401BasicNoStore:results.filter(x=>x.pass).length,pass:ok
+          }));
+          if(!ok)process.exitCode=1;
+          JS
