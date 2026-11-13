@@ -28,7 +28,7 @@ test('portal: quatro categorias com contagens, anos decrescentes e sem overflow'
   const {page}=portal;
   const categories=[
     ['portugal','Portugal',12],['selecoes','Seleções',23],
-    ['champions','Champions League',5],['outros','Outros',7]
+    ['champions','Champions League',7],['outros','Outros',7]
   ];
   await expect(page.locator('.category-shortcut')).toHaveCount(4);
   for(const [id,name,count] of categories){
@@ -43,7 +43,7 @@ test('portal: quatro categorias com contagens, anos decrescentes e sem overflow'
     expect(values).toEqual([...values].sort((a,b)=>b-a));
   }
   expect(await horizontalOverflow(page)).toBe(false);
-  expect(library.filter(x=>x.status==='active')).toHaveLength(47);
+  expect(library.filter(x=>x.status==='active')).toHaveLength(49);
   console.log('FUT_STAGE8_MATRIX_JSON='+JSON.stringify({engine:info.project.use.browserName,
     width:info.project.use.viewport.width,test:'categories_years_overflow',result:'PASS'}));
 });
@@ -351,4 +351,38 @@ test('WCAG automatizado no portal e no modal aberto',async({portal})=>{
   const modalSevere=modalResult.violations.filter(v=>
     ['serious','critical'].includes(v.impact));
   expect(modalSevere.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)}))).toEqual([]);
+});
+
+test('lote14: progresso e favoritos independentes nas duas coleções',async({portal})=>{
+  const {page}=portal;
+  const ids=['ucl-topps-2023-24','champions-of-europe-1955-2005'];
+  const firstCards=[];
+  for(const slug of ids){
+    await page.locator('.category-shortcut[data-category="champions"]').click();
+    await expect(page.locator('#group-champions')).toHaveAttribute('open','');
+    await page.locator('[data-action="collection"][data-collection="'+slug+'"]').click();
+    await expect(page.locator('.index-grid')).toBeVisible();
+    await page.locator('.hero-actions [data-action="album"]').click();
+    const card=page.locator('.flip-card').first();
+    await expect(card).toBeVisible();
+    firstCards.push(await card.getAttribute('data-id'));
+    await card.click();
+    await expect(card).toHaveAttribute('aria-pressed','true');
+    await page.locator('.star').first().click();
+    const state=await page.evaluate(id=>JSON.parse(localStorage.getItem('fut.album.'+id+'.progress.v1')),slug);
+    expect(state.revealed[firstCards.at(-1)]).toBe(true);
+    expect(state.favorites[firstCards.at(-1)]).toBe(true);
+    await page.locator('#nav-portal').click();
+    await expect(page.locator('.collection-browser')).toBeVisible();
+  }
+  expect(firstCards[0]).not.toBe(firstCards[1]);
+  const keys=await page.evaluate(()=>Object.keys(localStorage).filter(k=>k.endsWith('.progress.v1')));
+  expect(keys).toContain('fut.album.'+ids[0]+'.progress.v1');
+  expect(keys).toContain('fut.album.'+ids[1]+'.progress.v1');
+  await page.locator('.category-shortcut[data-category="champions"]').click();
+  await expect(page.locator('#group-champions')).toHaveAttribute('open','');
+  await page.locator('[data-action="collection"][data-collection="'+ids[0]+'"]').click();
+  await page.locator('.hero-actions [data-action="album"]').click();
+  await expect(page.locator('.flip-card').first()).toHaveAttribute('aria-pressed','true');
+  await expect(page.locator('.star').first()).toHaveAttribute('aria-pressed','true');
 });

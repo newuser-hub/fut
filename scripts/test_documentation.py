@@ -30,16 +30,22 @@ class DocumentationTests(unittest.TestCase):
 
     def test_metrics_exactly_match_all_json_and_manifest(self):
         m=self.state
+        # A base de 47 catálogos é imutável; somente os dois novos alteram métricas.
+        new_ids=("ucl-topps-2023-24","champions-of-europe-1955-2005")
+        fresh=[json.loads((ROOT/f"public/data/{slug}.json").read_text(encoding="utf-8")) for slug in new_ids]
+        newly_verified=sum(c["available"] for album in fresh for c in album["cards"])
+        newly_missing=sum(not c["available"] for album in fresh for c in album["cards"])
         self.assertEqual((m["activeCollections"],m["positions"],m["sections"]),
-                         (47,26774,1507))
+                         (49,27899,1507+sum(len(album["sections"]) for album in fresh)))
         self.assertEqual((m["cardsWithSHA"],m["previewLinksUnverified"],
-                          m["missingImagePositions"]),(24710,0,2064))
-        self.assertEqual(m["cardsWithImageURL"]+m["totalCoversWithURL"],24757)
-        self.assertEqual(m["collectionsWithMissingImages"],17)
+                          m["missingImagePositions"]),(24710+newly_verified,0,2064+newly_missing))
+        self.assertEqual(m["cardsWithImageURL"]+m["totalCoversWithURL"],24757+newly_verified+2)
+        self.assertEqual(m["collectionsWithMissingImages"],17+sum(
+            any(not c["available"] for c in album["cards"]) for album in fresh))
         self.assertEqual(m["portalCategories"],
-                         dict(portugal=12,selecoes=23,champions=5,outros=7))
+                         dict(portugal=12,selecoes=23,champions=7,outros=7))
         self.assertEqual(m["roadmap"],
-                         dict(goal=30,candidates=30,integrated=26,blocked=4,pending=0))
+                         dict(goal=32,candidates=32,integrated=28,blocked=4,pending=0))
 
     def test_generated_documents_match_source_bytes(self):
         for path,expected in outputs(self.state).items():
@@ -65,8 +71,8 @@ class DocumentationTests(unittest.TestCase):
 
     def test_root_readme_and_drive_guide_have_current_controls(self):
         readme=(ROOT/"README.md").read_text()
-        self.assertIn("47 coleções",readme.split("## Estado")[0])
-        self.assertIn("26.774",readme.split("## Estado")[0])
+        self.assertIn("49 coleções",readme.split("## Estado")[0])
+        self.assertIn("27.899",readme.split("## Estado")[0])
         self.assertNotIn("trinta e nove coleções ativas",readme.split("## Estado")[0])
         for token in ("npm ci", "localStorage", "Backup", "FUT / validate",
                       "d5fb60eec0801808ec2946385a14c8c9226df54d"):

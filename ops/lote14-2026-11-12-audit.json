@@ -1,0 +1,126 @@
+{
+  "batch": "lote-14",
+  "checkedAt": "2026-11-12T20:01:51.747858+00:00",
+  "baselineEditorial": "8869f58406ceac184685e95c9c4495c7bc1ce3c5",
+  "baselineMain": "7b51023f6767a807786ecf2d03fcf7086a39712c",
+  "runId": "43296074922",
+  "legacyCollectionsUnchanged": 47,
+  "legacyPositionsUnchanged": 26774,
+  "totals": {
+    "collections": 49,
+    "positions": 27899
+  },
+  "collections": [
+    {
+      "id": "ucl-topps-2023-24",
+      "sourceId": 352,
+      "sourceUrl": "https://www.cromos.pt/collection/352/uefa-champions-league-2023-2024-topps",
+      "positions": 741,
+      "principal": 741,
+      "extras": 0,
+      "principalWithImage": 741,
+      "verifiedImages": 741,
+      "missingImages": 0,
+      "sections": 42,
+      "emptyNamesOrSections": 0,
+      "duplicatedCardIds": 0,
+      "duplicatedNavigationNumbers": 0,
+      "duplicateOriginalNumbers": {},
+      "duplicateNames": {
+        "Aitana Bonmatí (FC Barcelona)": [
+          "ucl-topps-2023-24-90040",
+          "ucl-topps-2023-24-90046"
+        ],
+        "Club Logo": [
+          "ucl-topps-2023-24-90047",
+          "ucl-topps-2023-24-90066",
+          "ucl-topps-2023-24-90085",
+          "ucl-topps-2023-24-90104",
+          "ucl-topps-2023-24-90123",
+          "ucl-topps-2023-24-90142",
+          "ucl-topps-2023-24-90161",
+          "ucl-topps-2023-24-90180",
+          "ucl-topps-2023-24-90199",
+          "ucl-topps-2023-24-90218",
+          "ucl-topps-2023-24-90237",
+          "ucl-topps-2023-24-90256",
+          "ucl-topps-2023-24-90275",
+          "ucl-topps-2023-24-90294",
+          "ucl-topps-2023-24-90313",
+          "ucl-topps-2023-24-90332",
+          "ucl-topps-2023-24-90351",
+          "ucl-topps-2023-24-90370",
+          "ucl-topps-2023-24-90389",
+          "ucl-topps-2023-24-90408",
+          "ucl-topps-2023-24-90427",
+          "ucl-topps-2023-24-90446",
+          "ucl-topps-2023-24-90465",
+          "ucl-topps-2023-24-90484",
+          "ucl-topps-2023-24-90503",
+          "ucl-topps-2023-24-90522",
+          "ucl-topps-2023-24-90541",
+          "ucl-topps-2023-24-90560",
+          "ucl-topps-2023-24-90579",
+          "ucl-topps-2023-24-90598",
+          "ucl-topps-2023-24-90617",
+          "ucl-topps-2023-24-90636"
+        ],
+        "João Mário": [
+          "ucl-topps-2023-24-90209",
+          "ucl-topps-2023-24-90495"
+        ]
+      },
+      "duplicateImageHashes": {},
+      "missing": []
+    },
+    {
+      "id": "champions-of-europe-1955-2005",
+      "sourceId": 346,
+      "sourceUrl": "https://www.cromos.pt/collection/346/champions-of-europe-1955-2005-panini",
+      "positions": 384,
+      "principal": 384,
+      "extras": 0,
+      "principalWithImage": 384,
+      "verifiedImages": 384,
+      "missingImages": 0,
+      "sections": 22,
+      "emptyNamesOrSections": 0,
+      "duplicatedCardIds": 0,
+      "duplicatedNavigationNumbers": 0,
+      "duplicateOriginalNumbers": {},
+      "duplicateNames": {
+        "Champions-Pokal": [
+          "champions-of-europe-1955-2005-89070",
+          "champions-of-europe-1955-2005-89071"
+        ],
+        "Emblem": [
+          "champions-of-europe-1955-2005-88713",
+          "champions-of-europe-1955-2005-88730",
+          "champions-of-europe-1955-2005-88747",
+          "champions-of-europe-1955-2005-88764",
+          "champions-of-europe-1955-2005-88781",
+          "champions-of-europe-1955-2005-88798",
+          "champions-of-europe-1955-2005-88815",
+          "champions-of-europe-1955-2005-88832",
+          "champions-of-europe-1955-2005-88849",
+          "champions-of-europe-1955-2005-88866",
+          "champions-of-europe-1955-2005-88883",
+          "champions-of-europe-1955-2005-88900",
+          "champions-of-europe-1955-2005-88917",
+          "champions-of-europe-1955-2005-88934",
+          "champions-of-europe-1955-2005-88951",
+          "champions-of-europe-1955-2005-88968",
+          "champions-of-europe-1955-2005-88985",
+          "champions-of-europe-1955-2005-89002",
+          "champions-of-europe-1955-2005-89019",
+          "champions-of-europe-1955-2005-89036",
+          "champions-of-europe-1955-2005-89053"
+        ]
+      },
+      "duplicateImageHashes": {},
+      "missing": []
+    }
+  ],
+  "individualImageChecks": "HTTP GET, MIME, bytes and SHA-256 persisted on every available card",
+  "imageVisualMatching": "Not an exhaustive visual identification of photographed players"
+}

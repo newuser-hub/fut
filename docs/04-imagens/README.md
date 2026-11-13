@@ -1,15 +1,15 @@
 # 04 — Imagens, proveniência e cobertura
 
-**Snapshot calculado dos 47 catálogos em 2026-11-12.** [Inventário detalhado](../02-colecoes/README.md) · [Auditoria HTTP/SHA da etapa 4](../../ops/audit-2026-11-08-step4-images.md).
+**Snapshot calculado dos 49 catálogos em 2026-11-12.** [Inventário detalhado](../02-colecoes/README.md) · [Auditoria HTTP/SHA da etapa 4](../../ops/audit-2026-11-08-step4-images.md).
 
 | Estado, mutuamente exclusivo | Cromos | Fonte da classificação |
 |---|---:|---|
-| URL e SHA-256 persistido com bytes positivos | **24.710** | Campos `image`. `sha256`. `bytes` |
+| URL e SHA-256 persistido com bytes positivos | **25.835** | Campos `image`. `sha256`. `bytes` |
 | URL oficial sem SHA-256 auditado | **0** | Previews com URL e sem bytes confirmados |
 | Sem URL de imagem | **2.064** | `image` ausente ou nulo; posições mantidas |
-| **Total de posições** | **26.774** | `public/library.json` e `public/data/*.json` |
+| **Total de posições** | **27.899** | `public/library.json` e `public/data/*.json` |
 
-**URLs de cromos:** 24.710 = 24.710 com hash + 0 ligações não verificadas. **Capas:** 47 URLs adicionais (não fazem parte das posições). **Inventário URL total:** 24.757.
+**URLs de cromos:** 25.835 = 25.835 com hash + 0 ligações não verificadas. **Capas:** 49 URLs adicionais (não fazem parte das posições). **Inventário URL total:** 25.884.
 
 ## GET real — evidência histórica de 08/11/2026
 

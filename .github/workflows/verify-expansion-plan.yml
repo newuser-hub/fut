@@ -26,6 +26,8 @@ on:
       - "public/data/euro-1992.json"
       - "public/data/liga-portugal-2016-17.json"
       - "public/data/liga-portugal-2014-15.json"
+      - "public/data/ucl-topps-2023-24.json"
+      - "public/data/champions-of-europe-1955-2005.json"
       - "scripts/verify_audited_batch.py"
       - "src/index.html"
       - "scripts/verify-portal-groups.mjs"
