@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "batch": "lote-15",
+  "authorizedSourceIds": [
+    10,
+    9
+  ],
+  "auditPipelineVersion": 2,
+  "collections": [
+    {
+      "id": "euro-1988",
+      "sourceId": 10,
+      "sourceSlug": "uefa-euro-west-germany-1988-panini",
+      "title": "Euro 1988 — Alemanha Ocidental",
+      "subtitle": "UEFA Euro West Germany 1988 · Panini",
+      "year": "1988",
+      "publisher": "Panini",
+      "category": "Seleções · Europeu",
+      "description": "UEFA Euro 1988 · Panini; 268 cromos principais previstos, incluindo uma imagem não declarada pela fonte. Auditoria integral obrigatória.",
+      "requireAllImages": false
+    },
+    {
+      "id": "world-cup-1986",
+      "sourceId": 9,
+      "sourceSlug": "fifa-world-cup-mexico-1986-panini",
+      "title": "Mundial México 1986",
+      "subtitle": "FIFA World Cup Mexico 1986 · Panini",
+      "year": "1986",
+      "publisher": "Panini",
+      "category": "Seleções · Mundial",
+      "description": "FIFA World Cup Mexico 1986 · Panini; 427 cromos principais previstos. Imagens e extras sujeitos a auditoria integral.",
+      "requireAllImages": false
+    }
+  ],
+  "testRevision": 1
+}

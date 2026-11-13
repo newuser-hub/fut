@@ -8,28 +8,28 @@
     "public/expansion-plan.json"
   ],
   "note": "SHA persistido nos JSON não implica disponibilidade HTTP atual; rede verificada separadamente na etapa 4.",
-  "activeCollections": 49,
-  "positions": 27899,
-  "cardsWithSHA": 25835,
+  "activeCollections": 51,
+  "positions": 28594,
+  "cardsWithSHA": 26529,
   "previewLinksUnverified": 0,
-  "missingImagePositions": 2064,
-  "cardsWithImageURL": 25835,
-  "sections": 1571,
-  "totalCoversWithURL": 49,
+  "missingImagePositions": 2065,
+  "cardsWithImageURL": 26529,
+  "sections": 1612,
+  "totalCoversWithURL": 51,
   "portalCategories": {
     "portugal": 12,
-    "selecoes": 23,
+    "selecoes": 25,
     "champions": 7,
     "outros": 7
   },
   "roadmap": {
-    "goal": 32,
-    "candidates": 32,
-    "integrated": 28,
+    "goal": 34,
+    "candidates": 34,
+    "integrated": 30,
     "blocked": 4,
     "pending": 0
   },
-  "collectionsWithMissingImages": 17,
+  "collectionsWithMissingImages": 18,
   "collections": [
     {
       "id": "club-world-cup-2025",
@@ -714,6 +714,34 @@
       "count": 384,
       "sections": 22,
       "cardsWithSHA": 384,
+      "previewLinksUnverified": 0,
+      "missingImagePositions": 0
+    },
+    {
+      "id": "euro-1988",
+      "title": "Euro 1988 — Alemanha Ocidental",
+      "year": "1988",
+      "category": "selecoes",
+      "labelCategory": "Seleções · Europeu",
+      "publisher": "Panini",
+      "status": "active",
+      "count": 268,
+      "sections": 14,
+      "cardsWithSHA": 267,
+      "previewLinksUnverified": 0,
+      "missingImagePositions": 1
+    },
+    {
+      "id": "world-cup-1986",
+      "title": "Mundial México 1986",
+      "year": "1986",
+      "category": "selecoes",
+      "labelCategory": "Seleções · Mundial",
+      "publisher": "Panini",
+      "status": "active",
+      "count": 427,
+      "sections": 27,
+      "cardsWithSHA": 427,
       "previewLinksUnverified": 0,
       "missingImagePositions": 0
     }
